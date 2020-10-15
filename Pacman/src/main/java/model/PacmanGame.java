@@ -16,11 +16,14 @@ import engine.Game;
  */
 public class PacmanGame implements Game {
 
+	private PacmanCharacter pacmanCharacter;
+
 	/**
 	 * constructeur avec fichier source pour le help
 	 * 
 	 */
 	public PacmanGame(String source) {
+		pacmanCharacter = new PacmanCharacter(0, 0);
 		BufferedReader helpReader;
 		try {
 			helpReader = new BufferedReader(new FileReader(source));
@@ -41,6 +44,27 @@ public class PacmanGame implements Game {
 	 */
 	@Override
 	public void evolve(Cmd commande) {
+		switch(commande) {
+			case LEFT:
+				// TODO : vérifier si le personnage peut aller à gauche
+				pacmanCharacter.mooveLeft();
+				break;
+			case RIGHT:
+				// TODO : vérifier si le personnage peut aller à droite
+				pacmanCharacter.mooveRight();
+				break;
+			case UP:
+				// TODO : vérifier si le personnage peut aller en haut
+				pacmanCharacter.mooveUp();
+				break;
+			case DOWN:
+				// TODO : vérifier si le personnage peut aller en bas
+				pacmanCharacter.mooveDown();
+				break;
+			default:
+					break;
+		}
+		// TODO : print l'état du jeu
 		System.out.println("Execute "+commande);
 	}
 
