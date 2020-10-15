@@ -21,35 +21,35 @@ public class PacmanCharacter {
     }
 
     /**
-     * @author Adham
      *
+     * @author Adham
      */
     public void mooveRight() {
 
     }
 
     /**
-     * @author Adèle
      *
+     * @author Adèle
      */
     public void mooveLeft() {
 
     }
 
     /**
-     * @author Raphael
      *
+     * @author Raphael
      */
     public void mooveUp() {
 
     }
 
     /**
-     * @author Clément
      *
+     * @author Clément
      */
     public void mooveDown() {
-
+        posY -= 1;
     }
 
     /**
@@ -67,6 +67,15 @@ public class PacmanCharacter {
      */
     public int getPosY() {
         return posY;
+    }
+
+    /**
+     * Retourne la position en X et en Y du personnage
+     * @return toString du personnage
+     */
+    @Override
+    public String toString() {
+        return "Position pacman : (" + posX + " ; " + posY + ")";
     }
 
 }
