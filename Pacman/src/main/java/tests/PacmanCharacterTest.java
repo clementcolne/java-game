@@ -28,13 +28,13 @@ class PacmanCharacterTest {
     void mooveDown() {
         assert(pacman.getPosY() == 5): "La position du pacman devrait être de 5";
         pacman.mooveDown();
-        assert(pacman.getPosY() == 4): "La position du pacman devrait être de 4";
+        assert(pacman.getPosY() == 6): "La position du pacman devrait être de 4";
         pacman.mooveDown();
         pacman.mooveDown();
         pacman.mooveDown();
         pacman.mooveDown();
-        assert(pacman.getPosY() == 0): "La position du pacman devrait être de 0";
+        assert(pacman.getPosY() == 10): "La position du pacman devrait être de 0";
         pacman.mooveDown();
-        assert(pacman.getPosY() == -1): "La position du pacman devrait être de -1";
+        assert(pacman.getPosY() == 11): "La position du pacman devrait être de -1";
     }
 }

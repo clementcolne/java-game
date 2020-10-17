@@ -49,7 +49,7 @@ public class PacmanCharacter {
      * @author Clément
      */
     public void mooveDown() {
-        posY -= 1;
+        posY += 1;
     }
 
     /**

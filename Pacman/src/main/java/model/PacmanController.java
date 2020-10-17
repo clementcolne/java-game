@@ -60,6 +60,11 @@ public class PacmanController implements GameController {
 			case 'D':
 				this.commandeEnCours = Cmd.DOWN;
 				break;
+			case 's':
+			case 'S':
+				// Stop, le personnage ne bouge pas
+				this.commandeEnCours = Cmd.IDLE;
+				break;
 		}
 
 	}
