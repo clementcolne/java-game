@@ -46,8 +46,8 @@ public class PacmanGame implements Game {
 	public void evolve(Cmd commande) {
 		switch(commande) {
 			case LEFT:
-				// TODO : vérifier si le personnage peut aller à gauche
-				pacmanCharacter.mooveLeft();
+				if(pacmanCharacter.getPosX()-1 >= 0)
+					pacmanCharacter.mooveLeft();
 				break;
 			case RIGHT:
 				// TODO : vérifier si le personnage peut aller à droite
@@ -73,17 +73,9 @@ public class PacmanGame implements Game {
 	 * @author Adèle
 	 */
 	public void printGame(Cmd commande) {
-		// commentaire pour toi Adèle, je trouvais que print l'état du jeu
-		// n'était pas de la responsabilité de evolve directement, voilà
-		// pourquoi j'ai créé cette fonction mais si tu la sens mieux dans
-		// evolve fais comme tu préfères
 		if(commande != Cmd.IDLE) {
-			// idem ici donner la position du perso je trouvais que c'était
-			// de sa propre responsabilité en mode il crie "JE SUIS ICI" et
-			// pas au jeu d'aller chercher où est le pacman, donc j'ai
-			// Override toString, si t'es pas d'accord idem modifie
 			System.out.println(pacmanCharacter.toString());
-			System.out.println("Execute " + commande);
+			System.out.println(commande);
 		}
 	}
 

@@ -33,7 +33,7 @@ public class PacmanCharacter {
      * @author Adèle
      */
     public void mooveLeft() {
-
+        posX -= 1;
     }
 
     /**

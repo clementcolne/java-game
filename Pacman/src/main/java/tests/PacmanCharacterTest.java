@@ -18,6 +18,15 @@ class PacmanCharacterTest {
 
     @org.junit.jupiter.api.Test
     void mooveLeft() {
+        //Right
+        assert(pacman.getPosX()==5):"La coordonnée horizontale du personnage à sa création n'est pas la bonne";
+        for(int i = 4; i>-1; i--){
+            pacman.mooveLeft();
+            assert (pacman.getPosX()==i):"La coordonnée horizontale après déplacement à gauche est incorecte (x!="+i+")";
+        }
+        //Boundary
+        pacman.mooveLeft();
+        assert(pacman.getPosX()==-1):"La coordonnée horizontale après déplacement à gauche est incorecte (x!=-1)";
     }
 
     @org.junit.jupiter.api.Test
