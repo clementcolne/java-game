@@ -5,6 +5,8 @@ import java.awt.event.KeyEvent;
 import engine.Cmd;
 import engine.GameController;
 
+import static java.awt.event.KeyEvent.VK_DOWN;
+
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -43,11 +45,21 @@ public class PacmanController implements GameController {
 	public void keyPressed(KeyEvent e) {
 
 		switch (e.getKeyChar()) {
-		// si on appuie sur 'q',commande joueur est gauche
-		case 'l':
-		case 'L':
-			this.commandeEnCours = Cmd.LEFT;
-			break;
+			// si on appuie sur 'q',commande joueur est gauche
+			case 'l':
+			case 'L':
+				this.commandeEnCours = Cmd.LEFT;
+				break;
+			case 'r':
+			case 'R':
+				break;
+			case 'u':
+			case 'U':
+				break;
+			case 'd':
+			case 'D':
+				this.commandeEnCours = Cmd.DOWN;
+				break;
 		}
 
 	}

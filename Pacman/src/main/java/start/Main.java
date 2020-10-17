@@ -1,5 +1,6 @@
 package start;
 
+import model.PacmanCharacter;
 import model.PacmanPainter;
 import engine.GameEngineGraphical;
 import model.PacmanController;
