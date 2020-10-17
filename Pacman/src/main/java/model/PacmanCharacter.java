@@ -37,15 +37,15 @@ public class PacmanCharacter {
     }
 
     /**
-     *
+     * Déplace la position du personnage d'une case vers le haut
      * @author Raphael
      */
     public void mooveUp() {
-
+    	posY -= 1;
     }
 
     /**
-     * Déplace la position du personnage d'une case vers le haut
+     * Déplace la position du personnage d'une case vers le bas
      * @author Clément
      */
     public void mooveDown() {

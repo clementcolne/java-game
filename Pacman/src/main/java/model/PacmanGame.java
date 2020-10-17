@@ -56,8 +56,9 @@ public class PacmanGame implements Game {
 				pacmanCharacter.mooveRight();
 				break;
 			case UP:
-				// TODO : vérifier si le personnage peut aller en haut
-				pacmanCharacter.mooveUp();
+				if (pacmanCharacter.getPosY() - 1 >= 0) {
+					pacmanCharacter.mooveUp();
+				}
 				break;
 			case DOWN:
 				if(pacmanCharacter.getPosY() + 1 <= length) {
