@@ -31,19 +31,30 @@ class PacmanCharacterTest {
 
     @org.junit.jupiter.api.Test
     void mooveUp() {
+    	assert(pacman.getPosY() == 5): "La position du pacman devrait être de 5";
+    	pacman.mooveUp();
+    	assert(pacman.getPosY() == 4): "La position du pacman devrait être de 4";
+    	pacman.mooveUp();
+    	pacman.mooveUp();
+    	pacman.mooveUp();
+    	pacman.mooveUp();
+    	assert(pacman.getPosY() == 0): "La position du pacman devrait être de 0";
+    	pacman.mooveUp(); 
+    	assert(pacman.getPosY() == -1): "La position du pacman devrait être de -1";
+    	
     }
 
     @org.junit.jupiter.api.Test
     void mooveDown() {
         assert(pacman.getPosY() == 5): "La position du pacman devrait être de 5";
         pacman.mooveDown();
-        assert(pacman.getPosY() == 4): "La position du pacman devrait être de 4";
+        assert(pacman.getPosY() == 6): "La position du pacman devrait être de 6";
         pacman.mooveDown();
         pacman.mooveDown();
         pacman.mooveDown();
         pacman.mooveDown();
-        assert(pacman.getPosY() == 0): "La position du pacman devrait être de 0";
+        assert(pacman.getPosY() == 10): "La position du pacman devrait être de 10";
         pacman.mooveDown();
-        assert(pacman.getPosY() == -1): "La position du pacman devrait être de -1";
+        assert(pacman.getPosY() == 11): "La position du pacman devrait être de 11";
     }
 }
