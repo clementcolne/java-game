@@ -16,11 +16,16 @@ import engine.Game;
  */
 public class PacmanGame implements Game {
 
+	private PacmanCharacter pacmanCharacter;
+	private int width = 10;
+	private int length = 10;
+
 	/**
 	 * constructeur avec fichier source pour le help
-	 * 
+	 *
 	 */
 	public PacmanGame(String source) {
+		pacmanCharacter = new PacmanCharacter(0, 0);
 		BufferedReader helpReader;
 		try {
 			helpReader = new BufferedReader(new FileReader(source));
@@ -36,12 +41,55 @@ public class PacmanGame implements Game {
 
 	/**
 	 * faire evoluer le jeu suite a une commande
-	 * 
+	 *
 	 * @param commande
 	 */
 	@Override
 	public void evolve(Cmd commande) {
-		System.out.println("Execute "+commande);
+		switch(commande) {
+			case LEFT:
+				if(pacmanCharacter.getPosX()-1 >= 0) {
+					pacmanCharacter.mooveLeft();
+				}
+				break;
+			case RIGHT:
+				if(pacmanCharacter.getPosX() + 1 <= length) {
+					pacmanCharacter.mooveRight();
+				}
+				break;
+			case UP:
+				if (pacmanCharacter.getPosY() - 1 >= 0) {
+					pacmanCharacter.mooveUp();
+				}
+				break;
+			case DOWN:
+				if(pacmanCharacter.getPosY() + 1 <= length) {
+					pacmanCharacter.mooveDown();
+				}
+				break;
+			default:
+				break;
+		}
+		printGame(commande);
+	}
+
+	/**
+	 *
+	 * @author Adèle
+	 */
+	public void printGame(Cmd commande) {
+		// commentaire pour toi Adèle, je trouvais que print l'état du jeu
+		// n'était pas de la responsabilité de evolve directement, voilà
+		// pourquoi j'ai créé cette fonction mais si tu la sens mieux dans
+		// evolve fais comme tu préfères
+		if(commande != Cmd.IDLE) {
+			// idem ici donner la position du perso je trouvais que c'était
+			// de sa propre responsabilité en mode il crie "JE SUIS ICI" et
+			// pas au jeu d'aller chercher où est le pacman, donc j'ai
+			// Override toString, si t'es pas d'accord idem modifie
+			System.out.println(pacmanCharacter.toString());
+			System.out.println("Execute " + commande);
+		}
 	}
 
 	/**
