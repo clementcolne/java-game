@@ -53,7 +53,7 @@ public class PacmanGame implements Game {
 				}
 				break;
 			case RIGHT:
-				if(pacmanCharacter.getPosX() + 1 <= length) {
+				if(pacmanCharacter.getPosX() + 1 <= width) {
 					pacmanCharacter.mooveRight();
 				}
 				break;
