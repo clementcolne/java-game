@@ -33,23 +33,23 @@ public class PacmanCharacter {
      * @author Adèle
      */
     public void mooveLeft() {
-
-    }
-
-    /**
-     *
-     * @author Raphael
-     */
-    public void mooveUp() {
-
+        posX -= 1;
     }
 
     /**
      * Déplace la position du personnage d'une case vers le haut
+     * @author Raphael
+     */
+    public void mooveUp() {
+        posY -= 1;
+    }
+
+    /**
+     * Déplace la position du personnage d'une case vers le bas
      * @author Clément
      */
     public void mooveDown() {
-
+        posY += 1;
     }
 
     /**
