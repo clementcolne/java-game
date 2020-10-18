@@ -21,7 +21,7 @@ public class PacmanCharacter {
     }
 
     /**
-     *
+     * Déplace la position du personnage d'une case vers la droite
      * @author Adham
      */
     public void mooveRight() {
