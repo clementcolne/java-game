@@ -22,7 +22,7 @@ public class PacmanGame implements Game {
 
 	/**
 	 * constructeur avec fichier source pour le help
-	 * 
+	 *
 	 */
 	public PacmanGame(String source) {
 		pacmanCharacter = new PacmanCharacter(0, 0);
@@ -41,7 +41,7 @@ public class PacmanGame implements Game {
 
 	/**
 	 * faire evoluer le jeu suite a une commande
-	 * 
+	 *
 	 * @param commande
 	 */
 	@Override
@@ -52,8 +52,9 @@ public class PacmanGame implements Game {
 					pacmanCharacter.mooveLeft();
 				break;
 			case RIGHT:
-				// TODO : vérifier si le personnage peut aller à droite
-				pacmanCharacter.mooveRight();
+				if(pacmanCharacter.getPosX() + 1 <= width) {
+					pacmanCharacter.mooveRight();
+				}
 				break;
 			case UP:
 				if (pacmanCharacter.getPosY() - 1 >= 0) {
@@ -66,7 +67,7 @@ public class PacmanGame implements Game {
 				}
 				break;
 			default:
-					break;
+				break;
 		}
 		printGame(commande);
 	}

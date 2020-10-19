@@ -23,9 +23,11 @@ public class PacmanCharacter {
     /**
      *
      * @author Adham
+     * Déplace la position du personnage d'une case vers la droite
+     * @author Adham
      */
     public void mooveRight() {
-
+        posX += 1;
     }
 
     /**
@@ -77,5 +79,4 @@ public class PacmanCharacter {
     public String toString() {
         return "Position pacman : (" + posX + " ; " + posY + ")";
     }
-
 }
