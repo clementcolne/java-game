@@ -13,7 +13,16 @@ class PacmanCharacterTest {
 
     @org.junit.jupiter.api.Test
     void mooveRight() {
-
+    	assert(pacman.getPosX() == 5): "La position du pacman devrait être de 5";
+    	pacman.mooveRight();
+    	assert(pacman.getPosX() == 6): "La position du pacman devrait être de 6";
+    	pacman.mooveRight();
+    	pacman.mooveRight();
+    	pacman.mooveRight();
+    	pacman.mooveRight();
+    	assert(pacman.getPosX() == 10): "La position du pacman devrait être de 0";
+    	pacman.mooveRight(); 
+    	assert(pacman.getPosX() == 11): "La position du pacman devrait être de 11";
     }
 
     @org.junit.jupiter.api.Test
