@@ -1,9 +1,12 @@
 package model;
 
 import java.awt.event.KeyEvent;
+import java.util.Scanner;
 
 import engine.Cmd;
 import engine.GameController;
+
+import static java.awt.event.KeyEvent.VK_DOWN;
 
 
 /**
@@ -33,7 +36,38 @@ public class PacmanController implements GameController {
 	 * @return commande faite par le joueur
 	 */
 	public Cmd getCommand() {
+		affichageCommande();
 		return this.commandeEnCours;
+	}
+
+	public void affichageCommande(){
+		System.out.println("ecrire Command (L/R/U/D/S)");
+		Scanner scanner = new Scanner(System.in);
+		char cmd = scanner.next().charAt(0);
+		switch (cmd) {
+			// si on appuie sur 'q',commande joueur est gauche
+			case 'l':
+			case 'L':
+				this.commandeEnCours = Cmd.LEFT;
+				break;
+			case 'r':
+			case 'R':
+				this.commandeEnCours = Cmd.RIGHT;
+				break;
+			case 'u':
+			case 'U':
+				this.commandeEnCours = Cmd.UP;
+				break;
+			case 'd':
+			case 'D':
+				this.commandeEnCours = Cmd.DOWN;
+				break;
+			case 's':
+			case 'S':
+			default:
+				this.commandeEnCours = Cmd.IDLE;
+				break;
+		}
 	}
 
 	@Override
@@ -44,10 +78,31 @@ public class PacmanController implements GameController {
 
 		switch (e.getKeyChar()) {
 		// si on appuie sur 'q',commande joueur est gauche
-		case 'l':
-		case 'L':
-			this.commandeEnCours = Cmd.LEFT;
-			break;
+			case 'l':
+			case 'L':
+				this.commandeEnCours = Cmd.LEFT;
+				break;
+
+			case 'r':
+			case 'R':
+				this.commandeEnCours = Cmd.RIGHT;
+				break;
+
+			case 'u':
+			case 'U':
+				this.commandeEnCours = Cmd.UP;
+				break;
+
+			case 'd':
+			case 'D':
+				this.commandeEnCours = Cmd.DOWN;
+				break;
+
+			case 's':
+			case 'S':
+				// Stop, le personnage ne bouge pas
+				this.commandeEnCours = Cmd.IDLE;
+				break;
 		}
 
 	}
