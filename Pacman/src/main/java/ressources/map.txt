@@ -1,0 +1,18 @@
+gggggggggg
+gggggggggg
+gggggggggg
+gggggggggg
+gggggggggg
+gggggggggg
+gggggggggg
+gggggggggg
+gggggggggg
+ggggggggge
+Tout ce qui est écrit après la taille du monde ne sera pas prit en compte par le fileReader
+Description des caractères utilisables
+Ground : g
+Wall : w
+End : e
+Magic : m
+Trap : t
+Passage : p
