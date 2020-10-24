@@ -31,7 +31,7 @@ public class PacmanCharacter {
     }
 
     /**
-     *
+     * Déplace la position du personnage d'une case vers la gauche
      * @author Adèle
      */
     public void mooveLeft() {

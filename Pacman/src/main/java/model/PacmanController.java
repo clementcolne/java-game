@@ -40,7 +40,10 @@ public class PacmanController implements GameController {
 		return this.commandeEnCours;
 	}
 
-	/*public void affichageCommande(){
+	/*
+	** Met à jour les commandes entrées dans le terminal par l'utilisateur
+	* @author Adèle
+	public void affichageCommande(){
 		System.out.println("ecrire Command (L/R/U/D/S)");
 		Scanner scanner = new Scanner(System.in);
 		char cmd = scanner.next().charAt(0);

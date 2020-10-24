@@ -73,7 +73,7 @@ public class PacmanGame implements Game {
 	}
 
 	/**
-	 *
+	 * Affiche l'état du personnage dans le terminal
 	 * @author Adèle
 	 */
 	public void printGame(Cmd commande) {

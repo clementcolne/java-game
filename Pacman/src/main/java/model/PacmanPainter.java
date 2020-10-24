@@ -19,7 +19,7 @@ public class PacmanPainter implements GamePainter {
 	 */
 	protected static final int WIDTH = 100;
 	protected static final int HEIGHT = 100;
-	private final int scale = 20;
+	private final int SCALE = 20;
 	private PacmanGame pacmanGame;
 
 	/**
@@ -38,17 +38,17 @@ public class PacmanPainter implements GamePainter {
 	public void draw(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
 		crayon.setColor(Color.blue);
-		crayon.fillOval(pacmanGame.getCharacterPosX()* scale, pacmanGame.getCharacterPosY()* scale, 10,10);
+		crayon.fillOval(pacmanGame.getCharacterPosX()* SCALE, pacmanGame.getCharacterPosY()* SCALE, 10,10);
 	}
 
 	@Override
 	public int getWidth() {
-		return pacmanGame.getWidth()*scale;
+		return pacmanGame.getWidth()* SCALE;
 	}
 
 	@Override
 	public int getHeight() {
-		return pacmanGame.getHeight()*scale;
+		return pacmanGame.getHeight()* SCALE;
 	}
 
 }
