@@ -9,9 +9,9 @@ import java.awt.Color;
  */
 public class Ground {
 
-	protected final int posX, posY;
-	protected final char name = 'g';
-	protected final Color color = Color.WHITE;
+	private int posX, posY;
+	private char name;
+	private Color color;
 	
 	/**
 	 * Constructeur de Ground (sol)
@@ -19,9 +19,11 @@ public class Ground {
 	 * @param x, position en abscisse de la case du sol
 	 * @param y, position en ordonnée de la case du sol
 	 */
-	protected Ground(int x, int y) {
+	public Ground(int x, int y) {
 		this.posX = x;
 		this.posY = y;
+		this.name = 'g';
+		this.color = Color.WHITE;
 	}
 	
 	/**
@@ -68,4 +70,15 @@ public class Ground {
 	protected Color getColor() {
 		return this.color;
 	}
+
+	/**
+	 * Retourne le nom, la position en X et en Y du sol
+	 * @author Clément
+	 * @return toString du sol
+	 */
+	@Override
+	public String toString() {
+		return "(" + name + posX + ";" + posY + ")";
+	}
+
 }

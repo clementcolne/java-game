@@ -1,16 +1,21 @@
 package engine;
 
+import model.Ground;
+import model.Wall;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
+ * Classe qui décrit la construction de la map à partir d'un fichier texte
  * @author Clément Colné
  */
 public class MapBuilder {
 
     private String path;
-    private char[][] map;
+    // Tableau représentant la map du jeu
+    private Ground[][] map;
     private int width;
     private int length;
 
@@ -32,9 +37,9 @@ public class MapBuilder {
      * Construit la map à partir du fichier texte décrivant la map
      * @return tableau contenant des objets de type Ground décrivant la map
      */
-    public char[][] buildMap() {
+    public Ground[][] buildMap() {
         // initialisation du tableau qui contiendra les objets de la map
-        this.map = new char[width][length];
+        this.map = new Ground[width][length];
 
         // lecture du fichier
         try {
@@ -45,8 +50,9 @@ public class MapBuilder {
             while(i < length) {
                 String data = reader.nextLine();
                 for(int j = 0 ; j < data.length() ; j++) {
+                    // pour chaque colonne
                     // complète la map
-                    map[i][j] = getGround(data.charAt(j));
+                    map[i][j] = getGround(data.charAt(j), j, i);
                 }
                 i++;
             }
@@ -55,7 +61,6 @@ public class MapBuilder {
             System.out.println("Le fichier n'a pas été trouvé");
             e.printStackTrace();
         }
-
         return map;
     }
 
@@ -65,38 +70,32 @@ public class MapBuilder {
      * @param c caractère qui décrit l'objet
      * @return objet de type Ground
      */
-    private char getGround(char c) {
-        char res = ' ';
+    private Ground getGround(char c, int x, int y) {
+        Ground res = null;
         switch (c) {
             case 'w':
                 // wall
-                res = 'w';
-                // res = new Wall();
+                res = new Wall(x, y);
                 break;
             case 'e':
                 // end
-                res = 'e';
-                // res = new End();
+                // res = new End(x, y);
                 break;
             case 'm':
                 // magic
-                res = 'm';
-                // res = new Magic();
+                // res = new Magic(x, y);
                 break;
             case 't':
                 // trap
-                res = 't';
-                // res = new Trap();
+                // res = new Trap(x, y);
                 break;
             case 'p':
                 // passage
-                res = 'p';
-                // res = new Passage();
+                // res = new Passage(x, y);
                 break;
             default:
                 // par défault, la case est un sol
-                res = 'g';
-                // res = new Ground();
+                res = new Ground(x, y);
                 break;
         }
         return res;
@@ -116,7 +115,7 @@ public class MapBuilder {
             for (int i = 0; i < map.length; i++) {
                 sb.append("[");
                 for (int j = 0; j < map[i].length; j++) {
-                    sb.append(map[i][j]);
+                    sb.append(map[i][j].toString());
                 }
                 sb.append("]\n");
             }
