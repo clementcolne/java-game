@@ -8,10 +8,6 @@ import java.awt.Color;
  *
  */
 public class Wall extends Ground {
-
-	private char name;
-	private Color color;
-	private int posX, posY;
 	
 	/**
 	 * Constructeur de Wall (mur)
@@ -24,7 +20,8 @@ public class Wall extends Ground {
 		this.posX = x;
 		this.posY = y;
 		this.name = 'w';
-		this.color = Color.GRAY;
+		this.color = Color.GREEN;
+		System.out.println(getColor());
 	}
 	
 	/**
@@ -35,34 +32,6 @@ public class Wall extends Ground {
 	@Override
 	protected boolean isAccessible() {
 		return false;
-	}
-
-	/**
-	 * Retourne l'initiale qui est identifiant du type de sol
-	 * @author Raphaël
-	 * @return Type du sol
-	 */
-	protected char getName() {
-		return this.name;
-	}
-
-	/**
-	 * Retourne la couleur du type de sol
-	 * @author Raphaël
-	 * @return Couleur du sol
-	 */
-	protected Color getColor() {
-		return this.color;
-	}
-
-	/**
-	 * Retourne le nom, la position en X et en Y du sol
-	 * @author Clément
-	 * @return toString du sol
-	 */
-	@Override
-	public String toString() {
-		return "(" + name + posX + ";" + posY + ")";
 	}
 
 }

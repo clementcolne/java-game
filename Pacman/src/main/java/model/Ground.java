@@ -9,9 +9,9 @@ import java.awt.Color;
  */
 public class Ground {
 
-	private int posX, posY;
-	private char name;
-	private Color color;
+	protected int posX, posY;
+	protected char name;
+	protected Color color;
 	
 	/**
 	 * Constructeur de Ground (sol)
