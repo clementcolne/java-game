@@ -36,11 +36,11 @@ public class PacmanController implements GameController {
 	 * @return commande faite par le joueur
 	 */
 	public Cmd getCommand() {
-		affichageCommande();
+		//affichageCommande();
 		return this.commandeEnCours;
 	}
 
-	public void affichageCommande(){
+	/*public void affichageCommande(){
 		System.out.println("ecrire Command (L/R/U/D/S)");
 		Scanner scanner = new Scanner(System.in);
 		char cmd = scanner.next().charAt(0);
@@ -68,7 +68,7 @@ public class PacmanController implements GameController {
 				this.commandeEnCours = Cmd.IDLE;
 				break;
 		}
-	}
+	}*/
 
 	@Override
 	/**
