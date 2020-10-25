@@ -51,4 +51,11 @@ public class PacmanPainter implements GamePainter {
 		return pacmanGame.getHeight()* SCALE;
 	}
 
+	/**
+	 * @author Adèle
+	 * @return l'échelle du jeu
+	 */
+	public int getScale() {
+		return SCALE;
+	}
 }
