@@ -19,7 +19,7 @@ public class PacmanPainter implements GamePainter {
 	 */
 	protected static final int WIDTH = 100;
 	protected static final int HEIGHT = 100;
-	private final int SCALE = 20;
+	private final int SCALE = 20; //@author Adèle permet d'agrandir de la même manière tous les éléments du jeu
 	private PacmanGame pacmanGame;
 
 	/**

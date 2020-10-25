@@ -30,7 +30,6 @@ public class GraphicalInterface  {
 		// attacher le panel contenant l'afficheur du game
 		this.panel=new DrawingPanel(gamePainter);
 		f.setContentPane(this.panel);
-		f.setSize(gamePainter.getWidth(), gamePainter.getHeight());
 		
 		// attacher controller au panel du game
 		this.panel.addKeyListener(gameController);	
@@ -38,7 +37,6 @@ public class GraphicalInterface  {
 		f.pack();
 		f.setVisible(true);
 		f.getContentPane().setFocusable(true);
-		System.out.println(f.getWidth());
 		f.getContentPane().requestFocus();
 	}
 	
