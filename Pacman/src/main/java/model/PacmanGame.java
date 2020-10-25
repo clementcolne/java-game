@@ -88,7 +88,9 @@ public class PacmanGame implements Game {
 	 */
 	@Override
 	public boolean isFinished() {
-		// le jeu n'est jamais fini
+		// le jeu se termine si le personnage n'a plus de point de vie
+		if(pacmanCharacter.getLife()==0)
+			return true;
 		return false;
 	}
 
