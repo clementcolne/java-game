@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @author Adèle Barbier
+ * @author Adèle
  * 25/10/2020
  **/
 
