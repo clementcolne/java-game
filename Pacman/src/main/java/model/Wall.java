@@ -20,8 +20,7 @@ public class Wall extends Ground {
 		this.posX = x;
 		this.posY = y;
 		this.name = 'w';
-		this.color = Color.GREEN;
-		System.out.println(getColor());
+		this.color = Color.GRAY;
 	}
 	
 	/**
@@ -30,7 +29,7 @@ public class Wall extends Ground {
 	 * @return false
 	 */
 	@Override
-	protected boolean isAccessible() {
+	public boolean isAccessible() {
 		return false;
 	}
 

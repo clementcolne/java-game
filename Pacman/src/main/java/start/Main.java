@@ -1,8 +1,9 @@
 package start;
 
-import engine.MapBuilder;
+import model.PacmanCharacter;
 import model.PacmanPainter;
 import engine.GameEngineGraphical;
+import engine.MapBuilder;
 import model.PacmanController;
 import model.PacmanGame;
 
@@ -18,7 +19,7 @@ public class Main {
 
 		// creation du jeu particulier et de son afficheur
 		PacmanGame game = new PacmanGame("helpFilePacman.txt");
-		PacmanPainter painter = new PacmanPainter();
+		PacmanPainter painter = new PacmanPainter(game);
 		PacmanController controller = new PacmanController();
 
 		// classe qui lance le moteur de jeu generique

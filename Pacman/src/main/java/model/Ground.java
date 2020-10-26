@@ -31,7 +31,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return true
 	 */
-	protected boolean isAccessible() {
+	public boolean isAccessible() {
 		return true;
 	}
 	
@@ -40,7 +40,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return Position en abscisse du sol
 	 */
-	protected int getPosX() {
+	public int getPosX() {
 		return this.posX;
 	}
 	
@@ -49,7 +49,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return Position en ordonnée du sol
 	 */
-	protected int getPosY() {
+	public int getPosY() {
 		return this.posY;
 	}
 
@@ -58,7 +58,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return Type du sol
 	 */
-	protected char getName() {
+	public char getName() {
 		return this.name;
 	}
 
@@ -67,7 +67,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return Couleur du sol
 	 */
-	protected Color getColor() {
+	public Color getColor() {
 		return this.color;
 	}
 

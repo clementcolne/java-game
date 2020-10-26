@@ -18,7 +18,7 @@ public class PacmanGame implements Game {
 
 	private PacmanCharacter pacmanCharacter;
 	private int width = 10;
-	private int length = 10;
+	private int height = 10;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -52,7 +52,7 @@ public class PacmanGame implements Game {
 					pacmanCharacter.mooveLeft();
 				break;
 			case RIGHT:
-				if(pacmanCharacter.getPosX() + 1 <= width) {
+				if(pacmanCharacter.getPosX() + 1 < width) {
 					pacmanCharacter.mooveRight();
 				}
 				break;
@@ -62,7 +62,7 @@ public class PacmanGame implements Game {
 				}
 				break;
 			case DOWN:
-				if(pacmanCharacter.getPosY() + 1 <= length) {
+				if(pacmanCharacter.getPosY() + 1 < height) {
 					pacmanCharacter.mooveDown();
 				}
 				break;
@@ -73,7 +73,7 @@ public class PacmanGame implements Game {
 	}
 
 	/**
-	 *
+	 * Affiche l'état du personnage dans le terminal
 	 * @author Adèle
 	 */
 	public void printGame(Cmd commande) {
@@ -88,8 +88,42 @@ public class PacmanGame implements Game {
 	 */
 	@Override
 	public boolean isFinished() {
-		// le jeu n'est jamais fini
+		// le jeu se termine si le personnage n'a plus de point de vie
+		if(pacmanCharacter.getLife()==0)
+			return true;
 		return false;
+	}
+
+	/**
+	 * @return la largeur du plateau de jeu
+	 * @author Adèle
+	 */
+	public int getWidth() {
+		return width;
+	}
+
+	/**
+	 * @return la hauteur du plateau de jeu
+	 * @author Adèle
+	 */
+	public int getHeight() {
+		return height;
+	}
+
+	/**
+	 * @return la position horizontal du personnage
+	 * @author Adèle
+	 */
+	public int getCharacterPosX(){
+		return pacmanCharacter.getPosX();
+	}
+
+	/**
+	 * @return la position vertical du personnage
+	 * @author Adèle
+	 */
+	public int getCharacterPosY(){
+		return pacmanCharacter.getPosY();
 	}
 
 }

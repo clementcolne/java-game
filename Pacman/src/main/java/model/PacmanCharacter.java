@@ -8,6 +8,7 @@ public class PacmanCharacter {
 
     private int posX;
     private int posY;
+    private int life = 10;
 
     /**
      * Constructeur du personnage pacman
@@ -31,7 +32,7 @@ public class PacmanCharacter {
     }
 
     /**
-     *
+     * Déplace la position du personnage d'une case vers la gauche
      * @author Adèle
      */
     public void mooveLeft() {
@@ -55,6 +56,17 @@ public class PacmanCharacter {
     }
 
     /**
+     * Inflige des dégats au personnage, ce qui lui fait perdre un/des points de vie
+     * @param damage ampleur des dégats infligés, nombre de points de vie perdus par le personnage
+     */
+    public void setDamage(int damage){
+        if(life-damage>=0)
+            life -= damage;
+        else
+            life = 0;
+    }
+
+    /**
      * Retourne la position en X du personnage
      * @author Clément
      * @return position en X du personnage
@@ -70,6 +82,14 @@ public class PacmanCharacter {
      */
     public int getPosY() {
         return posY;
+    }
+
+    /**
+     * @author Adèle
+     * @return le nombre de point de vie du personnage
+     */
+    public int getLife() {
+        return life;
     }
 
     /**
