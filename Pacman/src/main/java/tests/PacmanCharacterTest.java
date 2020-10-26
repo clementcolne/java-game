@@ -1,6 +1,7 @@
 package tests;
 
 import model.PacmanCharacter;
+import org.junit.jupiter.api.Test;
 
 class PacmanCharacterTest {
 
@@ -65,5 +66,16 @@ class PacmanCharacterTest {
         assert(pacman.getPosY() == 10): "La position du pacman devrait être de 10";
         pacman.mooveDown();
         assert(pacman.getPosY() == 11): "La position du pacman devrait être de 11";
+    }
+
+
+
+    @Test
+    void setDamage() {
+        assert (pacman.getLife() == 10):"La vie du pacman à l'initialisation devrait être de 10";
+        pacman.setDamage(4);
+        assert (pacman.getLife() == 6):"La vie du pacman après avoir reçu des dégats devrait être de 5";
+        pacman.setDamage(10);
+        assert (pacman.getLife() == 0):"La vie du pacman après avoir reçu des dégats devrait être de 0";
     }
 }
