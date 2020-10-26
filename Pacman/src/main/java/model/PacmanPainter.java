@@ -43,9 +43,9 @@ public class PacmanPainter implements GamePainter {
 	@Override
 	public void draw(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
-		this.background = LoadImage("D:/FST/M1/ACL/ACL_2020_kbc/Pacman/src/main/java/resources/bground.png");
-		this.pacman = LoadImage("D:/FST/M1/ACL/ACL_2020_kbc/Pacman/src/main/java/resources/pacman.png");
-		this.treasure = LoadImage("D:/FST/M1/ACL/ACL_2020_kbc/Pacman/src/main/java/resources/treasure.png");
+		this.background = LoadImage("resources/bground.png");
+		this.pacman = LoadImage("resources/pacman.png");
+		this.treasure = LoadImage("resources/treasure.png");
 		crayon.drawImage(background,0,0,getWidth(),getHeight(),null);
 		crayon.drawImage(pacman,pacmanGame.getCharacterPosX()*SCALE, pacmanGame.getCharacterPosY()*SCALE,20,20,null );
 		crayon.drawImage(treasure,getWidth()-40,getWidth()-40,20,20,null);
