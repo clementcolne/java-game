@@ -9,6 +9,7 @@ public class PacmanCharacter {
     private int posX;
     private int posY;
     private int life = 10;
+    private double speed = 1;
 
     /**
      * Constructeur du personnage pacman
@@ -28,7 +29,7 @@ public class PacmanCharacter {
      * @author Adham
      */
     public void mooveRight() {
-        posX += 1;
+        posX += speed;
     }
 
     /**
@@ -36,7 +37,7 @@ public class PacmanCharacter {
      * @author Adèle
      */
     public void mooveLeft() {
-        posX -= 1;
+        posX -= speed;
     }
 
     /**
@@ -44,7 +45,7 @@ public class PacmanCharacter {
      * @author Raphael
      */
     public void mooveUp() {
-    	posY -= 1;
+    	posY -= speed;
     }
 
     /**
@@ -52,7 +53,7 @@ public class PacmanCharacter {
      * @author Clément
      */
     public void mooveDown() {
-        posY += 1;
+        posY += speed;
     }
 
     /**
@@ -64,6 +65,14 @@ public class PacmanCharacter {
             life -= damage;
         else
             life = 0;
+    }
+
+    /**
+     * Définit à quelle vitesse avance le personnage
+     * @param speed
+     */
+    public void setSpeed(double speed){
+        this.speed = speed;
     }
 
     /**

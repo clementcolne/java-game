@@ -1,5 +1,7 @@
 package model.effect;
 
+import model.PacmanCharacter;
+
 /**
  * @author Adèle
  * 25/10/2020
@@ -7,4 +9,10 @@ package model.effect;
  * Les touches pour déplacer le personnage sont interchangées
  **/
 public class Stun extends EffectTrap{
+
+    @Override
+    public void doEffect(PacmanCharacter character) {
+
+    }
+
 }
