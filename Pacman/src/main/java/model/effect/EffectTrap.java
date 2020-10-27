@@ -1,6 +1,7 @@
 package model.effect;
 
 import model.PacmanCharacter;
+import model.PacmanGame;
 
 import java.util.*;
 
@@ -29,8 +30,8 @@ public class EffectTrap implements Effect {
      * @param character personnage affecté par le piège
      */
     @Override
-    public void doEffect(PacmanCharacter character) {
+    public void doEffect(PacmanGame game) {
         Random r = new Random();
-        traps.get(r.nextInt(traps.size())).doEffect(character);
+        traps.get(r.nextInt(traps.size())).doEffect(game);
     }
 }

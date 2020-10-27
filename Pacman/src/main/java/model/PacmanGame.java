@@ -124,4 +124,7 @@ public class PacmanGame implements Game {
 		return pacmanCharacter.getPosY();
 	}
 
+	public PacmanCharacter getCharacter() {
+		return pacmanCharacter;
+	}
 }

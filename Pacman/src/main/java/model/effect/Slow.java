@@ -1,6 +1,7 @@
 package model.effect;
 
 import model.PacmanCharacter;
+import model.PacmanGame;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,12 +14,12 @@ import java.util.TimerTask;
 public class Slow extends EffectTrap{
 
     @Override
-    public void doEffect(final PacmanCharacter character) {
-        character.setSpeed(0.5);
+    public void doEffect(final PacmanGame game) {
+        game.getCharacter().setSpeed(0.5);
         TimerTask slowEnd = new TimerTask() {
             @Override
             public void run() {
-                character.setSpeed(1);
+                game.getCharacter().setSpeed(1);
             }
         };
         new Timer().schedule(slowEnd, 5000);
