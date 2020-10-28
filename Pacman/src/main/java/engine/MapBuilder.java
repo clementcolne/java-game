@@ -17,19 +17,20 @@ public class MapBuilder {
     // Tableau représentant la map du jeu
     private Ground[][] map;
     private int width;
-    private int length;
+    private int height;
 
     /**
      * @author Clément
      * Constructeur de la map
      * @param path chemin vers le fichier texte décrivant la map
      * @param width largeur de la map
-     * @param length longueur de la map
+     * @param height longueur de la map
      */
-    public MapBuilder(String path, int width, int length) {
+    public MapBuilder(String path, int width, int height) {
         this.path = path;
         this.width = width;
-        this.length = length;
+        this.height = height;
+        buildMap();
     }
 
     /**
@@ -39,7 +40,7 @@ public class MapBuilder {
      */
     public Ground[][] buildMap() {
         // initialisation du tableau qui contiendra les objets de la map
-        this.map = new Ground[width][length];
+        this.map = new Ground[width][height];
 
         // lecture du fichier
         try {
@@ -47,12 +48,12 @@ public class MapBuilder {
             Scanner reader = new Scanner(file);
             // compteur de lignes
             int i = 0;
-            while(i < length) {
+            while(i < height) {
                 String data = reader.nextLine();
                 for(int j = 0 ; j < data.length() ; j++) {
                     // pour chaque colonne
                     // complète la map
-                    map[i][j] = getGround(data.charAt(j), j, i);
+                    map[j][i] = getGround(data.charAt(j), j, i);
                 }
                 i++;
             }
@@ -99,6 +100,34 @@ public class MapBuilder {
                 break;
         }
         return res;
+    }
+
+    /**
+     * Retourne la case à la position x;y
+     * @param x position en x
+     * @param y position en y
+     * @return case à la position x;y
+     */
+    public Ground get(int x, int y) {
+        return map[x][y];
+    }
+
+    /**
+     * @author Clément
+     * Retourne la largeur de la map
+     * @return la largeur de la map
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * @author Clément
+     * Retourne la hauteur de la map
+     * @return la hauteur de la map
+     */
+    public int getHeight() {
+        return height;
     }
 
     /**

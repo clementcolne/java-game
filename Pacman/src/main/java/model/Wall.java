@@ -20,7 +20,7 @@ public class Wall extends Ground {
 		this.posX = x;
 		this.posY = y;
 		this.name = 'w';
-		this.color = Color.GRAY;
+		this.color = Color.DARK_GRAY;
 	}
 	
 	/**

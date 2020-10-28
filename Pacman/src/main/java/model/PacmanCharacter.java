@@ -23,7 +23,6 @@ public class PacmanCharacter {
 
     /**
      *
-     * @author Adham
      * Déplace la position du personnage d'une case vers la droite
      * @author Adham
      */
@@ -56,6 +55,7 @@ public class PacmanCharacter {
     }
 
     /**
+     * @author Adèle
      * Inflige des dégats au personnage, ce qui lui fait perdre un/des points de vie
      * @param damage ampleur des dégats infligés, nombre de points de vie perdus par le personnage
      */

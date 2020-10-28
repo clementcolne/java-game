@@ -1,13 +1,18 @@
-wwwwwwwwww
-wssssssssw
-wssssssssw
-wssssssssw
-wssssssssw
-wssssssssw
-wssssssssw
-wssssssssw
-wssssssssw
-wwwwwwwwww
+wwwwwwwwwwwwwww
+wsssssssssssssw
+wswwwwwwwwwwwww
+wsssssssssssssw
+wwwwwwwwwwwwwsw
+wsssssssssssssw
+wswwwwwwwwwwwww
+wsssssssssssssw
+wwwwwwwwwwwwwsw
+wsssssssssssssw
+wswwwwwwwwwwwww
+wsssssssssssssw
+wwwwwwwwwwwwwsw
+wsssssssssssssw
+wwwwwwwwwwwwwww
 /******************************************/
 /* Description des caractères utilisables */
 /* Ground : g                             */
