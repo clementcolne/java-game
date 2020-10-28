@@ -3,11 +3,8 @@ package model;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-
-import engine.GamePainter;
-import engine.MapBuilder;
-
 import javax.imageio.ImageIO;
+import engine.GamePainter;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -19,7 +16,7 @@ public class PacmanPainter implements GamePainter {
 
 	private final int SCALE = 40; // @author Adèle permet d'agrandir de la même manière tous les éléments du jeu
 	private PacmanGame pacmanGame;
-	private Image background, pacman, treasure, wall, ground;
+	private Image background, pacman, wall, ground;
 
 	/**
 	 * appelle constructeur parent
@@ -30,7 +27,6 @@ public class PacmanPainter implements GamePainter {
 		pacmanGame = game;
 		background = null;
 		pacman = null;
-		treasure = null;
 		wall = null;
 		ground = null;
 	}
