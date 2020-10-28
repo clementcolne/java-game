@@ -96,10 +96,6 @@ public class PacmanPainter implements GamePainter {
 				 else if (g.color == Color.DARK_GRAY){
 				 	crayon.drawImage(wall,i*SCALE,j*SCALE,SCALE,SCALE,null);
 				 }
-				 // Si la couleur est bleue on ajoute les texture du tresor
-				 else if (g.color == Color.BLUE){
-				 	crayon.drawImage(treasure,i*SCALE,j*SCALE,SCALE/2,SCALE/2,null);
-				 }
 			}
 		}
 	}
