@@ -19,7 +19,7 @@ public class PacmanPainter implements GamePainter {
 
 	private final int SCALE = 40; // @author Adèle permet d'agrandir de la même manière tous les éléments du jeu
 	private PacmanGame pacmanGame;
-	private Image background, pacman, treasure;
+	private Image background, pacman, treasure, wall, ground;
 
 	/**
 	 * appelle constructeur parent
@@ -31,6 +31,8 @@ public class PacmanPainter implements GamePainter {
 		background = null;
 		pacman = null;
 		treasure = null;
+		wall = null;
+		ground = null;
 	}
 
 	/**
@@ -40,6 +42,8 @@ public class PacmanPainter implements GamePainter {
 	public void draw(BufferedImage im) {
 		// On commence par dessiner la Map puis le reste des éléments après sinon la map cache tout
 		drawMap(im);
+		// Ajout les textures des mur et de sol
+		addMapTextures(im);
 		// On dessine le personnage
 		drawCharacter(im);
 	}
@@ -50,13 +54,10 @@ public class PacmanPainter implements GamePainter {
 	 */
 	public void drawCharacter(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
-		this.background = LoadImage("resources/bground.png");
-		this.pacman = LoadImage("resources/pacman.png");
-		this.treasure = LoadImage("resources/treasure.png");
-		crayon.drawImage(background,0,0,getWidth(),getHeight(),null);
-		crayon.drawImage(pacman,pacmanGame.getCharacterPosX()*SCALE, pacmanGame.getCharacterPosY()*SCALE,20,20,null );
-		crayon.drawImage(treasure,getWidth()-40,getWidth()-40,20,20,null);
+		pacman = LoadImage("resources/Character/pacman.png");
+		crayon.drawImage(pacman,pacmanGame.getCharacterPosX()*SCALE, pacmanGame.getCharacterPosY()*SCALE,SCALE,SCALE,null);
 	}
+
 
 	public void drawMap(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
@@ -66,11 +67,43 @@ public class PacmanPainter implements GamePainter {
 				Ground g = pacmanGame.getMapBuilder().get(i, j);
 				// on colorie de la couleur définie dans la classe Ground
 				crayon.setColor(g.getColor());
+				//System.out.println(g.getColor());
 				// on remplis un carré
 				crayon.fillRect(i * SCALE, j * SCALE, SCALE,SCALE);
 			}
 		}
 	}
+
+
+	/**
+	 * Ajoute les textures des mur et de sol
+	 * @author Adham
+	 * @param im BufferedImage
+	 */
+	public void addMapTextures(BufferedImage im){
+		Graphics2D crayon = (Graphics2D) im.getGraphics();
+		wall = LoadImage("resources/Wall/wall_lvl1.png");
+		ground = LoadImage("resources/Ground/ground_lvl1.png");
+
+		for (int i = 0; i< pacmanGame.getMapBuilder().getWidth(); i++){
+			for (int j = 0; j<pacmanGame.getMapBuilder().getHeight(); j++){
+				 Ground g = pacmanGame.getMapBuilder().get(i,j);
+				 // Si la couleur est blanche on ajoute les texture des murs
+				 if (g.color == Color.WHITE){
+				 	crayon.drawImage(ground,i*SCALE,j*SCALE,SCALE,SCALE,null);
+				 }
+				 // Si la couleur est grise on ajoute les texture de sol
+				 else if (g.color == Color.DARK_GRAY){
+				 	crayon.drawImage(wall,i*SCALE,j*SCALE,SCALE,SCALE,null);
+				 }
+				 // Si la couleur est bleue on ajoute les texture du tresor
+				 else if (g.color == Color.BLUE){
+				 	crayon.drawImage(treasure,i*SCALE,j*SCALE,SCALE/2,SCALE/2,null);
+				 }
+			}
+		}
+	}
+
 
 	@Override
 	public int getWidth() {
@@ -83,8 +116,8 @@ public class PacmanPainter implements GamePainter {
 	}
 
 	/**
-	 * @author Adham
 	 * Obtient l'image
+	 * @author Adham
 	 * @param path repertoire de l'image
 	 * @return l'image
 	 */
