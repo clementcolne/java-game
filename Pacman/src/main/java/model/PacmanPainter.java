@@ -16,7 +16,7 @@ public class PacmanPainter implements GamePainter {
 
 	private final int SCALE = 40; // @author Adèle permet d'agrandir de la même manière tous les éléments du jeu
 	private PacmanGame pacmanGame;
-	private Image background, pacman, wall, ground;
+	private Image pacman, wall, ground;
 
 	/**
 	 * appelle constructeur parent
@@ -25,7 +25,6 @@ public class PacmanPainter implements GamePainter {
 	 */
 	public PacmanPainter(PacmanGame game) {
 		pacmanGame = game;
-		background = null;
 		pacman = null;
 		wall = null;
 		ground = null;
