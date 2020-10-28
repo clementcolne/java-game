@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import engine.GamePainter;
+import engine.MapBuilder;
 
 import javax.imageio.ImageIO;
 
@@ -12,22 +13,17 @@ import javax.imageio.ImageIO;
  * @author Horatiu Cirstea, Vincent Thomas
  *
  * afficheur graphique pour le game
- *
+ * 
  */
 public class PacmanPainter implements GamePainter {
 
-	/**
-	 * la taille des cases
-	 */
-	protected static final int WIDTH = 100;
-	protected static final int HEIGHT = 100;
-	private final int SCALE = 20; //@author Adèle permet d'agrandir de la même manière tous les éléments du jeu
+	private final int SCALE = 40; // @author Adèle permet d'agrandir de la même manière tous les éléments du jeu
 	private PacmanGame pacmanGame;
 	private Image background, pacman, treasure;
 
 	/**
 	 * appelle constructeur parent
-	 *
+	 * 
 	 * @param game le jeutest a afficher
 	 */
 	public PacmanPainter(PacmanGame game) {
@@ -42,6 +38,17 @@ public class PacmanPainter implements GamePainter {
 	 */
 	@Override
 	public void draw(BufferedImage im) {
+		// On commence par dessiner la Map puis le reste des éléments après sinon la map cache tout
+		drawMap(im);
+		// On dessine le personnage
+		drawCharacter(im);
+	}
+
+	/**
+	 * Permet de "dessiner" le personnage dans la Map
+	 * @param im BufferedImage
+	 */
+	public void drawCharacter(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
 		this.background = LoadImage("resources/bground.png");
 		this.pacman = LoadImage("resources/pacman.png");
@@ -49,6 +56,20 @@ public class PacmanPainter implements GamePainter {
 		crayon.drawImage(background,0,0,getWidth(),getHeight(),null);
 		crayon.drawImage(pacman,pacmanGame.getCharacterPosX()*SCALE, pacmanGame.getCharacterPosY()*SCALE,20,20,null );
 		crayon.drawImage(treasure,getWidth()-40,getWidth()-40,20,20,null);
+	}
+
+	public void drawMap(BufferedImage im) {
+		Graphics2D crayon = (Graphics2D) im.getGraphics();
+		for(int i = 0 ; i < pacmanGame.getMapBuilder().getWidth() ; i++) {
+			for(int j = 0; j < pacmanGame.getMapBuilder().getHeight() ; j++) {
+				// pour chaque Ground de la map
+				Ground g = pacmanGame.getMapBuilder().get(i, j);
+				// on colorie de la couleur définie dans la classe Ground
+				crayon.setColor(g.getColor());
+				// on remplis un carré
+				crayon.fillRect(i * SCALE, j * SCALE, SCALE,SCALE);
+			}
+		}
 	}
 
 	@Override
