@@ -44,7 +44,8 @@ public class MapBuilder {
 
         // lecture du fichier
         try {
-            File file = new File("src/main/java/ressources/" + path);
+            //File file = new File("src/main/java/ressources/" + path);
+            File file = new File("resources/Map/" + path);
             Scanner reader = new Scanner(file);
             // compteur de lignes
             int i = 0;
