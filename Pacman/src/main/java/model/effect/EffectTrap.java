@@ -10,19 +10,8 @@ import java.util.*;
  * 25/10/2020
  * Déclenche un effet au hasard parmi les pièges connus
  **/
-public class EffectTrap implements Effect {
+public class EffectTrap extends Effect {
     private List<EffectTrap> traps;
-
-    /**
-     * Constructeur du piège
-     * Connait tous les pièges qui peuvent être déclenchés
-     */
-    public EffectTrap() {
-        traps = new ArrayList<EffectTrap>();
-        traps.add(new Slow());
-        traps.add(new Stop());
-        traps.add(new Stun());
-    }
 
 
     /**

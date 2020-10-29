@@ -6,5 +6,4 @@ package model.effect;
  * Ralentit le personnage dans ses déplacements
  **/
 public class Slow extends EffectTrap{
-
 }

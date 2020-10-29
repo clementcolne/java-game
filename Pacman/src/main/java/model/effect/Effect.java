@@ -7,6 +7,7 @@ import model.PacmanCharacter;
  * 25/10/2020 -> 28/10/2020
  **/
 public abstract class Effect {
+	
     public abstract void doEffect(PacmanCharacter character);
     
     /**
@@ -14,7 +15,8 @@ public abstract class Effect {
      * @return true si les deux effets sont égaux, false sinon
      */
     public boolean equals(Object obj) {
-    	return ((Effect)this).getClass().equals(((Effect)obj).getClass());
+    	boolean sameClass = ((Effect)this).getClass().equals(((Effect)obj).getClass());
+    	return sameClass;
     }
     
     /**

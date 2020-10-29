@@ -1,5 +1,7 @@
 package model.effect;
 
+import java.util.HashSet;
+
 import model.PacmanCharacter;
 
 /**
@@ -14,9 +16,9 @@ public class Bow extends EffectMagic {
 	 */
 	@Override
     public void doEffect(final PacmanCharacter pacmanCharacter) {
-		new AsyncEffect(this, 5000, 0, 5000) {
+		new AsyncEffect(this, Effect.class, 5000, 0, 5000) {
 			public void execute() {
-				pacmanCharacter.setRange(this.getExecutionNumber() == 1 ? 3 : 2);
+				pacmanCharacter.setRange(!this.isEnded() ? 2 : 1);
 			}
 		}.run();
     }

@@ -10,8 +10,8 @@ public class PacmanCharacter {
     private int posY;
     private int life = 10;
 	private int speed = 2;
-	private int range = 2;
-	private boolean ghost;
+	private int range = 1;
+	private boolean ghost = false;
 
     /**
      * Constructeur du personnage pacman
@@ -114,7 +114,7 @@ public class PacmanCharacter {
 		if (this.range >= 1)
 			this.range = r;
 		else {
-			this.range = 2;
+			this.range = 1;
 		}
 	}
 	

@@ -1,5 +1,8 @@
 package model.effect;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import model.PacmanCharacter;
 
 /**
@@ -14,9 +17,9 @@ public class Speed extends EffectMagic {
 	 */
 	@Override
     public void doEffect(final PacmanCharacter pacmanCharacter) {
-		new AsyncEffect(this, 5000, 0, 5000) {
+		new AsyncEffect(this, Slow.class, 5000, 0, 5000) {
 			public void execute() {
-				pacmanCharacter.setSpeed(this.getExecutionNumber() == 1 ? 3 : 2);
+				pacmanCharacter.setSpeed(!this.isEnded() ? 3 : 2);
 			}
 		}.run();
     }
