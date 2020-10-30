@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import engine.Cmd;
 import engine.Game;
+import engine.MapBuilder;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -17,15 +18,15 @@ import engine.Game;
 public class PacmanGame implements Game {
 
 	private PacmanCharacter pacmanCharacter;
-	private int width = 10;
-	private int height = 10;
+	private MapBuilder mapBuilder;
 
 	/**
 	 * constructeur avec fichier source pour le help
 	 *
 	 */
-	public PacmanGame(String source) {
-		pacmanCharacter = new PacmanCharacter(0, 0);
+	public PacmanGame(String source, MapBuilder map) {
+		pacmanCharacter = new PacmanCharacter(13, 1);
+		mapBuilder = map;
 		BufferedReader helpReader;
 		try {
 			helpReader = new BufferedReader(new FileReader(source));
@@ -48,28 +49,27 @@ public class PacmanGame implements Game {
 	public void evolve(Cmd commande) {
 		switch(commande) {
 			case LEFT:
-				if(pacmanCharacter.getPosX()-1 >= 0)
+				if(pacmanCharacter.getPosX() - 1 >= 0 && mapBuilder.get(pacmanCharacter.getPosX() - 1, pacmanCharacter.getPosY()).isAccessible())
 					pacmanCharacter.mooveLeft();
 				break;
 			case RIGHT:
-				if(pacmanCharacter.getPosX() + 1 < width) {
+				if(pacmanCharacter.getPosX() + 1 < mapBuilder.getWidth() && mapBuilder.get(pacmanCharacter.getPosX() + 1, pacmanCharacter.getPosY()).isAccessible()) {
 					pacmanCharacter.mooveRight();
 				}
 				break;
 			case UP:
-				if (pacmanCharacter.getPosY() - 1 >= 0) {
+				if (pacmanCharacter.getPosY() - 1 >= 0 && mapBuilder.get(pacmanCharacter.getPosX(), pacmanCharacter.getPosY() - 1).isAccessible()) {
 					pacmanCharacter.mooveUp();
 				}
 				break;
 			case DOWN:
-				if(pacmanCharacter.getPosY() + 1 < height) {
+				if(pacmanCharacter.getPosY() + 1 < mapBuilder.getHeight() && mapBuilder.get(pacmanCharacter.getPosX(), pacmanCharacter.getPosY() + 1).isAccessible()) {
 					pacmanCharacter.mooveDown();
 				}
 				break;
 			default:
 				break;
 		}
-		printGame(commande);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class PacmanGame implements Game {
 	 * @author Adèle
 	 */
 	public int getWidth() {
-		return width;
+		return mapBuilder.getWidth();
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class PacmanGame implements Game {
 	 * @author Adèle
 	 */
 	public int getHeight() {
-		return height;
+		return mapBuilder.getHeight();
 	}
 
 	/**
@@ -122,6 +122,14 @@ public class PacmanGame implements Game {
 	 */
 	public int getCharacterPosY(){
 		return pacmanCharacter.getPosY();
+	}
+
+	/**
+	 * Retourne le mapBuilder
+	 * @return le mapBuilder
+	 */
+	public MapBuilder getMapBuilder() {
+		return mapBuilder;
 	}
 
 	public PacmanCharacter getCharacter() {

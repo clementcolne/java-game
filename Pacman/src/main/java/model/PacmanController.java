@@ -40,39 +40,6 @@ public class PacmanController implements GameController {
 		return this.commandeEnCours;
 	}
 
-	/*
-	** Met à jour les commandes entrées dans le terminal par l'utilisateur
-	* @author Adèle
-	public void affichageCommande(){
-		System.out.println("ecrire Command (L/R/U/D/S)");
-		Scanner scanner = new Scanner(System.in);
-		char cmd = scanner.next().charAt(0);
-		switch (cmd) {
-			// si on appuie sur 'q',commande joueur est gauche
-			case 'l':
-			case 'L':
-				this.commandeEnCours = Cmd.LEFT;
-				break;
-			case 'r':
-			case 'R':
-				this.commandeEnCours = Cmd.RIGHT;
-				break;
-			case 'u':
-			case 'U':
-				this.commandeEnCours = Cmd.UP;
-				break;
-			case 'd':
-			case 'D':
-				this.commandeEnCours = Cmd.DOWN;
-				break;
-			case 's':
-			case 'S':
-			default:
-				this.commandeEnCours = Cmd.IDLE;
-				break;
-		}
-	}*/
-
 	@Override
 	/**
 	 * met a jour les commandes en fonctions des touches appuyees

@@ -10,19 +10,8 @@ import java.util.*;
  * 25/10/2020
  * Déclenche un effet au hasard parmi les pièges connus
  **/
-public class EffectTrap implements Effect {
+public class EffectTrap extends Effect {
     private List<EffectTrap> traps;
-
-    /**
-     * Constructeur du piège
-     * Connait tous les pièges qui peuvent être déclenchés
-     */
-    public EffectTrap() {
-        traps = new ArrayList<EffectTrap>();
-        traps.add(new Slow());
-        traps.add(new Stop());
-        traps.add(new Stun());
-    }
 
 
     /**
@@ -30,8 +19,8 @@ public class EffectTrap implements Effect {
      * @param character personnage affecté par le piège
      */
     @Override
-    public void doEffect(PacmanGame game) {
+    public void doEffect(PacmanCharacter character) {
         Random r = new Random();
-        traps.get(r.nextInt(traps.size())).doEffect(game);
+        traps.get(r.nextInt(traps.size())).doEffect(character);
     }
 }

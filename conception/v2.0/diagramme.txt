@@ -1,0 +1,108 @@
+@startuml
+
+class Ground {
+    int posX
+    int poxY
+    char name
+    Object color
+    boolean isAccessible()
+    char getName()
+    Object getColor()
+}
+class Wall {
+    char name
+    Object color
+    @Override boolean isAccessible()
+    char getName()
+    Object getColor()
+}
+class End {
+    char name
+    Object color
+    @Override boolean isAccessible()
+    char getName()
+    Object getColor()
+}
+class Magic {
+    char name
+    Object color
+    @Override boolean isAccessible()
+    char getName()
+    Object getColor()
+}
+class Trap {
+    char name
+    Object color
+    @Override boolean isAccessible()
+    char getName()
+    Object getColor()
+}
+class Passage {
+    char name
+    Object color
+    @Override boolean isAccessible()
+    char getName()
+    Object getColor()
+}
+interface Effect {
+    void doEffect(Character p)
+}
+class EffectMagic {
+    void doEffect(Character p)
+}
+class EffectTrap {
+    void doEffect(Character p)
+}
+class Ghost {
+    void doEffect(Character p)
+}
+class Speed {
+    void doEffect(Character p)
+}
+class Bow {
+    void doEffect(Character p)
+}
+class Slow {
+    void doEffect(Character p)
+}
+class Stop {
+    void doEffect(Character p)
+}
+class Stun {
+    void doEffect(Character p)
+}
+class Character {
+    int posX
+    int poxY
+    int hp
+}
+class PacmanCharacter {
+}
+class MonsterCharacter {
+}
+class GhostCharacter {
+}
+PacmanCharacter -up-> Character
+MonsterCharacter -up-> Character
+GhostCharacter -up-> MonsterCharacter
+
+EffectMagic --"*" EffectMagic
+EffectTrap --"*" EffectTrap
+Ground <-- Wall
+Ground <-- End
+Ground <-- Magic
+Ground <-- Trap
+Ground <-- Passage
+Magic -- "1" Effect
+Trap -- "1" Effect
+
+Effect <.up. EffectTrap
+Effect <.up. EffectMagic
+EffectMagic <-up- Ghost
+EffectMagic <-up- Bow
+EffectMagic <-up- Speed
+EffectTrap <-up- Slow
+EffectTrap <-up- Stop
+EffectTrap <-up- Stun
+
+@enduml
