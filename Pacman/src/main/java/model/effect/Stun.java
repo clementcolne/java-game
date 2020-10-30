@@ -1,5 +1,6 @@
 package model.effect;
 
+import model.PacmanCharacter;
 import model.PacmanGame;
 
 /**
@@ -11,7 +12,7 @@ import model.PacmanGame;
 public class Stun extends EffectTrap{
 
     @Override
-    public void doEffect(PacmanGame game) {
+    public void doEffect(PacmanCharacter character) {
 
     }
 

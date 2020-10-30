@@ -11,7 +11,13 @@ import java.util.*;
  * Déclenche un effet au hasard parmi les pièges connus
  **/
 public class EffectTrap extends Effect {
-    private List<EffectTrap> traps;
+    private static List<EffectTrap> traps = new LinkedList<EffectTrap>() {
+        {
+            add(new Stun());
+            add(new Slow());
+            add(new Stop());
+        }
+    };
 
 
     /**
