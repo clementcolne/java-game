@@ -15,11 +15,11 @@ public class Slow extends EffectTrap{
 
     @Override
     public void doEffect(final PacmanGame game) {
-        game.getCharacter().setSpeed(0.5);
+        game.getCharacter().setSpeed(1);
         TimerTask slowEnd = new TimerTask() {
             @Override
             public void run() {
-                game.getCharacter().setSpeed(1);
+                game.getCharacter().setSpeed(2);
             }
         };
         new Timer().schedule(slowEnd, 5000);

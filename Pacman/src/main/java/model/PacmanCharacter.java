@@ -9,7 +9,7 @@ public class PacmanCharacter {
     private int posX;
     private int posY;
     private int life = 10;
-    private double speed = 1;
+    private int speed = 2;
 
     /**
      * Constructeur du personnage pacman
@@ -71,7 +71,7 @@ public class PacmanCharacter {
      * Définit à quelle vitesse avance le personnage
      * @param speed
      */
-    public void setSpeed(double speed){
+    public void setSpeed(int speed){
         this.speed = speed;
     }
 
