@@ -1,5 +1,8 @@
 package model;
 
+import model.movingStrategy.DefaultMovingStrategy;
+import model.movingStrategy.MovingStrategy;
+
 /**
  * Cette classe décrit le comportement d'un personnage
  * @author Clément Colné
@@ -10,6 +13,7 @@ public class PacmanCharacter {
     private int posY;
     private int life = 10;
     private int speed = 2;
+    private MovingStrategy movingStrategy;
 
     /**
      * Constructeur du personnage pacman
@@ -20,6 +24,7 @@ public class PacmanCharacter {
     public PacmanCharacter(int posX, int posY) {
         this.posX = posX;
         this.posY = posY;
+        movingStrategy = new DefaultMovingStrategy();
     }
 
     /**
@@ -29,7 +34,7 @@ public class PacmanCharacter {
      * @author Adham
      */
     public void mooveRight() {
-        posX += speed;
+        movingStrategy.mooveRight(this);
     }
 
     /**
@@ -37,7 +42,7 @@ public class PacmanCharacter {
      * @author Adèle
      */
     public void mooveLeft() {
-        posX -= speed;
+        movingStrategy.mooveLeft(this);
     }
 
     /**
@@ -45,7 +50,7 @@ public class PacmanCharacter {
      * @author Raphael
      */
     public void mooveUp() {
-    	posY -= speed;
+    	movingStrategy.mooveUp(this);
     }
 
     /**
@@ -53,7 +58,7 @@ public class PacmanCharacter {
      * @author Clément
      */
     public void mooveDown() {
-        posY += speed;
+        movingStrategy.mooveDown(this);
     }
 
     /**
@@ -73,6 +78,23 @@ public class PacmanCharacter {
      */
     public void setSpeed(int speed){
         this.speed = speed;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
+    }
+
+    /**
+     * Modifie la stratégie de déplacement en vigueur
+     * @param movingStrategy nouvelle stratégie de déplacement à appliquer
+     * @author Adèle
+     */
+    public void setMovingStrategy(MovingStrategy movingStrategy) {
+        this.movingStrategy = movingStrategy;
     }
 
     /**
@@ -107,5 +129,9 @@ public class PacmanCharacter {
     @Override
     public String toString() {
         return "Position pacman : (" + posX + " ; " + posY + ")";
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 }
