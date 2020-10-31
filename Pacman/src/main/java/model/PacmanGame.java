@@ -25,7 +25,7 @@ public class PacmanGame implements Game {
 	 *
 	 */
 	public PacmanGame(String source, MapBuilder map) {
-		pacmanCharacter = new PacmanCharacter(13, 1);
+		pacmanCharacter = new PacmanCharacter(1, 1);
 		mapBuilder = map;
 		BufferedReader helpReader;
 		try {
@@ -49,26 +49,56 @@ public class PacmanGame implements Game {
 	public void evolve(Cmd commande) {
 		switch(commande) {
 			case LEFT:
-				if(pacmanCharacter.getPosX() - 1 >= 0 && mapBuilder.get(pacmanCharacter.getPosX() - 1, pacmanCharacter.getPosY()).isAccessible())
+				if(canMoove(-1, 0)) {
 					pacmanCharacter.mooveLeft();
+					checkPassage();
+				}
 				break;
 			case RIGHT:
-				if(pacmanCharacter.getPosX() + 1 < mapBuilder.getWidth() && mapBuilder.get(pacmanCharacter.getPosX() + 1, pacmanCharacter.getPosY()).isAccessible()) {
+				if(canMoove(1, 0)) {
 					pacmanCharacter.mooveRight();
+					checkPassage();
 				}
 				break;
 			case UP:
-				if (pacmanCharacter.getPosY() - 1 >= 0 && mapBuilder.get(pacmanCharacter.getPosX(), pacmanCharacter.getPosY() - 1).isAccessible()) {
+				if(canMoove(0, -1)) {
 					pacmanCharacter.mooveUp();
+					checkPassage();
 				}
 				break;
 			case DOWN:
-				if(pacmanCharacter.getPosY() + 1 < mapBuilder.getHeight() && mapBuilder.get(pacmanCharacter.getPosX(), pacmanCharacter.getPosY() + 1).isAccessible()) {
+				if(canMoove(0, 1)) {
 					pacmanCharacter.mooveDown();
+					checkPassage();
 				}
 				break;
 			default:
 				break;
+		}
+	}
+
+	/**
+	 * Vérifie que le personnage peut se déplacer vers la case demandée
+	 * @param x case demandée en abscisse (-1 : gauche, 0 : sur place, 1 : droite)
+	 * @param y case demandée en ordonnées (-1 : haut, 0 : sur place, 1 : bas)
+	 * @return vrai si le personnage peut accéder à la case, faux sinon
+	 * @author Clément
+	 */
+	public boolean canMoove(int x, int y) {
+		return pacmanCharacter.getPosX() + x < mapBuilder.getWidth() && pacmanCharacter.getPosY() + y < mapBuilder.getHeight() && mapBuilder.get(pacmanCharacter.getPosX() + x, pacmanCharacter.getPosY() + y).isAccessible();
+	}
+
+	/**
+	 * Vérifie si la case où se trouve le personnage est une case passage.
+	 * Si c'est le cas, le personnage est téléporté vers la case passage
+	 * correspondante.
+	 * @author Clément
+	 */
+	public void checkPassage() {
+		if(mapBuilder.get(pacmanCharacter.getPosX(), pacmanCharacter.getPosY()).isPassage()) {
+			Passage p = (Passage)mapBuilder.get(pacmanCharacter.getPosX(), pacmanCharacter.getPosY());
+			pacmanCharacter.setPosX(p.getLinkedPassage().getPosX());
+			pacmanCharacter.setPosY(p.getLinkedPassage().getPosY());
 		}
 	}
 

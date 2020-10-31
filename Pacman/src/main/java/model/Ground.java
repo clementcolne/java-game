@@ -34,6 +34,14 @@ public class Ground {
 	protected boolean isAccessible() {
 		return true;
 	}
+
+	/**
+	 * Permet d'indiquer que la case est ou non un passage
+	 * @return toujours false saux si la case est un passage
+	 */
+	protected boolean isPassage() {
+		return false;
+	}
 	
 	/**
 	 * Permet de retourner la position en abscisse du sol

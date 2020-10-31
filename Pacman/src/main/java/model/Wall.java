@@ -17,8 +17,6 @@ public class Wall extends Ground {
 	 */
 	public Wall(int x, int y) {
 		super(x, y);
-		this.posX = x;
-		this.posY = y;
 		this.name = 'w';
 		this.color = Color.DARK_GRAY;
 	}
