@@ -42,6 +42,7 @@ public class Passage extends Ground {
     /**
      * Permet d'indiquer que la case est un passage
      * @return toujours vrai
+     * @author Clément
      */
     @Override
     public boolean isPassage() {
