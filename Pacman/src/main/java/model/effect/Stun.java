@@ -14,7 +14,7 @@ public class Stun extends EffectTrap{
 
     @Override
     public void doEffect(final PacmanCharacter character) {
-        new AsyncEffect(this, Slow.class, 5000, 0, 5000) {
+        new AsyncEffect(this, Effect.class, 5000, 0, 5000) {
             public void execute() {
                 character.setMovingStrategy(!this.isEnded() ? new RandomMovingStrategy() : new DefaultMovingStrategy());
             }

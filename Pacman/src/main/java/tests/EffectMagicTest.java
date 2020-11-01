@@ -50,7 +50,7 @@ class EffectMagicTest {
     		
     		for (int obj = 0; obj < 5; obj++) {
     			taskDuration[obj][0] = (int)(Math.random()*25)+1;
-        		taskDuration[obj][1] = taskDuration[obj][0]  - (int)Math.random()*(taskDuration[obj][0]-25);
+        		taskDuration[obj][1] = taskDuration[obj][0]  - (int) (Math.random() * (taskDuration[obj][0] - 25));
     		}
     		
     		for (int obj = 0; obj < 3; obj++) {
