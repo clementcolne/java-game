@@ -1,6 +1,7 @@
 package engine;
 
 import model.Ground;
+import model.Passage;
 import model.Wall;
 
 import java.io.File;
@@ -18,6 +19,8 @@ public class MapBuilder {
     private Ground[][] map;
     private int width;
     private int height;
+    private Passage p1;
+    private Passage p2;
 
     /**
      * @author Clément
@@ -38,13 +41,12 @@ public class MapBuilder {
      * Construit la map à partir du fichier texte décrivant la map
      * @return tableau contenant des objets de type Ground décrivant la map
      */
-    public Ground[][] buildMap() {
+    private void buildMap() {
         // initialisation du tableau qui contiendra les objets de la map
         this.map = new Ground[width][height];
 
         // lecture du fichier
         try {
-            //File file = new File("src/main/java/ressources/" + path);
             File file = new File("resources/Map/" + path);
             Scanner reader = new Scanner(file);
             // compteur de lignes
@@ -63,7 +65,6 @@ public class MapBuilder {
             System.out.println("Le fichier n'a pas été trouvé");
             e.printStackTrace();
         }
-        return map;
     }
 
     /**
@@ -93,7 +94,8 @@ public class MapBuilder {
                 break;
             case 'p':
                 // passage
-                // res = new Passage(x, y);
+                res = new Passage(x, y);
+                setPassages(res);
                 break;
             default:
                 // par défault, la case est un sol
@@ -101,6 +103,16 @@ public class MapBuilder {
                 break;
         }
         return res;
+    }
+
+    private void setPassages(Ground p) {
+        if(p1 == null) {
+            p1 = (Passage)p;
+        }else{
+            p2 = (Passage)p;
+            p1.setLinkedPassage(p2);
+            p2.setLinkedPassage(p1);
+        }
     }
 
     /**
