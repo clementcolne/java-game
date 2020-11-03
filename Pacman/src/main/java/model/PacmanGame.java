@@ -38,6 +38,7 @@ public class PacmanGame implements Game {
 		} catch (IOException e) {
 			System.out.println("Help not available");
 		}
+		System.out.println("Vie : "+pacmanCharacter.getLife());
 	}
 
 	/**

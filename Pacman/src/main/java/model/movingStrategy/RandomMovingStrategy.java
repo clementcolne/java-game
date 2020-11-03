@@ -31,7 +31,7 @@ public class RandomMovingStrategy implements MovingStrategy{
 
     @Override
     public boolean canMoove(double x, double y, MapBuilder mapBuilder, PacmanCharacter pacmanCharacter) {
-        return pacmanCharacter.getPosX() - y < mapBuilder.getWidth() && pacmanCharacter.getPosY() - x < mapBuilder.getHeight() &&
-                (mapBuilder.get((int)(pacmanCharacter.getPosX() - y), (int)(pacmanCharacter.getPosY() - x)).isAccessible());
+        return pacmanCharacter.getPosX() + y < mapBuilder.getWidth() && pacmanCharacter.getPosY() - x < mapBuilder.getHeight() &&
+                (mapBuilder.get((int)(pacmanCharacter.getPosX() + y), (int)(pacmanCharacter.getPosY() - x)).isAccessible());
     }
 }

@@ -76,6 +76,7 @@ public class PacmanCharacter {
             life -= damage;
         else
             life = 0;
+        System.out.println("Vie : "+life);
     }
 
     /**
