@@ -77,9 +77,7 @@ public class PacmanGame implements Game {
 		
 		if (canMove) {
 			this.checkPassage();
-			if(this.checkWin() == true ){
-				System.out.println("Exiting Game");
-			}
+			this.checkWin();
 		}
 	}
 
@@ -109,9 +107,11 @@ public class PacmanGame implements Game {
 			pacmanCharacter.setPosY(p.getLinkedPassage().getPosY());
 		}
 	}
-	/*
+
+	/**
 	* Verifie si le personnage est sur la case du tresor
 	* Si oui, il gagne
+	* @return gameState = true si le personnage est sur la case du tresor
 	* @author Adham
 	*/
 
