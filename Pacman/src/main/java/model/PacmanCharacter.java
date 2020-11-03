@@ -9,6 +9,7 @@ import model.movingStrategy.MovingStrategy;
  */
 public class PacmanCharacter {
 
+    //TODO : afficher la vie dans le terminal
     private double posX;
     private double posY;
     private double previousPosX;

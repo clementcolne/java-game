@@ -13,8 +13,13 @@ public class Slow extends EffectTrap{
     public void doEffect(final PacmanCharacter character) {
         new AsyncEffect(this, Speed.class, 5000, 0, 5000) {
             public void execute() {
-                character.setSpeed(!this.isEnded() ? 1 : 2);
+                character.setSpeed(!this.isEnded() ? 0.5 : 1);
             }
         }.run();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

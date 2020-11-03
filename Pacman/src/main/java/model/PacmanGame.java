@@ -74,7 +74,7 @@ public class PacmanGame implements Game {
 		}
 
 		if (canMove) {
-			this.checkPassage();
+			mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).doEffect(pacmanCharacter);
 		}
 	}
 
@@ -97,13 +97,13 @@ public class PacmanGame implements Game {
 	 * correspondante.
 	 * @author Clément
 	 */
-	public void checkPassage() {
+	/*public void checkPassage() {
 		if(mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isPassage()) {
 			Passage p = (Passage)mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY());
 			pacmanCharacter.setPosX(p.getLinkedPassage().getPosX());
 			pacmanCharacter.setPosY(p.getLinkedPassage().getPosY());
 		}
-	}
+	}*/
 
 	/**
 	 * Affiche l'état du personnage dans le terminal
@@ -164,9 +164,4 @@ public class PacmanGame implements Game {
 	public MapBuilder getMapBuilder() {
 		return mapBuilder;
 	}
-
-	public PacmanCharacter getCharacter() {
-		return pacmanCharacter;
-	}
-}
 }

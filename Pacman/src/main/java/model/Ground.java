@@ -99,4 +99,13 @@ public class Ground {
 		return "(" + name + posX + ";" + posY + ")";
 	}
 
+	/**
+	 * Effectue l'effet associé à la case sur le personnage
+	 * @author Adèle
+	 * @param character personnage auquel l'effet va être affecté
+	 */
+	public void doEffect(PacmanCharacter character){
+
+	}
+
 }
