@@ -29,9 +29,9 @@ public class Ground {
 	/**
 	 * Permet d'indiquer qu'un sol est toujours accessible par un personnage
 	 * @author Raphaël
-	 * @return true
+	 * @return true sauf si la case est un mur
 	 */
-	public boolean isAccessible() {
+	protected boolean isAccessible() {
 		return true;
 	}
 
@@ -44,11 +44,21 @@ public class Ground {
 	}
 	
 	/**
+	 * Permet d'indiquer que le case est ou non un effet
+	 * @author Raphaël
+	 * @return false sauf si la case est un effet
+	 */
+	protected boolean isEffect() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	/**
 	 * Permet de retourner la position en abscisse du sol
 	 * @author Raphaël
 	 * @return Position en abscisse du sol
 	 */
-	public int getPosX() {
+	protected int getPosX() {
 		return this.posX;
 	}
 	
@@ -57,7 +67,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return Position en ordonnée du sol
 	 */
-	public int getPosY() {
+	protected int getPosY() {
 		return this.posY;
 	}
 
@@ -66,7 +76,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return Type du sol
 	 */
-	public char getName() {
+	protected char getName() {
 		return this.name;
 	}
 
@@ -75,7 +85,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return Couleur du sol
 	 */
-	public Color getColor() {
+	protected Color getColor() {
 		return this.color;
 	}
 

@@ -1,7 +1,6 @@
 package model.effect;
 
 import model.PacmanCharacter;
-import model.PacmanGame;
 
 import java.util.*;
 

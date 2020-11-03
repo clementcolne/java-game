@@ -9,11 +9,13 @@ import model.movingStrategy.MovingStrategy;
  */
 public class PacmanCharacter {
 
-    private int posX;
-    private int posY;
+    private double posX;
+    private double posY;
+    private double previousPosX;
+    private double previousPosY;
     private int life = 10;
     private MovingStrategy movingStrategy;
-	private int speed = 2;
+	private double speed = 1;
 	private int range = 1;
 	private boolean ghost = false;
 
@@ -23,7 +25,7 @@ public class PacmanCharacter {
      * @param posX Position du personnage en X
      * @param posY Position du personnage en Y
      */
-    public PacmanCharacter(int posX, int posY) {
+    public PacmanCharacter(double posX, double posY) {
         this.posX = posX;
         this.posY = posY;
         movingStrategy = new DefaultMovingStrategy();
@@ -79,7 +81,7 @@ public class PacmanCharacter {
      * @author Raphaël
      * @param s
      */
-	public void setSpeed(int s) {
+	public void setSpeed(double s) {
 		this.speed = s;
 	}
 
@@ -88,7 +90,7 @@ public class PacmanCharacter {
      * @author Raphaël
      * @return Vitesse du pacman
      */
-	public int getSpeed() {
+	public double getSpeed() {
 		return this.speed;
 	}
 
@@ -133,11 +135,13 @@ public class PacmanCharacter {
 	}
 
 
-    public void setPosX(int posX) {
+    public void setPosX(double posX) {
+    	this.previousPosX = this.posX;
         this.posX = posX;
     }
 
-    public void setPosY(int posY) {
+    public void setPosY(double posY) {
+    	this.previousPosY = this.posY;
         this.posY = posY;
     }
 
@@ -155,7 +159,7 @@ public class PacmanCharacter {
      * @author Clément
      * @return position en X du personnage
      */
-    public int getPosX() {
+    public double getPosX() {
         return posX;
     }
 
@@ -164,8 +168,26 @@ public class PacmanCharacter {
      * @author Clément
      * @return position en Y du personnage
      */
-    public int getPosY() {
+    public double getPosY() {
         return posY;
+    }
+    
+    /**
+     * Rertourne la coordonnée précédente en abscisse du personnage
+     * @author Raphaël
+     * @return Position en abscisse du personnage
+     */
+    public double getPreviousPosX() {
+    	return this.previousPosX;
+    }
+    
+    /**
+     * Rertourne la coordonnée précédente en ordonnée du personnage
+     * @author Raphaël
+     * @return Position en ordonnée du personnage
+     */
+    public double getPreviousPosY() {
+    	return this.previousPosY;
     }
 
     /**

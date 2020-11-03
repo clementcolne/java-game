@@ -27,7 +27,7 @@ public class Wall extends Ground {
 	 * @return false
 	 */
 	@Override
-	public boolean isAccessible() {
+	protected boolean isAccessible() {
 		return false;
 	}
 

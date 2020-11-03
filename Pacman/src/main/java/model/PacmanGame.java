@@ -47,33 +47,34 @@ public class PacmanGame implements Game {
 	 */
 	@Override
 	public void evolve(Cmd commande) {
+		boolean canMove = false;
 		switch(commande) {
 			case LEFT:
-				if(canMoove(-1, 0)) {
+				if(canMove = canMoove(-pacmanCharacter.getSpeed(), 0)) {
 					pacmanCharacter.mooveLeft();
-					checkPassage();
 				}
 				break;
 			case RIGHT:
-				if(canMoove(1, 0)) {
+				if(canMove = canMoove(pacmanCharacter.getSpeed(), 0)) {
 					pacmanCharacter.mooveRight();
-					checkPassage();
 				}
 				break;
 			case UP:
-				if(canMoove(0, -1)) {
+				if(canMove = canMoove(0, -pacmanCharacter.getSpeed())) {
 					pacmanCharacter.mooveUp();
-					checkPassage();
 				}
 				break;
 			case DOWN:
-				if(canMoove(0, 1)) {
-					pacmanCharacter.mooveDown();
-					checkPassage();
+				if(canMove = canMoove(0, pacmanCharacter.getSpeed())) {
+					pacmanCharacter.mooveDown();	
 				}
 				break;
 			default:
 				break;
+		}
+		
+		if (canMove) {
+			this.checkPassage();
 		}
 	}
 
@@ -84,9 +85,11 @@ public class PacmanGame implements Game {
 	 * @return vrai si le personnage peut accéder à la case, faux sinon
 	 * @author Clément
 	 */
-	public boolean canMoove(int x, int y) {
-		return pacmanCharacter.getPosX() + x < mapBuilder.getWidth() && pacmanCharacter.getPosY() + y < mapBuilder.getHeight() && mapBuilder.get(pacmanCharacter.getPosX() + x, pacmanCharacter.getPosY() + y).isAccessible();
+	public boolean canMoove(double x, double y) {
+		return pacmanCharacter.getPosX() + x < mapBuilder.getWidth() && pacmanCharacter.getPosY() + y < mapBuilder.getHeight() && 
+				(mapBuilder.get((int)(pacmanCharacter.getPosX() + x), (int)(pacmanCharacter.getPosY() + y)).isAccessible());
 	}
+
 
 	/**
 	 * Vérifie si la case où se trouve le personnage est une case passage.
@@ -95,8 +98,8 @@ public class PacmanGame implements Game {
 	 * @author Clément
 	 */
 	public void checkPassage() {
-		if(mapBuilder.get(pacmanCharacter.getPosX(), pacmanCharacter.getPosY()).isPassage()) {
-			Passage p = (Passage)mapBuilder.get(pacmanCharacter.getPosX(), pacmanCharacter.getPosY());
+		if(mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isPassage()) {
+			Passage p = (Passage)mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY());
 			pacmanCharacter.setPosX(p.getLinkedPassage().getPosX());
 			pacmanCharacter.setPosY(p.getLinkedPassage().getPosY());
 		}
@@ -142,7 +145,7 @@ public class PacmanGame implements Game {
 	 * @return la position horizontal du personnage
 	 * @author Adèle
 	 */
-	public int getCharacterPosX(){
+	public double getCharacterPosX(){
 		return pacmanCharacter.getPosX();
 	}
 
@@ -150,7 +153,7 @@ public class PacmanGame implements Game {
 	 * @return la position vertical du personnage
 	 * @author Adèle
 	 */
-	public int getCharacterPosY(){
+	public double getCharacterPosY(){
 		return pacmanCharacter.getPosY();
 	}
 

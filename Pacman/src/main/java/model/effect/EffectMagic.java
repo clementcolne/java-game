@@ -1,5 +1,6 @@
 package model.effect;
 
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,13 +17,24 @@ public class EffectMagic extends Effect {
     		new Speed(),
     		new Bow(),
     }));
-
+    
     /**
-     * Exécute un effet piège au hasard
-     * @param character personnage affecté par le piège
+     * Constructeur de EffectMagic (case effet magique tirée au hasard)
+     * @author Raphaël
+     */
+    public EffectMagic() {
+    	this.color = Color.BLUE;
+    }
+  
+    /**
+     * Exécute un effet magique au hasard
+     * @author Raphaël
+     * @param character Personnage affecté par le piège
      */
     @Override
     public void doEffect(PacmanCharacter pacmanCharacter) {
-        magicEffects.get((int)(Math.random()*magicEffects.size())).doEffect(pacmanCharacter);
+    	magicEffects.get((int)(Math.random()*magicEffects.size())).doEffect(pacmanCharacter);
     }
+    
+  
 }

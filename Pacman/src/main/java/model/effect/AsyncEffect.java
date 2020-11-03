@@ -85,14 +85,14 @@ public class AsyncEffect extends TimerTask {
 	 * en corrélation grâce à isEnded().
 	 * @author Raphaël
 	 */
-	protected void execute() {};
+	public void execute() {};
 	
 	/**
 	 * Retourner le temps restant de la tâche
 	 * @author Raphaël
 	 * @return Temps restant de la tâche
 	 */
-	protected long getRemainingTime() {
+	public long getRemainingTime() {
 		return this.remainingTime;
 	}
 	
@@ -101,7 +101,7 @@ public class AsyncEffect extends TimerTask {
 	 * @author Raphaël
 	 * @return Numéro de l'exécution de la tâche
 	 */
-	protected int getExecutionNumber() {
+	public int getExecutionNumber() {
 		return this.executionNumber;
 	}
 
@@ -109,7 +109,7 @@ public class AsyncEffect extends TimerTask {
 	 * Permet de forcer le stoppage de la tâche associée à l'effet courant
 	 * @author Raphaël
 	 */
-	protected void end() {
+	public void end() {
 		if (this.runned && !this.end) { 
 			this.end = true;
 			this.execute();
@@ -130,7 +130,7 @@ public class AsyncEffect extends TimerTask {
 	 * @author Raphaël
 	 * @return true ou false
 	 */
-	protected boolean isEnded() {
+	public boolean isEnded() {
 		return this.end;
 	}
 	
