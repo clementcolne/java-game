@@ -1,6 +1,6 @@
 package model.effect;
 
-import java.util.HashSet;
+import java.awt.Color;
 
 import model.PacmanCharacter;
 
@@ -12,7 +12,17 @@ import model.PacmanCharacter;
 public class Bow extends EffectMagic {
 	
 	/**
-	 * Appliquer l'effet de portée d'attaque augmentée sur le Pacman. L'effet est appliqué au début, puis retiré au bout de 5 secondes.
+	 * Constructeur de l'effet Bow
+	 * @author Raphaël
+	 */
+	public Bow() {
+		this.color = Color.YELLOW;
+	}
+	
+	/**
+	 * Appliquer l'effet de portée d'attaque augmentée sur le Pacman. L'effet est appliqué au début, puis retiré au bout de 5 secondes
+	 * @author Raphaël
+	 * @param pacmanCharacter Pacman auquel doit être appliqué l'effet
 	 */
 	@Override
     public void doEffect(final PacmanCharacter pacmanCharacter) {
@@ -21,5 +31,6 @@ public class Bow extends EffectMagic {
 				pacmanCharacter.setRange(!this.isEnded() ? 2 : 1);
 			}
 		}.run();
-    }
+    }	
+	
 }

@@ -1,7 +1,5 @@
 package model;
 
-import java.awt.Color;
-
 import model.effect.EffectMagic;
 
 /**
@@ -9,9 +7,7 @@ import model.effect.EffectMagic;
  * @author Raphaël
  *
  */
-public class Magic extends Ground {
-	
-	private EffectMagic effect;
+public class Magic extends EffectGround {
 	
 	/**
 	 * Constructeur de Magic (magie)
@@ -20,15 +16,8 @@ public class Magic extends Ground {
 	 * @param y, position en ordonnée de la case de magie
 	 */
 	public Magic(int x, int y, EffectMagic eff) {
-		super(x, y);
-		this.effect = eff;
-		this.name = 'w';
-		this.color = Color.GRAY;
-		this.effect = eff;
-	}
-	
-	public EffectMagic getEffect() {
-		return this.effect;
+		super(x, y, eff);
+		this.name = 'm';
 	}
 
 }
