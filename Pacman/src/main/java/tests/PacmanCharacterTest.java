@@ -1,6 +1,7 @@
 package tests;
 
 import model.PacmanCharacter;
+import model.effect.Stun;
 import org.junit.jupiter.api.Test;
 
 class PacmanCharacterTest {
@@ -176,4 +177,29 @@ class PacmanCharacterTest {
         pacman.setDamage(10);
         assert (pacman.getLife() == 0):"La vie du pacman après avoir reçu des dégats devrait être de 0";
     }
+
+
+	@org.junit.jupiter.api.Test
+	void mooveRightStun() {
+		new Stun().doEffect(pacman);
+		mooveDown();
+	}
+
+	@org.junit.jupiter.api.Test
+	void mooveLeftStun() {
+		new Stun().doEffect(pacman);
+		mooveUp();
+	}
+
+	@org.junit.jupiter.api.Test
+	void mooveUpStun() {
+		new Stun().doEffect(pacman);
+		mooveLeft();
+	}
+
+	@org.junit.jupiter.api.Test
+	void mooveDownStun() {
+		new Stun().doEffect(pacman);
+		mooveRight();
+	}
 }

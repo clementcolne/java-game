@@ -17,9 +17,14 @@ class EffectMagicTest {
     }
     
 
+    /**
+     * Note : les tests effectués ci-dessous sont relatifs à la puissance de la machine sur laquelle ils sont effectuées en raison de la méthode de test utilisée pour JUnit. 
+     * Si une erreur se produit, il faut essayer d'augmenter la valeur dans les Thread.sleep.
+     * @throws InterruptedException
+     */
     @org.junit.jupiter.api.Test
     void doEffect() throws InterruptedException {
-    	int i = 100000;
+    	int i = 10000;
     	
     	while (i>0) {
     		new Ghost().doEffect(pacman);
@@ -28,7 +33,7 @@ class EffectMagicTest {
     		assertEquals(3, AsyncEffect.getEffects().size(), "Un effet ne doit pas être lancé plus d'une fois !");
     		assertTrue(pacman.getGhost(), "Le Pacman doit désormais être un fantôme");
         	assertEquals(3, pacman.getSpeed(), "Le Pacman doit désormais voir sa vitesse incrémentée de 1");
-        	assertEquals(3, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 1");
+        	assertEquals(2, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 1");
     		i--;
     	}    
     	
@@ -36,40 +41,52 @@ class EffectMagicTest {
     	assertEquals(0, AsyncEffect.getEffects().size(), "Tous les effets du Pacman doivent être inactifs");
     	assertFalse(pacman.getGhost(), "Tous les effets du Pacman doivent être inactifs");
     	assertEquals(2, pacman.getSpeed(), "Tous les effets du Pacman doivent être inactifs");
-    	assertEquals(2, pacman.getRange(), "Tous les effets du Pacman doivent être inactifs");
+    	assertEquals(1, pacman.getRange(), "Tous les effets du Pacman doivent être inactifs");
     	
-    	i = 100000;
+    	i = 10000;
     	
     	while (i>0) {
-    		int[][] taskDuration = new int[3][2];
+    		int[][] taskDuration = new int[5][2];
     		
-    		for (int obj = 0; obj < 3; obj++) {
+    		for (int obj = 0; obj < 5; obj++) {
     			taskDuration[obj][0] = (int)(Math.random()*25)+1;
-        		taskDuration[obj][1] = taskDuration[obj][0]  - (int)Math.random()*(taskDuration[obj][0]-25);
+        		taskDuration[obj][1] = taskDuration[obj][0]  - (int) (Math.random() * (taskDuration[obj][0] - 25));
     		}
     		
     		for (int obj = 0; obj < 3; obj++) {
-    			new AsyncEffect(new Ghost(), taskDuration[0][0], 0, taskDuration[0][1]) {
+    			new AsyncEffect(new Ghost(), Effect.class, taskDuration[0][0], 0, taskDuration[0][1]) {
     				public void execute() {
-    					pacman.setGhost(this.getExecutionNumber() == 1);
+    					pacman.setGhost(!this.isEnded());
     				}
     			}.run();
     			
-    			new AsyncEffect(new Speed(), taskDuration[1][0], 0, taskDuration[1][1]) {
+    			new AsyncEffect(new Ghost(), Ghost.class, taskDuration[1][0], 0, taskDuration[1][1]) {
     				public void execute() {
-    					pacman.setSpeed(this.getExecutionNumber() == 1 ? 3 : 2);
+    					pacman.setGhost(!this.isEnded());
     				}
     			}.run();
     			
-    			new AsyncEffect(new Bow(), taskDuration[2][0], 0, taskDuration[2][1]) {
+    			new AsyncEffect(new Ghost(), null, taskDuration[2][0], 0, taskDuration[2][1]) {
     				public void execute() {
-    					pacman.setRange(this.getExecutionNumber() == 1 ? 3 : 2);
+    					pacman.setGhost(!this.isEnded());
+    				}
+    			}.run();
+    			
+    			new AsyncEffect(new Speed(), Effect.class, taskDuration[3][0], 0, taskDuration[3][1]) {
+    				public void execute() {
+    					pacman.setSpeed(!this.isEnded() ? 3 : 2);
+    				}
+    			}.run();
+    			
+    			new AsyncEffect(new Bow(), Effect.class, taskDuration[4][0], 0, taskDuration[4][1]) {
+    				public void execute() {
+    					pacman.setRange(this.getExecutionNumber() == 1 ? 2 : 1);
     				}
     			}.run();
     			
     		}
     		
-    		assertTrue(AsyncEffect.getEffects().size() >= 1 && AsyncEffect.getEffects().size() <= 3, "Un effet ne doit pas être lancé plus d'une fois !");
+    		assertTrue(AsyncEffect.getEffects().size() <= 3, "Un effet ne doit pas être lancé plus d'une fois !");
     		i--;
     	}
     	
@@ -77,30 +94,119 @@ class EffectMagicTest {
     	assertEquals(0, AsyncEffect.getEffects().size(), "Tous les effets du Pacman doivent être inactifs");
     	assertFalse(pacman.getGhost(), "Tous les effets du Pacman doivent être inactifs");
     	assertEquals(2, pacman.getSpeed(), "Tous les effets du Pacman doivent être inactifs");
-    	assertEquals(2, pacman.getRange(), "Tous les effets du Pacman doivent être inactifs");
+    	assertEquals(1, pacman.getRange(), "Tous les effets du Pacman doivent être inactifs");
     	
     	
-    	i = 100000;
+    	i = 10000;
     	
     	while (i>0) {
     		new EffectMagic().doEffect(pacman);
     		new EffectMagic().doEffect(pacman);
     		new EffectMagic().doEffect(pacman);
     		
-    		assertTrue(AsyncEffect.getEffects().size() >= 1, "Un effet ne doit pas être lancé plus d'une fois !");
+    		assertTrue(AsyncEffect.getEffects().size() >= 1 && AsyncEffect.getEffects().size() <= 3, "Un effet ne doit pas être lancé plus d'une fois !");
         	i--;
     	}  
     	
     	assertEquals(3, AsyncEffect.getEffects().size(), "Un effet ne doit pas être lancé plus d'une fois !");
 		assertTrue(pacman.getGhost(), "Le Pacman doit désormais être un fantôme");
     	assertEquals(3, pacman.getSpeed(), "Le Pacman doit désormais voir sa vitesse incrémentée de 1");
-    	assertEquals(3, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 1");
+    	assertEquals(2, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 1");
     	
     	Thread.sleep(5000);
     	assertEquals(0, AsyncEffect.getEffects().size(), "Tous les effets du Pacman doivent être inactifs");
     	assertFalse(pacman.getGhost(), "Tous les effets du Pacman doivent être inactifs");
     	assertEquals(2, pacman.getSpeed(), "Tous les effets du Pacman doivent être inactifs");
-    	assertEquals(2, pacman.getRange(), "Tous les effets du Pacman doivent être inactifs");
+    	assertEquals(1, pacman.getRange(), "Tous les effets du Pacman doivent être inactifs");
+    	
+    	i = 50;
+    	
+    	while (i>0) {
+    		new AsyncEffect(new Ghost(), Effect.class, 5000, 0, 5000) {
+				public void execute() {
+					pacman.setGhost(!this.isEnded());
+				}
+			}.run();
+			
+			new AsyncEffect(new Bow(), Effect.class, 3000, 0, 3000) {
+				public void execute() {
+					pacman.setRange(!this.isEnded() ? 2 : 1);
+				}
+			}.run();
+			
+			new AsyncEffect(new Speed(), Slow.class, 10000, 0, 5000) {
+				public void execute() {
+					pacman.setSpeed(!this.isEnded() ? 3 : 2);
+				}
+			}.run();
+			
+			new AsyncEffect(new Speed(), Slow.class, 10000, 0, 5000) {
+				public void execute() {
+					pacman.setSpeed(!this.isEnded() ? 3 : 2);
+				}
+			}.run();
+			
+			new AsyncEffect(new Slow(), Speed.class, 10000, 0, 5000) {
+				public void execute() {
+					pacman.setSpeed(!this.isEnded() ? 1: 2);
+				}
+			}.run();
+			
+			Thread.sleep(10);
+    		
+    		assertEquals(3, AsyncEffect.getEffects().size(), "Un effet ne doit pas être lancé plus d'une fois et Speed doit être remplacé par Slow !");
+    		assertTrue(pacman.getGhost(), "Le Pacman doit désormais être un fantôme");
+        	assertEquals(1, pacman.getSpeed(), "L'effet Slow ne doit pas remplacer l'effet Speed");
+        	assertEquals(2, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 1");
+        	i--;
+    	} 
+    	
+    	Thread.sleep(5000);
+    	assertEquals(1, AsyncEffect.getEffects().size(), "Seul l'effet Slow doit être actif puisqu'il supprime Speed");
+    	assertFalse(pacman.getGhost(), "Seul l'effet Slow doit être actif puisqu'il supprime Speed");
+    	assertEquals(1, pacman.getSpeed(), "Seul l'effet Slow doit être actif puisqu'il supprime Speed");
+    	assertEquals(1, pacman.getRange(), "Seul l'effet Slow doit être actif puisqu'il supprime Speed");
+    	
+    	Thread.sleep(5000);
+    	assertEquals(0, AsyncEffect.getEffects().size(), "10 secondes ont été dépassées, plus aucun effet ne doit être actif");
+    	assertEquals(2, pacman.getSpeed(), "10 secondes ont été dépassées, plus aucun effet ne doit être actif");
+    	
+    	i = 10000;
+    	
+    	while (i>0) {
+    		new AsyncEffect(new Ghost(), Effect.class, 10000, 0, 5000) {
+				public void execute() {
+					pacman.setGhost(!this.isEnded());
+				}
+			}.run();
+			
+			new AsyncEffect(new Bow(), Effect.class, 10000, 0, 5000) {
+				public void execute() {
+					pacman.setRange(!this.isEnded() ? 2 : 1);
+				}
+			}.run();
+			
+			new AsyncEffect(new Speed(), Slow.class, 10000, 0, 5000) {
+				public void execute() {
+					pacman.setSpeed(!this.isEnded() ? 3 : 2);
+				}
+			}.run();
+			
+			new AsyncEffect(new Speed(), Slow.class, 10000, 0, 5000) {
+				public void execute() {
+					pacman.setSpeed(!this.isEnded() ? 3 : 2);
+				}
+			}.run();
+			
+			new AsyncEffect(new Slow(), Speed.class, 10000, 0, 5000) {
+				public void execute() {
+					pacman.setSpeed(!this.isEnded() ? 1: 2);
+				}
+			}.run();
+    		
+    		assertEquals(3, AsyncEffect.getEffects().size(), "Un effet ne doit pas être lancé plus d'une fois et Speed doit être remplacé par Slow !");
+        	i--;
+    	} 
     	
     }
 }

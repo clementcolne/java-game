@@ -1,4 +1,3 @@
-  
 package model.effect;
 
 import model.PacmanCharacter;
@@ -11,18 +10,14 @@ import java.util.*;
  * Déclenche un effet au hasard parmi les pièges connus
  **/
 public class EffectTrap extends Effect {
-    private List<EffectTrap> traps;
-
-    /**
-     * Constructeur du piège
-     * Connait tous les pièges qui peuvent être déclenchés
-     */
-    public EffectTrap() {
-        traps = new ArrayList<EffectTrap>();
-        traps.add(new Slow());
-        traps.add(new Stop());
-        traps.add(new Stun());
-    }
+    //TODO: afficher nom de l'effet (trap + magie)
+    private static List<EffectTrap> traps = new LinkedList<EffectTrap>() {
+        {
+            add(new Stun());
+            add(new Slow());
+            add(new Stop());
+        }
+    };
 
 
     /**

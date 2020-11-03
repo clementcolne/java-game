@@ -1,5 +1,10 @@
 package model.effect;
 
+import java.awt.Color;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 import model.PacmanCharacter;
 
 /**
@@ -7,19 +12,29 @@ import model.PacmanCharacter;
  * @author Raphaël
  **/
 public class EffectMagic extends Effect {
-
-    private static EffectMagic[] magicEffects = new EffectMagic[] {
+    private static List<EffectMagic> magicEffects = new LinkedList<EffectMagic>(Arrays.asList(new EffectMagic[] {
     		new Ghost(),
     		new Speed(),
     		new Bow(),
-    };
-
+    }));
+    
     /**
-     * Exécute un effet piège au hasard
-     * @param character personnage affecté par le piège
+     * Constructeur de EffectMagic (case effet magique tirée au hasard)
+     * @author Raphaël
+     */
+    public EffectMagic() {
+    	this.color = Color.BLUE;
+    }
+  
+    /**
+     * Exécute un effet magique au hasard
+     * @author Raphaël
+     * @param character Personnage affecté par le piège
      */
     @Override
     public void doEffect(PacmanCharacter pacmanCharacter) {
-        magicEffects[(int)(Math.random()*(magicEffects.length))].doEffect(pacmanCharacter);
+    	magicEffects.get((int)(Math.random()*magicEffects.size())).doEffect(pacmanCharacter);
     }
+    
+  
 }

@@ -1,11 +1,8 @@
 package engine;
 
-import model.Ground;
-import model.Magic;
-import model.Passage;
-import model.Wall;
+import model.*;
 import model.effect.EffectMagic;
-import model.effect.Speed;
+import model.effect.EffectTrap;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -93,7 +90,7 @@ public class MapBuilder {
                 break;
             case 't':
                 // trap
-                // res = new Trap(x, y);
+                res = new Trap(x, y, new EffectTrap());
                 break;
             case 'p':
                 // passage
@@ -126,16 +123,6 @@ public class MapBuilder {
      */
     public Ground get(int x, int y) {
         return map[x][y];
-    }
-
-    /**
-     * Remplace l'ancien Ground à la position [x;y] par le nouveau en paramètre
-     * @param x position en x
-     * @param y position en y
-     * @param g nouveau Ground
-     */
-    public void set(int x, int y, Ground g) {
-        map[x][y] = g;
     }
 
     /**
