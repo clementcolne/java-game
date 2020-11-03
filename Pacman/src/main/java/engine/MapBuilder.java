@@ -2,6 +2,7 @@ package engine;
 
 import model.Ground;
 import model.Passage;
+import model.Treasure;
 import model.Wall;
 
 import java.io.File;
@@ -97,6 +98,10 @@ public class MapBuilder {
                 res = new Passage(x, y);
                 setPassages(res);
                 break;
+            case 'k':
+                // treasure
+                res = new Treasure(x, y);
+                break;
             default:
                 // par défault, la case est un sol
                 res = new Ground(x, y);
@@ -164,5 +169,4 @@ public class MapBuilder {
         }
         return sb.toString();
     }
-
 }
