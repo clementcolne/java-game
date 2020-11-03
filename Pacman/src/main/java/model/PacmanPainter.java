@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
+
 import engine.GamePainter;
 
 /**
@@ -56,7 +57,8 @@ public class PacmanPainter implements GamePainter {
 	 */
 	public void drawCharacter(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
-		pacman = LoadImage("resources/" + pc.getPath());
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		pacman = toolkit.getImage("resources/" + pc.getPath());
 		crayon.drawImage(pacman,(int)pacmanGame.getCharacterPosX()*SCALE, (int)pacmanGame.getCharacterPosY()*SCALE,SCALE,SCALE,null);
 	}
 

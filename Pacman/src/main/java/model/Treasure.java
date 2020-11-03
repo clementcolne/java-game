@@ -16,7 +16,7 @@ public class Treasure extends Ground {
     }
 
     public Treasure(){
-        this.path = "Extra/treasure.png";
+        this.path = "Extra/treasure40x40.png";
     }
 
     @Override

@@ -33,7 +33,7 @@ public class PacmanCharacter {
     }
 
     public PacmanCharacter(){
-        this.path = "Character/pacman.png";
+        this.path = "Character/wraith.gif";
     }
 
 
