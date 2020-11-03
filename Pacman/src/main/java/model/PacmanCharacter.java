@@ -76,8 +76,8 @@ public class PacmanCharacter {
     }
 
     /**
-     * @author Clément
      * Retourne la position en Y du personnage
+     * @author Clément
      * @return position en Y du personnage
      */
     public int getPosY() {
@@ -93,8 +93,8 @@ public class PacmanCharacter {
     }
 
     /**
-     * @author Clément
      * Retourne la position en X et en Y du personnage
+     * @author Clément
      * @return toString du personnage
      */
     @Override
