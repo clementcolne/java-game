@@ -47,7 +47,7 @@ public class PacmanPainter implements GamePainter {
 	public void drawCharacter(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
 		pacman = LoadImage("resources/Character/pacman.png");
-		crayon.drawImage(pacman,pacmanGame.getCharacterPosX()*SCALE, pacmanGame.getCharacterPosY()*SCALE,SCALE,SCALE,null);
+		crayon.drawImage(pacman,(int)pacmanGame.getCharacterPosX()*SCALE, (int)pacmanGame.getCharacterPosY()*SCALE,SCALE,SCALE,null);
 	}
 
 

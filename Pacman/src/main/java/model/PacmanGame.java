@@ -25,7 +25,7 @@ public class PacmanGame implements Game {
 	 *
 	 */
 	public PacmanGame(String source, MapBuilder map) {
-		pacmanCharacter = new PacmanCharacter(13, 1);
+		pacmanCharacter = new PacmanCharacter(1, 1);
 		mapBuilder = map;
 		BufferedReader helpReader;
 		try {
@@ -47,28 +47,61 @@ public class PacmanGame implements Game {
 	 */
 	@Override
 	public void evolve(Cmd commande) {
+		boolean canMove = false;
 		switch(commande) {
 			case LEFT:
-				if(pacmanCharacter.getPosX() - 1 >= 0 && mapBuilder.get(pacmanCharacter.getPosX() - 1, pacmanCharacter.getPosY()).isAccessible())
+				if(canMove = canMoove(-pacmanCharacter.getSpeed(), 0)) {
 					pacmanCharacter.mooveLeft();
+				}
 				break;
 			case RIGHT:
-				if(pacmanCharacter.getPosX() + 1 < mapBuilder.getWidth() && mapBuilder.get(pacmanCharacter.getPosX() + 1, pacmanCharacter.getPosY()).isAccessible()) {
+				if(canMove = canMoove(pacmanCharacter.getSpeed(), 0)) {
 					pacmanCharacter.mooveRight();
 				}
 				break;
 			case UP:
-				if (pacmanCharacter.getPosY() - 1 >= 0 && mapBuilder.get(pacmanCharacter.getPosX(), pacmanCharacter.getPosY() - 1).isAccessible()) {
+				if(canMove = canMoove(0, -pacmanCharacter.getSpeed())) {
 					pacmanCharacter.mooveUp();
 				}
 				break;
 			case DOWN:
-				if(pacmanCharacter.getPosY() + 1 < mapBuilder.getHeight() && mapBuilder.get(pacmanCharacter.getPosX(), pacmanCharacter.getPosY() + 1).isAccessible()) {
-					pacmanCharacter.mooveDown();
+				if(canMove = canMoove(0, pacmanCharacter.getSpeed())) {
+					pacmanCharacter.mooveDown();	
 				}
 				break;
 			default:
 				break;
+		}
+		
+		if (canMove) {
+			this.checkPassage();
+		}
+	}
+
+	/**
+	 * Vérifie que le personnage peut se déplacer vers la case demandée
+	 * @param x case demandée en abscisse (-1 : gauche, 0 : sur place, 1 : droite)
+	 * @param y case demandée en ordonnées (-1 : haut, 0 : sur place, 1 : bas)
+	 * @return vrai si le personnage peut accéder à la case, faux sinon
+	 * @author Clément
+	 */
+	public boolean canMoove(double x, double y) {
+		return pacmanCharacter.getPosX() + x < mapBuilder.getWidth() && pacmanCharacter.getPosY() + y < mapBuilder.getHeight() && 
+				(mapBuilder.get((int)(pacmanCharacter.getPosX() + x), (int)(pacmanCharacter.getPosY() + y)).isAccessible());
+	}
+
+
+	/**
+	 * Vérifie si la case où se trouve le personnage est une case passage.
+	 * Si c'est le cas, le personnage est téléporté vers la case passage
+	 * correspondante.
+	 * @author Clément
+	 */
+	public void checkPassage() {
+		if(mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isPassage()) {
+			Passage p = (Passage)mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY());
+			pacmanCharacter.setPosX(p.getLinkedPassage().getPosX());
+			pacmanCharacter.setPosY(p.getLinkedPassage().getPosY());
 		}
 	}
 
@@ -112,7 +145,7 @@ public class PacmanGame implements Game {
 	 * @return la position horizontal du personnage
 	 * @author Adèle
 	 */
-	public int getCharacterPosX(){
+	public double getCharacterPosX(){
 		return pacmanCharacter.getPosX();
 	}
 
@@ -120,7 +153,7 @@ public class PacmanGame implements Game {
 	 * @return la position vertical du personnage
 	 * @author Adèle
 	 */
-	public int getCharacterPosY(){
+	public double getCharacterPosY(){
 		return pacmanCharacter.getPosY();
 	}
 

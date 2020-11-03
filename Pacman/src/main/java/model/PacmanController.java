@@ -1,12 +1,9 @@
 package model;
 
 import java.awt.event.KeyEvent;
-import java.util.Scanner;
 
 import engine.Cmd;
 import engine.GameController;
-
-import static java.awt.event.KeyEvent.VK_DOWN;
 
 
 /**
