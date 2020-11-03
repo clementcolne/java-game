@@ -16,7 +16,12 @@ public class PacmanPainter implements GamePainter {
 
 	private final int SCALE = 40; // @author Adèle permet d'agrandir de la même manière tous les éléments du jeu
 	private PacmanGame pacmanGame;
-	private Image pacman, wall, ground, treasure;
+	private Image pacman, wall, ground, treasure, portal;
+	private Ground g;
+	private Wall w;
+	private Passage p;
+	private Treasure tr;
+	private PacmanCharacter pc;
 
 	/**
 	 * appelle constructeur parent
@@ -25,6 +30,11 @@ public class PacmanPainter implements GamePainter {
 	 */
 	public PacmanPainter(PacmanGame game) {
 		pacmanGame = game;
+		g = new Ground();
+		w = new Wall();
+		p  = new Passage();
+		tr = new Treasure();
+		pc = new PacmanCharacter();
 	}
 
 	/**
@@ -46,7 +56,7 @@ public class PacmanPainter implements GamePainter {
 	 */
 	public void drawCharacter(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
-		pacman = LoadImage("resources/Character/pacman.png");
+		pacman = LoadImage("resources/" + pc.getPath());
 		crayon.drawImage(pacman,(int)pacmanGame.getCharacterPosX()*SCALE, (int)pacmanGame.getCharacterPosY()*SCALE,SCALE,SCALE,null);
 	}
 
@@ -66,7 +76,6 @@ public class PacmanPainter implements GamePainter {
 		}
 	}
 
-
 	/**
 	 * Ajoute les textures des mur et de sol
 	 * @author Adham
@@ -74,9 +83,10 @@ public class PacmanPainter implements GamePainter {
 	 */
 	public void addMapTextures(BufferedImage im){
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
-		wall = LoadImage("resources/Wall/wall_lvl1.png");
-		ground = LoadImage("resources/Ground/ground_lvl1.png");
-		treasure = LoadImage("resources/Extra/treasure.png");
+		wall = LoadImage("resources/" + w.getPath());
+		ground = LoadImage("resources/" + g.getPath());
+		treasure = LoadImage("resources/" + tr.getPath());
+		portal = LoadImage("resources/" + p.getPath());
 
 		for (int i = 0; i< pacmanGame.getMapBuilder().getWidth(); i++){
 			for (int j = 0; j<pacmanGame.getMapBuilder().getHeight(); j++){
@@ -89,8 +99,15 @@ public class PacmanPainter implements GamePainter {
 				 else if (g.color == Color.DARK_GRAY){
 				 	crayon.drawImage(wall,i*SCALE,j*SCALE,SCALE,SCALE,null);
 				 }
-				 else if (g.color == Color.BLUE){
-				 	crayon.drawImage(treasure,i*SCALE,i*SCALE,i*SCALE,SCALE,null);
+				 // Si la couleur est rose on ajoute les texture de sol et puis les la texture du trésor
+				 else if (g.color == Color.PINK){
+				 	crayon.drawImage(ground,i*SCALE,j*SCALE,SCALE,SCALE,null);
+				 	crayon.drawImage(treasure,i*SCALE,j*SCALE,SCALE,SCALE,null);
+				 }
+				 // Si la couleur est rouge on ajoute les texture de sol et puis les la texture de passage
+				 else if (g.color == Color.RED){
+				 	crayon.drawImage(ground,i*SCALE,j*SCALE,SCALE,SCALE,null);
+				 	crayon.drawImage(portal,i*SCALE,j*SCALE,SCALE,SCALE,null);
 				 }
 			}
 		}
