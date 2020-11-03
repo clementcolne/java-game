@@ -9,6 +9,9 @@ public class PacmanCharacter {
     private int posX;
     private int posY;
     private int life = 10;
+	private int speed = 2;
+	private int range = 2;
+	private boolean ghost;
 
     /**
      * Constructeur du personnage pacman
@@ -45,7 +48,7 @@ public class PacmanCharacter {
      * @author Adham
      */
     public void mooveRight() {
-        posX += 1;
+        posX += 1 * this.speed;
     }
 
     /**
@@ -53,7 +56,7 @@ public class PacmanCharacter {
      * @author Adèle
      */
     public void mooveLeft() {
-        posX -= 1;
+        posX -= 1 * this.speed;
     }
 
     /**
@@ -61,7 +64,7 @@ public class PacmanCharacter {
      * @author Raphael
      */
     public void mooveUp() {
-    	posY -= 1;
+    	posY -= 1 * this.speed;
     }
 
     /**
@@ -69,7 +72,7 @@ public class PacmanCharacter {
      * @author Clément
      */
     public void mooveDown() {
-        posY += 1;
+        posY += 1 * this.speed;
     }
 
     /**
@@ -83,6 +86,64 @@ public class PacmanCharacter {
         else
             life = 0;
     }
+    
+    /**
+     * Modifier la vitesse du Pacman
+     * @author Raphaël
+     * @param s
+     */
+	public void setSpeed(int s) {
+		this.speed = s;
+	}
+	
+    /**
+     * Retourner la vitesse du Pacman
+     * @author Raphaël
+     * @return Vitesse du pacman
+     */
+	public int getSpeed() {
+		return this.speed;
+	}
+	
+    /**
+     * Permet de modifier le caractère fantôme du Pacman. S'il est fantôme, il peut traverser les murs
+     * @author Raphaël
+     * @param b true ou false
+     */
+	public void setGhost(boolean g) {
+		this.ghost = g;
+	}
+	
+	/**
+	 * Retourne si le Pacman est un fantôme
+	 * @author Raphaël
+	 * @return true ou false
+	 */
+	public boolean getGhost() {
+		return this.ghost;
+	}
+	
+	/**
+	 * Permet de modifier la portée d'attaque du Pacman (en cases)
+	 * @author Raphaël
+	 * @param r Portée des attaques
+	 */
+	public void setRange(int r) {
+		if (this.range >= 1)
+			this.range = r;
+		else {
+			this.range = 2;
+		}
+	}
+	
+	/**
+	 * Retourner la portée des attaques du Pacman
+	 * @author Raphaël
+	 * @return Portée des attaques du Pacman
+	 */
+	public int getRange() {
+		return this.range;
+	}
 
     /**
      * Retourne la position en X du personnage
@@ -94,8 +155,8 @@ public class PacmanCharacter {
     }
 
     /**
-     * @author Clément
      * Retourne la position en Y du personnage
+     * @author Clément
      * @return position en Y du personnage
      */
     public int getPosY() {
@@ -111,8 +172,8 @@ public class PacmanCharacter {
     }
 
     /**
-     * @author Clément
      * Retourne la position en X et en Y du personnage
+     * @author Clément
      * @return toString du personnage
      */
     @Override
