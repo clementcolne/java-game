@@ -65,6 +65,8 @@ public class GameEngineGraphical {
 			// met en attente
 			Thread.sleep(100);
 		}
+		Thread.sleep(1000);
+		System.exit(0);
 	}
 
 }
