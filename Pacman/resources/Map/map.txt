@@ -1,5 +1,5 @@
 wwwwwwwwwwwwwww
-wsssssssssssssw
+wsssssssssssspw
 wswwwwwwwwwwwww
 wsssssssssssssw
 wwwwwwwwwwwwwsw
@@ -11,7 +11,7 @@ wsssssssssssssw
 wswwwwwwwwwwwww
 wsssssssssssssw
 wwwwwwwwwwwwwsw
-wsssssssssssssw
+wpssssssssssssw
 wwwwwwwwwwwwwww
 /******************************************/
 /* Description des caractères utilisables */

@@ -30,6 +30,24 @@ public class PacmanCharacter {
     }
 
     /**
+     * @author Clément
+     * Fixe la position en abscisse du personnage
+     * @param x nouvelle position en abscisse du personnage
+     */
+    public void setPosX(int x) {
+        posX = x;
+    }
+
+    /**
+     * @author Clément
+     * Fixe la position en ordonnées du personnage
+     * @param y nouvelle position en ordonnées du personnage
+     */
+    public void setPosY(int y) {
+        posY = y;
+    }
+
+    /**
      *
      * Déplace la position du personnage d'une case vers la droite
      * @author Adham
@@ -131,15 +149,6 @@ public class PacmanCharacter {
 	public int getRange() {
 		return this.range;
 	}
-
-
-    public void setPosX(int posX) {
-        this.posX = posX;
-    }
-
-    public void setPosY(int posY) {
-        this.posY = posY;
-    }
 
     /**
      * Modifie la stratégie de déplacement en vigueur
