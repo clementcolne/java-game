@@ -20,12 +20,12 @@ java.io
 v3.0
 In repertory Pacman
 
-How to compile ACL-2020-kbc v2.0 ?
+How to compile ACL-2020-kbc v3.0 ?
 Using Maven 4.0.0 :
 >> mvn install
 
-How to run ACL-2020-kbc v2.0 ?
->> java -jar target/ACL_2020_kbc-2.0-SNAPSHOT.jar
+How to run ACL-2020-kbc v3.0 ?
+>> java -jar target/ACL_2020_kbc-3.0-SNAPSHOT.jar
 
 
 Libraries required :
@@ -37,12 +37,12 @@ java.io
 v4.0
 In repertory Pacman
 
-How to compile ACL-2020-kbc v2.0 ?
+How to compile ACL-2020-kbc v4.0 ?
 Using Maven 4.0.0 :
 >> mvn install
 
-How to run ACL-2020-kbc v2.0 ?
->> java -jar target/ACL_2020_kbc-2.0-SNAPSHOT.jar
+How to run ACL-2020-kbc v4.0 ?
+>> java -jar target/ACL_2020_kbc-4.0-SNAPSHOT.jar
 
 
 Libraries required :
