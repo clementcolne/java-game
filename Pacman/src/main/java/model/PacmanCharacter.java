@@ -9,9 +9,9 @@ public class PacmanCharacter {
     private int posX;
     private int posY;
     private int life = 10;
-	private int speed = 2;
-	private int range = 2;
-	private boolean ghost;
+	  private int speed = 1;
+	  private int range = 2;
+	  private boolean ghost;
 
     /**
      * Constructeur du personnage pacman

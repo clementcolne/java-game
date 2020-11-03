@@ -10,7 +10,7 @@ import java.util.*;
  * 25/10/2020
  * Déclenche un effet au hasard parmi les pièges connus
  **/
-public class EffectTrap implements Effect {
+public class EffectTrap extends Effect {
     private List<EffectTrap> traps;
 
     /**

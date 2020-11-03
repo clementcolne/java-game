@@ -7,6 +7,7 @@ import model.PacmanCharacter;
  * @author Raphaël
  **/
 public class EffectMagic extends Effect {
+
     private static EffectMagic[] magicEffects = new EffectMagic[] {
     		new Ghost(),
     		new Speed(),
