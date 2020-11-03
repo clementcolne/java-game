@@ -14,7 +14,6 @@ import engine.GamePainter;
  */
 public class PacmanPainter implements GamePainter {
 
-	private final int SCALE = 40; // @author Adèle permet d'agrandir de la même manière tous les éléments du jeu
 	private PacmanGame pacmanGame;
 	private Image pacman, wall, ground;
 
@@ -50,7 +49,7 @@ public class PacmanPainter implements GamePainter {
 	public void drawCharacter(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
 		pacman = LoadImage("resources/Character/pacman.png");
-		crayon.drawImage(pacman,(int)pacmanGame.getCharacterPosX()*SCALE, (int)pacmanGame.getCharacterPosY()*SCALE,SCALE,SCALE,null);
+		crayon.drawImage(pacman,(int)pacmanGame.getCharacterPosX()*pacmanGame.getScale(), (int)pacmanGame.getCharacterPosY()*pacmanGame.getScale(),pacmanGame.getScale(),pacmanGame.getScale(),null);
 	}
 
 
@@ -64,7 +63,7 @@ public class PacmanPainter implements GamePainter {
 				crayon.setColor(g.getColor());
 				//System.out.println(g.getColor());
 				// on remplis un carré
-				crayon.fillRect(i * SCALE, j * SCALE, SCALE,SCALE);
+				crayon.fillRect(i * pacmanGame.getScale(), j * pacmanGame.getScale(), pacmanGame.getScale(),pacmanGame.getScale());
 			}
 		}
 	}
@@ -85,11 +84,11 @@ public class PacmanPainter implements GamePainter {
 				 Ground g = pacmanGame.getMapBuilder().get(i,j);
 				 // Si la couleur est blanche on ajoute les texture des murs
 				 if (g.color == Color.WHITE){
-				 	crayon.drawImage(ground,i*SCALE,j*SCALE,SCALE,SCALE,null);
+				 	crayon.drawImage(ground,i*pacmanGame.getScale(),j*pacmanGame.getScale(),pacmanGame.getScale(),pacmanGame.getScale(),null);
 				 }
 				 // Si la couleur est grise on ajoute les texture de sol
 				 else if (g.color == Color.DARK_GRAY){
-				 	crayon.drawImage(wall,i*SCALE,j*SCALE,SCALE,SCALE,null);
+				 	crayon.drawImage(wall,i*pacmanGame.getScale(),j*pacmanGame.getScale(),pacmanGame.getScale(),pacmanGame.getScale(),null);
 				 }
 			}
 		}
@@ -98,12 +97,12 @@ public class PacmanPainter implements GamePainter {
 
 	@Override
 	public int getWidth() {
-		return pacmanGame.getWidth()* SCALE;
+		return pacmanGame.getWidth()* pacmanGame.getScale();
 	}
 
 	@Override
 	public int getHeight() {
-		return pacmanGame.getHeight()* SCALE;
+		return pacmanGame.getHeight()* pacmanGame.getScale();
 	}
 
 	/**
@@ -121,14 +120,5 @@ public class PacmanPainter implements GamePainter {
 			System.out.println("Error loading Image" + e.getMessage());
 		}
 		return temp;
-	}
-
-
-	/**
-	 * @author Adèle
-	 * @return l'échelle du jeu
-	 */
-	public int getScale() {
-		return SCALE;
 	}
 }

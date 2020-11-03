@@ -2,6 +2,7 @@ package model.effect;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
@@ -135,13 +136,13 @@ public class AsyncEffect extends TimerTask {
 	}
 	
 	/**
-	 * Retourne une nouvelle liste contenant les effets actuellement en cours
+	 * Retourne un itérateur contenant les effets actuellement en cours
 	 * @author Raphaël
-	 * @return Liste des effets actuellement en cours
+	 * @return Itérateur des effets actuellement en cours
 	 */
-	public static HashSet<Effect> getEffects() {
+	public static Iterator<Effect> getEffects() {
 		synchronized (effects) {
-			return new HashSet<Effect>(effects);
+			return new HashSet<Effect>(effects).iterator();
 		}
 	}
 

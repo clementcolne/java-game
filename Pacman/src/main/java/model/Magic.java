@@ -7,8 +7,10 @@ import model.effect.EffectMagic;
  * @author Raphaël
  *
  */
-public class Magic extends EffectGround {
+public class Magic extends Ground {
 	
+	private EffectMagic effect;
+
 	/**
 	 * Constructeur de Magic (magie)
 	 * @author Raphaël
@@ -16,8 +18,22 @@ public class Magic extends EffectGround {
 	 * @param y, position en ordonnée de la case de magie
 	 */
 	public Magic(int x, int y, EffectMagic eff) {
-		super(x, y, eff);
+		super(x, y);
 		this.name = 'm';
+		this.effect = eff;
+		this.color = eff.getColor();
 	}
+	
+	/**
+     * Exécute l'effet magique associé à cette case
+     * @author Raphaël
+     * @param pacmanCharacter Personnage affecté par l'effet magique
+     */
+    @Override
+	public void doEffect(PacmanCharacter pacmanCharacter) {
+		this.effect.doEffect(pacmanCharacter);
+	}
+	
+	
 
 }

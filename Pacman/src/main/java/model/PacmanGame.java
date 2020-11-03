@@ -3,6 +3,10 @@ package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 import engine.Cmd;
 import engine.Game;
@@ -17,6 +21,7 @@ import engine.MapBuilder;
  */
 public class PacmanGame implements Game {
 
+	private final int scale = 40; // @author Adèle permet d'agrandir de la même manière tous les éléments du jeu
 	private PacmanCharacter pacmanCharacter;
 	private MapBuilder mapBuilder;
 
@@ -47,6 +52,10 @@ public class PacmanGame implements Game {
 	 */
 	@Override
 	public void evolve(Cmd commande) {
+		if (!(pacmanCharacter.getGhost() && mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isAccessible())) {
+			this.resetPosition(pacmanCharacter);
+		}
+		
 		boolean canMove = false;
 		switch(commande) {
 			case LEFT:
@@ -74,7 +83,7 @@ public class PacmanGame implements Game {
 		}
 		
 		if (canMove) {
-			this.checkPassage();
+			this.doEffect(pacmanCharacter);
 		}
 	}
 
@@ -86,8 +95,8 @@ public class PacmanGame implements Game {
 	 * @author Clément
 	 */
 	public boolean canMoove(double x, double y) {
-		return pacmanCharacter.getPosX() + x < mapBuilder.getWidth() && pacmanCharacter.getPosY() + y < mapBuilder.getHeight() && 
-				(mapBuilder.get((int)(pacmanCharacter.getPosX() + x), (int)(pacmanCharacter.getPosY() + y)).isAccessible());
+		return pacmanCharacter.getPosX() + x < mapBuilder.getWidth() && pacmanCharacter.getPosX() + x >= 0 && pacmanCharacter.getPosY() + y < mapBuilder.getHeight() && pacmanCharacter.getPosY() + y >= 0 &&  
+				(mapBuilder.get((int)(pacmanCharacter.getPosX() + x), (int)(pacmanCharacter.getPosY() + y)).isAccessible() || pacmanCharacter.getGhost());
 	}
 
 
@@ -104,6 +113,95 @@ public class PacmanGame implements Game {
 			pacmanCharacter.setPosY(p.getLinkedPassage().getPosY());
 		}
 	}
+	
+	/**
+	 * Permet de revenir à une position qui était accessible (non bloquée)
+	 * @author Raphaël
+	 * @param character Pacman qui possède la liste des positions parcourues
+	 */
+	public void resetPosition(PacmanCharacter character) {		
+		ListIterator<double[]> visitedCoordinates = character.getVisitedCoordinates();
+		
+		while (visitedCoordinates.hasPrevious()) {
+			double[] coordinates = visitedCoordinates.previous();
+			if (mapBuilder.get((int)coordinates[0], (int)coordinates[1]).isAccessible()) {
+				pacmanCharacter.setPosX((int)coordinates[0]);
+				pacmanCharacter.setPosY((int)coordinates[1]);
+			}
+		}
+	}
+	
+	/**
+	 * Permet d'exécuter l'effet dont la case est la plus proche du Pacman
+	 * @author Raphaël
+	 * @param character Pacman sur lequel on doit exécuter l'effet
+	 */
+	public void doEffect(PacmanCharacter character) {
+		double min = -1;
+		Ground nearestToPacman = mapBuilder.get((int)character.getPosX(), (int)character.getPosY());
+		
+		for (Ground g:this.getCollidingGrounds(character)) {
+			double cDist = this.calculateDistance(character, g);
+			if (cDist < min || min == -1) {
+				min = cDist;
+				nearestToPacman = g;
+			}
+		}
+		
+		nearestToPacman.doEffect(character);
+	}
+	
+	/**
+	 * Permet de connaître les sols avec lesquels le Pacman est en collision
+	 * @author Raphaël
+	 * @param character Pacman à partir duquel on doit détecter les sols en collision
+	 * @return Liste de sols en collision avec le Pacman
+	 */
+	public List<Ground> getCollidingGrounds(PacmanCharacter character) {
+		double x = character.getPosX();
+		double y = character.getPosY();
+		
+		List<Ground> collidingGrounds = new LinkedList<Ground>();
+		
+		if ((int)x == x && (int)y == y) {
+			collidingGrounds.add(mapBuilder.get((int)x, (int)y));
+		}
+		else if ((int)x != x && (int)y == y) {
+			collidingGrounds.add(mapBuilder.get((int)x, (int)y));
+			collidingGrounds.add(mapBuilder.get((int)x+1, (int)y));
+		}
+		else if ((int)x == x && (int)y != y) {
+			collidingGrounds.add(mapBuilder.get((int)x, (int)y));
+			collidingGrounds.add(mapBuilder.get((int)x, (int)y+1));
+		}
+		else {
+			collidingGrounds.add(mapBuilder.get((int)x, (int)y));
+			collidingGrounds.add(mapBuilder.get((int)x+1, (int)y));
+			collidingGrounds.add(mapBuilder.get((int)x, (int)y+1));
+			collidingGrounds.add(mapBuilder.get((int)x+1, (int)y));
+		}
+		
+		return collidingGrounds;
+	}
+	
+	/**
+	 * Calculer la distance entre un Pacman et un sol
+	 * @author Raphaël
+	 * @param character Pacman à partir duquel on doit calculer la distance
+	 * @param g Sol vers lequel on doit calculer la distance
+	 * @return Distance entre le Pacman et le sol
+	 */
+	public double calculateDistance(PacmanCharacter character, Ground g) {
+		double xOne = character.getPosX();
+		double yOne = character.getPosY();
+		double xTwo = g.getPosX();
+		double yTwo = g.getPosY();
+		
+		double memberOne = (xTwo - xOne);
+		double memberTwo = (yTwo - yOne);
+		
+		return Math.sqrt(memberOne*memberOne + memberTwo*memberTwo);
+	}	
 
 	/**
 	 * Affiche l'état du personnage dans le terminal
@@ -165,4 +263,12 @@ public class PacmanGame implements Game {
 		return mapBuilder;
 	}
 
+	/**
+	 * Retourne l'échelle (largeur x hauteur) de chaque image du jeu
+	 * @author Raphaël
+	 * @return Echelle de chaque image
+	 */
+	public int getScale() {
+		return this.scale;
+	}
 }

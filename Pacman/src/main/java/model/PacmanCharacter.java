@@ -1,5 +1,10 @@
 package model;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 import model.movingStrategy.DefaultMovingStrategy;
 import model.movingStrategy.MovingStrategy;
 
@@ -18,6 +23,7 @@ public class PacmanCharacter {
 	private double speed = 1;
 	private int range = 1;
 	private boolean ghost = false;
+	private List<double[]> visitedCoordinates;
 
     /**
      * Constructeur du personnage pacman
@@ -29,6 +35,7 @@ public class PacmanCharacter {
         this.posX = posX;
         this.posY = posY;
         movingStrategy = new DefaultMovingStrategy();
+        visitedCoordinates = new LinkedList<double[]>(Arrays.asList(new double[] {this.posX, this.posY}));
     }
 
     /**
@@ -196,6 +203,15 @@ public class PacmanCharacter {
      */
     public int getLife() {
         return life;
+    }
+    
+    /**
+     * Retourner un itérateur sur la liste des coordonnées parcourues par le Pacman
+     * @author Raphaël
+     * @return Itérateur sur la liste des coordonées parcourues par le Pacman
+     */
+    public ListIterator<double[]> getVisitedCoordinates() {
+    	return new LinkedList<double[]>(this.visitedCoordinates).listIterator();
     }
 
     /**

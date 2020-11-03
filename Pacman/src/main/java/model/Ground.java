@@ -99,4 +99,11 @@ public class Ground {
 		return "(" + name + posX + ";" + posY + ")";
 	}
 
+	/**
+	 * Méthode devant être redéfinie pour indiquer le comportement auquel est associé la case et comment elle doit réagir
+	 * @author Raphaël
+	 * @param pacmanCharacter Personnage concernant la réaction à produire
+	 */
+	public void doEffect(PacmanCharacter pacmanCharacter) {}
+
 }
