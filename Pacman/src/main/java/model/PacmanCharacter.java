@@ -1,5 +1,6 @@
 package model;
 
+import engine.MapBuilder;
 import model.movingStrategy.DefaultMovingStrategy;
 import model.movingStrategy.MovingStrategy;
 
@@ -197,6 +198,17 @@ public class PacmanCharacter {
      */
     public int getLife() {
         return life;
+    }
+
+    /**
+     * Détermine si le personnage peut aller dans la direction désirée, en fonction de sa stratégie de déplacement
+     * @param x coordonnée horizontale de la destination
+     * @param y coordonnée horizontale de la destination
+     * @param mapBuilder carte des cases du jeu
+     * @return true si le personnage peut se déplacer vers la case souhaitée
+     */
+    public boolean canMoove(double x, double y, MapBuilder mapBuilder){
+        return movingStrategy.canMoove(x, y, mapBuilder, this);
     }
 
     /**

@@ -93,8 +93,7 @@ public class PacmanGame implements Game {
 	 * @author Clément
 	 */
 	public boolean canMoove(double x, double y) {
-		return pacmanCharacter.getPosX() + x < mapBuilder.getWidth() && pacmanCharacter.getPosY() + y < mapBuilder.getHeight() &&
-				(mapBuilder.get((int)(pacmanCharacter.getPosX() + x), (int)(pacmanCharacter.getPosY() + y)).isAccessible());
+		return pacmanCharacter.canMoove(x, y, mapBuilder);
 	}
 
 

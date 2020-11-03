@@ -27,6 +27,8 @@ public class EffectTrap extends Effect {
     @Override
     public void doEffect(PacmanCharacter character) {
         Random r = new Random();
-        traps.get(r.nextInt(traps.size())).doEffect(character);
+        EffectTrap temp = traps.get((int)(Math.random()*traps.size()));
+        temp.doEffect(character);
+        System.out.println(temp);
     }
 }

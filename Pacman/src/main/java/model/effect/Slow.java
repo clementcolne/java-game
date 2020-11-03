@@ -20,6 +20,6 @@ public class Slow extends EffectTrap{
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Effet Lent";
     }
 }

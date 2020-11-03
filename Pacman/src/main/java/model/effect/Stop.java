@@ -18,4 +18,8 @@ public class Stop extends EffectTrap{
         }.run();
     }
 
+    @Override
+    public String toString() {
+        return "Effet Arrêt";
+    }
 }

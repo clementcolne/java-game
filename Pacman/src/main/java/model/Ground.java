@@ -31,7 +31,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return true sauf si la case est un mur
 	 */
-	protected boolean isAccessible() {
+    public boolean isAccessible() {
 		return true;
 	}
 

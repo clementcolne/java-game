@@ -21,4 +21,9 @@ public class Stun extends EffectTrap{
         }.run();
     }
 
+    @Override
+    public String toString() {
+        return "Effet Etourdi";
+    }
+
 }

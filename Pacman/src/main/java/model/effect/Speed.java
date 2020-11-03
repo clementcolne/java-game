@@ -33,4 +33,8 @@ public class Speed extends EffectMagic {
 		}.run();
     }
 
+	@Override
+	public String toString() {
+		return "Effet Vitesse";
+	}
 }

@@ -61,11 +61,7 @@ public class AsyncEffect extends TimerTask {
 					this.executionNumber++;
 					
 					if (this.remainingTime <= 0) {
-						this.end = true;
-						this.execute();
-						effects.remove(this.effect);
-						tasks.remove(this.effect.getClass());
-					    this.cancel();
+						end();
 					}
 					else {
 						this.execute();
@@ -122,6 +118,7 @@ public class AsyncEffect extends TimerTask {
 			}
 			
 	        this.cancel();
+			System.out.println(effect + " est fini");
 		}
 	}
 	
