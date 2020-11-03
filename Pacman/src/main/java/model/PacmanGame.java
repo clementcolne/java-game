@@ -19,6 +19,7 @@ public class PacmanGame implements Game {
 
 	private PacmanCharacter pacmanCharacter;
 	private MapBuilder mapBuilder;
+	private boolean gameState;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -27,6 +28,7 @@ public class PacmanGame implements Game {
 	public PacmanGame(String source, MapBuilder map) {
 		pacmanCharacter = new PacmanCharacter(1, 1);
 		mapBuilder = map;
+		gameState = false;
 		BufferedReader helpReader;
 		try {
 			helpReader = new BufferedReader(new FileReader(source));
@@ -75,6 +77,9 @@ public class PacmanGame implements Game {
 		
 		if (canMove) {
 			this.checkPassage();
+			if(this.checkWin() == true ){
+				System.out.println("Exiting Game");
+			}
 		}
 	}
 
@@ -104,6 +109,19 @@ public class PacmanGame implements Game {
 			pacmanCharacter.setPosY(p.getLinkedPassage().getPosY());
 		}
 	}
+	/*
+	* Verifie si le personnage est sur la case du tresor
+	* Si oui, il gagne
+	* @author Adham
+	*/
+
+	public boolean checkWin(){
+		if(mapBuilder.get((int)pacmanCharacter.getPosX(),(int)pacmanCharacter.getPosY()).isTreasure()) {
+			gameState= true;
+			System.out.println("You Won !");
+		}
+	return gameState;
+	}
 
 	/**
 	 * Affiche l'état du personnage dans le terminal
@@ -122,7 +140,8 @@ public class PacmanGame implements Game {
 	@Override
 	public boolean isFinished() {
 		// le jeu se termine si le personnage n'a plus de point de vie
-		return pacmanCharacter.getLife() == 0;
+		//return pacmanCharacter.getLife() == 0;
+		return gameState;
 	}
 
 	/**
