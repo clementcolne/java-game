@@ -126,6 +126,16 @@ public class MapBuilder {
     }
 
     /**
+     * Change le Ground [x;y] par le nouveau Ground en paramètre
+     * @param x position en x
+     * @param y position en y
+     * @param g nouveau Ground
+     */
+    public void set(int x, int y, Ground g) {
+        map[x][y] = g;
+    }
+
+    /**
      * @author Clément
      * Retourne la largeur de la map
      * @return la largeur de la map

@@ -34,4 +34,9 @@ public class Trap extends Ground{
     public void doEffect(PacmanCharacter character) {
         effect.doEffect(character);
     }
+
+    @Override
+    public boolean isEffect() {
+        return true;
+    }
 }

@@ -75,6 +75,13 @@ public class PacmanGame implements Game {
 
 		if (canMove) {
 			mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).doEffect(pacmanCharacter);
+			consumeGroundEffect((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY());
+		}
+	}
+
+	public void consumeGroundEffect(int x, int y) {
+		if(mapBuilder.get(x, y).isEffect()) {
+			mapBuilder.set((int) pacmanCharacter.getPosX(), (int) pacmanCharacter.getPosY(), new Ground((int) pacmanCharacter.getPosX(), (int) pacmanCharacter.getPosY()));
 		}
 	}
 
