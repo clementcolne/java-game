@@ -12,6 +12,7 @@ public class Ground {
 	protected int posX, posY;
 	protected char name;
 	protected Color color;
+	protected String path;
 	
 	/**
 	 * Constructeur de Ground (sol)
@@ -25,7 +26,10 @@ public class Ground {
 		this.name = 'g';
 		this.color = Color.WHITE;
 	}
-	
+
+	public Ground(){
+		this.path = "Ground/ground_lvl1.png";
+	}
 	/**
 	 * Permet d'indiquer qu'un sol est toujours accessible par un personnage
 	 * @author Raphaël
@@ -42,6 +46,8 @@ public class Ground {
 	protected boolean isPassage() {
 		return false;
 	}
+
+	protected boolean isTreasure(){return false;}
 	
 	/**
 	 * Permet d'indiquer que le case est ou non un effet
@@ -90,10 +96,20 @@ public class Ground {
 	}
 
 	/**
+	 * Retourne le chemin d'image texture
+	 * @author Adham
+	 * @return String d'image
+	 */
+	protected String getPath(){
+		return this.path;
+	}
+
+	/**
 	 * Retourne le nom, la position en X et en Y du sol
 	 * @author Clément
 	 * @return toString du sol
 	 */
+
 	@Override
 	public String toString() {
 		return "(" + name + posX + ";" + posY + ")";

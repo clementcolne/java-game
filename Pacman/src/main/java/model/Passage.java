@@ -21,6 +21,10 @@ public class Passage extends Ground {
         this.color = Color.RED;
     }
 
+    public Passage(){
+        this.path = "Extra/passage.png";
+    }
+
     /**
      * Fixe le passage lié qui téléportera le personnage
      * @author Clément
@@ -44,6 +48,7 @@ public class Passage extends Ground {
      * @return toujours vrai
      * @author Clément
      */
+
     @Override
     public boolean isPassage() {
         return true;
