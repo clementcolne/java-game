@@ -18,6 +18,7 @@ public class PacmanCharacter {
 	private double speed = 1;
 	private int range = 1;
 	private boolean ghost = false;
+	private String path;
 
     /**
      * Constructeur du personnage pacman
@@ -30,6 +31,11 @@ public class PacmanCharacter {
         this.posY = posY;
         movingStrategy = new DefaultMovingStrategy();
     }
+
+    public PacmanCharacter(){
+        this.path = "Character/pacman.png";
+    }
+
 
     /**
      *
@@ -196,6 +202,10 @@ public class PacmanCharacter {
      */
     public int getLife() {
         return life;
+    }
+
+    public String getPath() {
+        return path;
     }
 
     /**
