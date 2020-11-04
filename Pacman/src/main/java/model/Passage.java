@@ -18,7 +18,7 @@ public class Passage extends Ground {
     public Passage(int x, int y) {
         super(x, y);
         this.name = 'p';
-        this.color = Color.RED;
+        this.color = Color.BLUE;
     }
 
     /**
@@ -58,4 +58,13 @@ public class Passage extends Ground {
         return "Passage(" + posX + ";" + posY + ") lié à Passage(" + linkedPassage.getPosX() + ";" + linkedPassage.getPosY() + ")";
     }
 
+    /**
+     * Déplace le personnage vers le passage lié
+     * @param character personnage auquel l'effet va être affecté
+     */
+    @Override
+    public void doEffect(PacmanCharacter character) {
+        character.setPosX(getLinkedPassage().getPosX());
+        character.setPosY(getLinkedPassage().getPosY());
+    }
 }

@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Color;
+
 import model.effect.EffectMagic;
 
 /**
@@ -21,7 +23,7 @@ public class Magic extends Ground {
 		super(x, y);
 		this.name = 'm';
 		this.effect = eff;
-		this.color = eff.getColor();
+		this.color = Color.PINK;
 	}
 	
 	/**
@@ -33,6 +35,16 @@ public class Magic extends Ground {
 	public void doEffect(PacmanCharacter pacmanCharacter) {
 		this.effect.doEffect(pacmanCharacter);
 	}
+    
+    /**
+     * Permet d'indiquer que la case est associée à un effet
+     * @author Raphaël
+     * @return true
+     */
+    @Override
+    public boolean isEffect() {
+    	return true;
+    }
 	
 	
 

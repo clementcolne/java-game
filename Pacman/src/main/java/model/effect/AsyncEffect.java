@@ -2,7 +2,6 @@ package model.effect;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
@@ -62,11 +61,7 @@ public class AsyncEffect extends TimerTask {
 					this.executionNumber++;
 					
 					if (this.remainingTime <= 0) {
-						this.end = true;
-						this.execute();
-						effects.remove(this.effect);
-						tasks.remove(this.effect.getClass());
-					    this.cancel();
+						this.end();
 					}
 					else {
 						this.execute();
@@ -123,6 +118,7 @@ public class AsyncEffect extends TimerTask {
 			}
 			
 	        this.cancel();
+			System.out.println(effect + " est fini");
 		}
 	}
 	
@@ -136,13 +132,13 @@ public class AsyncEffect extends TimerTask {
 	}
 	
 	/**
-	 * Retourne un itérateur contenant les effets actuellement en cours
+	 * Retourne une nouvelle liste contenant les effets actuellement en cours
 	 * @author Raphaël
-	 * @return Itérateur des effets actuellement en cours
+	 * @return Liste des effets actuellement en cours
 	 */
-	public static Iterator<Effect> getEffects() {
+	public static HashSet<Effect> getEffects() {
 		synchronized (effects) {
-			return new HashSet<Effect>(effects).iterator();
+			return new HashSet<Effect>(effects);
 		}
 	}
 

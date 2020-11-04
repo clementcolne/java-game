@@ -31,7 +31,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return true sauf si la case est un mur
 	 */
-	protected boolean isAccessible() {
+	public boolean isAccessible() {
 		return true;
 	}
 
@@ -58,7 +58,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return Position en abscisse du sol
 	 */
-	protected int getPosX() {
+	public int getPosX() {
 		return this.posX;
 	}
 	
@@ -67,7 +67,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return Position en ordonnée du sol
 	 */
-	protected int getPosY() {
+	public int getPosY() {
 		return this.posY;
 	}
 
@@ -76,7 +76,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return Type du sol
 	 */
-	protected char getName() {
+	public char getName() {
 		return this.name;
 	}
 
@@ -85,7 +85,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return Couleur du sol
 	 */
-	protected Color getColor() {
+	public Color getColor() {
 		return this.color;
 	}
 
@@ -98,11 +98,10 @@ public class Ground {
 	public String toString() {
 		return "(" + name + posX + ";" + posY + ")";
 	}
-
+	
 	/**
-	 * Méthode devant être redéfinie pour indiquer le comportement auquel est associé la case et comment elle doit réagir
-	 * @author Raphaël
-	 * @param pacmanCharacter Personnage concernant la réaction à produire
+	 * Permet de déléguer la gestion des comportements des cases aux classes filles (qui sont des sols de différents types)
+	 * @param pacmanCharacter Pacman auquel doit être appliqué l'effet
 	 */
 	public void doEffect(PacmanCharacter pacmanCharacter) {}
 

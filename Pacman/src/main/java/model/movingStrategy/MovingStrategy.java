@@ -1,5 +1,6 @@
 package model.movingStrategy;
 
+import engine.MapBuilder;
 import model.PacmanCharacter;
 
 /**
@@ -12,4 +13,5 @@ public interface MovingStrategy {
     public void mooveDown(PacmanCharacter character);
     public void mooveRight(PacmanCharacter character);
     public void mooveLeft(PacmanCharacter character);
+    public boolean canMoove(double x, double y, MapBuilder mapBuilder, PacmanCharacter pacmanCharacter);
 }

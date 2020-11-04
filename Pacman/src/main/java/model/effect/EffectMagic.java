@@ -33,7 +33,9 @@ public class EffectMagic extends Effect {
      */
     @Override
     public void doEffect(PacmanCharacter pacmanCharacter) {
-    	magicEffects.get((int)(Math.random()*magicEffects.size())).doEffect(pacmanCharacter);
+        EffectMagic temp = magicEffects.get((int)(Math.random()*magicEffects.size()));
+    	temp.doEffect(pacmanCharacter);
+        System.out.println(temp);
     }
     
   

@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import engine.MapBuilder;
 import model.movingStrategy.DefaultMovingStrategy;
 import model.movingStrategy.MovingStrategy;
 
@@ -14,6 +15,7 @@ import model.movingStrategy.MovingStrategy;
  */
 public class PacmanCharacter {
 
+    //TODO : afficher la vie dans le terminal
     private double posX;
     private double posY;
     private double previousPosX;
@@ -81,6 +83,7 @@ public class PacmanCharacter {
             life -= damage;
         else
             life = 0;
+        System.out.println("Vie : "+life);
     }
 
     /**
@@ -145,11 +148,13 @@ public class PacmanCharacter {
     public void setPosX(double posX) {
     	this.previousPosX = this.posX;
         this.posX = posX;
+        this.visitedCoordinates.add(new double[] {this.posX, this.posY});
     }
 
     public void setPosY(double posY) {
     	this.previousPosY = this.posY;
         this.posY = posY;
+        this.visitedCoordinates.add(new double[] {this.posX, this.posY});
     }
 
     /**
@@ -178,7 +183,7 @@ public class PacmanCharacter {
     public double getPosY() {
         return posY;
     }
-    
+
     /**
      * Rertourne la coordonnée précédente en abscisse du personnage
      * @author Raphaël
@@ -187,7 +192,7 @@ public class PacmanCharacter {
     public double getPreviousPosX() {
     	return this.previousPosX;
     }
-    
+
     /**
      * Rertourne la coordonnée précédente en ordonnée du personnage
      * @author Raphaël
@@ -212,6 +217,17 @@ public class PacmanCharacter {
      */
     public ListIterator<double[]> getVisitedCoordinates() {
     	return new LinkedList<double[]>(this.visitedCoordinates).listIterator();
+    }
+
+    /**
+     * Détermine si le personnage peut aller dans la direction désirée, en fonction de sa stratégie de déplacement
+     * @param x coordonnée horizontale de la destination
+     * @param y coordonnée horizontale de la destination
+     * @param mapBuilder carte des cases du jeu
+     * @return true si le personnage peut se déplacer vers la case souhaitée
+     */
+    public boolean canMoove(double x, double y, MapBuilder mapBuilder){
+        return movingStrategy.canMoove(x, y, mapBuilder, this);
     }
 
     /**

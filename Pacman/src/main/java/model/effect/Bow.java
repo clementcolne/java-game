@@ -31,6 +31,10 @@ public class Bow extends EffectMagic {
 				pacmanCharacter.setRange(!this.isEnded() ? 2 : 1);
 			}
 		}.run();
-    }	
-	
+    }
+
+	@Override
+	public String toString() {
+		return "Effet Arc";
+	}
 }

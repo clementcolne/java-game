@@ -3,7 +3,6 @@ package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -21,7 +20,7 @@ import engine.MapBuilder;
  */
 public class PacmanGame implements Game {
 
-	private final int scale = 40; // @author Adèle permet d'agrandir de la même manière tous les éléments du jeu
+	private final int scale = 40;
 	private PacmanCharacter pacmanCharacter;
 	private MapBuilder mapBuilder;
 
@@ -43,6 +42,7 @@ public class PacmanGame implements Game {
 		} catch (IOException e) {
 			System.out.println("Help not available");
 		}
+		System.out.println("Vie : "+pacmanCharacter.getLife());
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class PacmanGame implements Game {
 	 */
 	@Override
 	public void evolve(Cmd commande) {
-		if (!(pacmanCharacter.getGhost() && mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isAccessible())) {
+		if (!pacmanCharacter.getGhost() && !mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isAccessible()) {
 			this.resetPosition(pacmanCharacter);
 		}
 		
@@ -75,15 +75,22 @@ public class PacmanGame implements Game {
 				break;
 			case DOWN:
 				if(canMove = canMoove(0, pacmanCharacter.getSpeed())) {
-					pacmanCharacter.mooveDown();	
+					pacmanCharacter.mooveDown();
 				}
 				break;
 			default:
 				break;
 		}
-		
+
 		if (canMove) {
-			this.doEffect(pacmanCharacter);
+			mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).doEffect(pacmanCharacter);
+			consumeGroundEffect((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY());
+		}
+	}
+
+	public void consumeGroundEffect(int x, int y) {
+		if(mapBuilder.get(x, y).isEffect()) {
+			mapBuilder.set((int) pacmanCharacter.getPosX(), (int) pacmanCharacter.getPosY(), new Ground((int) pacmanCharacter.getPosX(), (int) pacmanCharacter.getPosY()));
 		}
 	}
 
@@ -95,8 +102,7 @@ public class PacmanGame implements Game {
 	 * @author Clément
 	 */
 	public boolean canMoove(double x, double y) {
-		return pacmanCharacter.getPosX() + x < mapBuilder.getWidth() && pacmanCharacter.getPosX() + x >= 0 && pacmanCharacter.getPosY() + y < mapBuilder.getHeight() && pacmanCharacter.getPosY() + y >= 0 &&  
-				(mapBuilder.get((int)(pacmanCharacter.getPosX() + x), (int)(pacmanCharacter.getPosY() + y)).isAccessible() || pacmanCharacter.getGhost());
+		return pacmanCharacter.canMoove(x, y, mapBuilder);
 	}
 
 
@@ -106,12 +112,72 @@ public class PacmanGame implements Game {
 	 * correspondante.
 	 * @author Clément
 	 */
-	public void checkPassage() {
+	/*public void checkPassage() {
 		if(mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isPassage()) {
 			Passage p = (Passage)mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY());
 			pacmanCharacter.setPosX(p.getLinkedPassage().getPosX());
 			pacmanCharacter.setPosY(p.getLinkedPassage().getPosY());
 		}
+	}*/
+
+	/**
+	 * Affiche l'état du personnage dans le terminal
+	 * @author Adèle
+	 */
+	public void printGame(Cmd commande) {
+		if(commande != Cmd.IDLE) {
+			System.out.println(pacmanCharacter.toString());
+			System.out.println(commande);
+		}
+	}
+
+	/**
+	 * verifier si le jeu est fini
+	 */
+	@Override
+	public boolean isFinished() {
+		// le jeu se termine si le personnage n'a plus de point de vie
+		return pacmanCharacter.getLife() == 0;
+	}
+
+	/**
+	 * @return la largeur du plateau de jeu
+	 * @author Adèle
+	 */
+	public int getWidth() {
+		return mapBuilder.getWidth();
+	}
+
+	/**
+	 * @return la hauteur du plateau de jeu
+	 * @author Adèle
+	 */
+	public int getHeight() {
+		return mapBuilder.getHeight();
+	}
+
+	/**
+	 * @return la position horizontal du personnage
+	 * @author Adèle
+	 */
+	public double getCharacterPosX(){
+		return pacmanCharacter.getPosX();
+	}
+
+	/**
+	 * @return la position vertical du personnage
+	 * @author Adèle
+	 */
+	public double getCharacterPosY(){
+		return pacmanCharacter.getPosY();
+	}
+
+	/**
+	 * Retourne le mapBuilder
+	 * @return le mapBuilder
+	 */
+	public MapBuilder getMapBuilder() {
+		return mapBuilder;
 	}
 	
 	/**
@@ -122,8 +188,9 @@ public class PacmanGame implements Game {
 	public void resetPosition(PacmanCharacter character) {		
 		ListIterator<double[]> visitedCoordinates = character.getVisitedCoordinates();
 		
-		while (visitedCoordinates.hasPrevious()) {
-			double[] coordinates = visitedCoordinates.previous();
+		while (visitedCoordinates.hasNext()) {
+			double[] coordinates = visitedCoordinates.next();
+			System.out.println("x : "+coordinates[0]+",y:"+coordinates[1]);
 			if (mapBuilder.get((int)coordinates[0], (int)coordinates[1]).isAccessible()) {
 				pacmanCharacter.setPosX((int)coordinates[0]);
 				pacmanCharacter.setPosY((int)coordinates[1]);
@@ -202,67 +269,7 @@ public class PacmanGame implements Game {
 		
 		return Math.sqrt(memberOne*memberOne + memberTwo*memberTwo);
 	}	
-
-	/**
-	 * Affiche l'état du personnage dans le terminal
-	 * @author Adèle
-	 */
-	public void printGame(Cmd commande) {
-		if(commande != Cmd.IDLE) {
-			System.out.println(pacmanCharacter.toString());
-			System.out.println(commande);
-		}
-	}
-
-	/**
-	 * verifier si le jeu est fini
-	 */
-	@Override
-	public boolean isFinished() {
-		// le jeu se termine si le personnage n'a plus de point de vie
-		return pacmanCharacter.getLife() == 0;
-	}
-
-	/**
-	 * @return la largeur du plateau de jeu
-	 * @author Adèle
-	 */
-	public int getWidth() {
-		return mapBuilder.getWidth();
-	}
-
-	/**
-	 * @return la hauteur du plateau de jeu
-	 * @author Adèle
-	 */
-	public int getHeight() {
-		return mapBuilder.getHeight();
-	}
-
-	/**
-	 * @return la position horizontal du personnage
-	 * @author Adèle
-	 */
-	public double getCharacterPosX(){
-		return pacmanCharacter.getPosX();
-	}
-
-	/**
-	 * @return la position vertical du personnage
-	 * @author Adèle
-	 */
-	public double getCharacterPosY(){
-		return pacmanCharacter.getPosY();
-	}
-
-	/**
-	 * Retourne le mapBuilder
-	 * @return le mapBuilder
-	 */
-	public MapBuilder getMapBuilder() {
-		return mapBuilder;
-	}
-
+	
 	/**
 	 * Retourne l'échelle (largeur x hauteur) de chaque image du jeu
 	 * @author Raphaël
