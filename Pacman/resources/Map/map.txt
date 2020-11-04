@@ -1,17 +1,17 @@
 wwwwwwwwwwwwwww
-wsssssssssssssw
+wsssssstssssspw
+wswwwwwwwwwwwww
+wssssssmssssssw
+wwwwwwwwwwwwwsw
+wsssssstssssssw
 wswwwwwwwwwwwww
 wsssssssssssssw
-wwwwwwwwwwwwwsw
-wsssssssssssssw
+wwwwwwwmwwwwwsw
+wsssssssmsssssw
 wswwwwwwwwwwwww
-wsssssssssssssw
+wssssssmssssssw
 wwwwwwwwwwwwwsw
-wsssssssssssssw
-wswwwwwwwwwwwww
-wsssssssssssssw
-wwwwwwwwwwwwwsw
-wsssssssssssssw
+wpssssssssssskw
 wwwwwwwwwwwwwww
 /******************************************/
 /* Description des caractères utilisables */
@@ -21,4 +21,5 @@ wwwwwwwwwwwwwww
 /* Magic : m      CYAN                    */
 /* Trap : t       BLUE                    */
 /* Passage : p    BLACK                   */
+/* Treasure : k   PURPLE                  */
 /******************************************/

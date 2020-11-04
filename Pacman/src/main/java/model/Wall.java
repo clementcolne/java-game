@@ -17,12 +17,15 @@ public class Wall extends Ground {
 	 */
 	public Wall(int x, int y) {
 		super(x, y);
-		this.posX = x;
-		this.posY = y;
 		this.name = 'w';
 		this.color = Color.DARK_GRAY;
+
 	}
-	
+
+	public Wall() {
+		this.path = "Wall/wall_lvl1.png";
+	}
+
 	/**
 	 * Permet d'indiquer qu'un mur est bloquant (ne peut pas être traversé)
 	 * @author Raphaël

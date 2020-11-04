@@ -12,6 +12,7 @@ public class Ground {
 	protected int posX, posY;
 	protected char name;
 	protected Color color;
+	protected String path;
 	
 	/**
 	 * Constructeur de Ground (sol)
@@ -25,14 +26,37 @@ public class Ground {
 		this.name = 'g';
 		this.color = Color.WHITE;
 	}
-	
+
+	public Ground(){
+		this.path = "Ground/ground_lvl1.png";
+	}
 	/**
 	 * Permet d'indiquer qu'un sol est toujours accessible par un personnage
 	 * @author Raphaël
-	 * @return true
+	 * @return true sauf si la case est un mur
 	 */
-	protected boolean isAccessible() {
+	public boolean isAccessible() {
 		return true;
+	}
+
+	/**
+	 * Permet d'indiquer que la case est ou non un passage
+	 * @return toujours false saux si la case est un passage
+	 */
+	protected boolean isPassage() {
+		return false;
+	}
+
+	protected boolean isTreasure(){return false;}
+	
+	/**
+	 * Permet d'indiquer que le case est ou non un effet
+	 * @author Raphaël
+	 * @return false sauf si la case est un effet
+	 */
+	protected boolean isEffect() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	/**
@@ -40,7 +64,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return Position en abscisse du sol
 	 */
-	protected int getPosX() {
+	public int getPosX() {
 		return this.posX;
 	}
 	
@@ -49,7 +73,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return Position en ordonnée du sol
 	 */
-	protected int getPosY() {
+	public int getPosY() {
 		return this.posY;
 	}
 
@@ -58,7 +82,7 @@ public class Ground {
 	 * @author Raphaël
 	 * @return Type du sol
 	 */
-	protected char getName() {
+	public char getName() {
 		return this.name;
 	}
 
@@ -67,8 +91,17 @@ public class Ground {
 	 * @author Raphaël
 	 * @return Couleur du sol
 	 */
-	protected Color getColor() {
+	public Color getColor() {
 		return this.color;
+	}
+
+	/**
+	 * Retourne le chemin d'image texture
+	 * @author Adham
+	 * @return String d'image
+	 */
+	protected String getPath(){
+		return this.path;
 	}
 
 	/**
@@ -76,9 +109,16 @@ public class Ground {
 	 * @author Clément
 	 * @return toString du sol
 	 */
+
 	@Override
 	public String toString() {
 		return "(" + name + posX + ";" + posY + ")";
 	}
+	
+	/**
+	 * Permet de déléguer la gestion des comportements des cases aux classes filles (qui sont des sols de différents types)
+	 * @param pacmanCharacter Pacman auquel doit être appliqué l'effet
+	 */
+	public void doEffect(PacmanCharacter pacmanCharacter) {}
 
 }

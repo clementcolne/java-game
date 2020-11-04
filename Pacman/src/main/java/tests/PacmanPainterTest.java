@@ -30,11 +30,11 @@ class PacmanPainterTest {
 
     @Test
     void getWidth() {
-        assert (painter.getWidth()==game.getWidth()*painter.getScale()):"La largeur de l'afficheur graphique devrait être "+game.getWidth()* painter.getScale();
+        assert (painter.getWidth()==game.getWidth()*game.getScale()):"La largeur de l'afficheur graphique devrait être "+game.getWidth()* game.getScale();
     }
 
     @Test
     void getHeight() {
-        assert (painter.getHeight()==game.getHeight()*painter.getScale()):"La hauteur de l'afficheur graphique devrait être "+game.getHeight()* painter.getScale();
+        assert (painter.getHeight()==game.getHeight()*game.getScale()):"La hauteur de l'afficheur graphique devrait être "+game.getHeight()* game.getScale();
     }
 }
