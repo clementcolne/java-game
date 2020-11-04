@@ -26,6 +26,7 @@ public class PacmanCharacter {
 	private int range = 1;
 	private boolean ghost = false;
 	private List<double[]> visitedCoordinates;
+	private String path;
 
     /**
      * Constructeur du personnage pacman
@@ -39,6 +40,11 @@ public class PacmanCharacter {
         movingStrategy = new DefaultMovingStrategy();
         visitedCoordinates = new LinkedList<double[]>(Arrays.asList(new double[] {this.posX, this.posY}));
     }
+
+    public PacmanCharacter(){
+        this.path = "Character/wraith.gif";
+    }
+
 
     /**
      *
@@ -228,6 +234,10 @@ public class PacmanCharacter {
      */
     public boolean canMoove(double x, double y, MapBuilder mapBuilder){
         return movingStrategy.canMoove(x, y, mapBuilder, this);
+    }
+
+    public String getPath() {
+        return path;
     }
 
     /**

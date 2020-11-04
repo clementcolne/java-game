@@ -23,6 +23,7 @@ public class PacmanGame implements Game {
 	private final int scale = 40;
 	private PacmanCharacter pacmanCharacter;
 	private MapBuilder mapBuilder;
+	private boolean gameState;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -31,6 +32,7 @@ public class PacmanGame implements Game {
 	public PacmanGame(String source, MapBuilder map) {
 		pacmanCharacter = new PacmanCharacter(1, 1);
 		mapBuilder = map;
+		gameState = false;
 		BufferedReader helpReader;
 		try {
 			helpReader = new BufferedReader(new FileReader(source));
@@ -84,6 +86,7 @@ public class PacmanGame implements Game {
 
 		if (canMove) {
 			mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).doEffect(pacmanCharacter);
+			this.checkWin();
 			consumeGroundEffect((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY());
 		}
 	}
@@ -203,7 +206,7 @@ public class PacmanGame implements Game {
 	 * @author Raphaël
 	 * @param character Pacman sur lequel on doit exécuter l'effet
 	 */
-	public void doEffect(PacmanCharacter character) {
+	/*public void doEffect(PacmanCharacter character) {
 		double min = -1;
 		Ground nearestToPacman = mapBuilder.get((int)character.getPosX(), (int)character.getPosY());
 		
@@ -216,7 +219,7 @@ public class PacmanGame implements Game {
 		}
 		
 		nearestToPacman.doEffect(character);
-	}
+	}*/
 	
 	/**
 	 * Permet de connaître les sols avec lesquels le Pacman est en collision
@@ -224,7 +227,7 @@ public class PacmanGame implements Game {
 	 * @param character Pacman à partir duquel on doit détecter les sols en collision
 	 * @return Liste de sols en collision avec le Pacman
 	 */
-	public List<Ground> getCollidingGrounds(PacmanCharacter character) {
+	/*public List<Ground> getCollidingGrounds(PacmanCharacter character) {
 		double x = character.getPosX();
 		double y = character.getPosY();
 		
@@ -249,7 +252,7 @@ public class PacmanGame implements Game {
 		}
 		
 		return collidingGrounds;
-	}
+	}*/
 	
 	/**
 	 * Calculer la distance entre un Pacman et un sol
@@ -258,7 +261,7 @@ public class PacmanGame implements Game {
 	 * @param g Sol vers lequel on doit calculer la distance
 	 * @return Distance entre le Pacman et le sol
 	 */
-	public double calculateDistance(PacmanCharacter character, Ground g) {
+	/*public double calculateDistance(PacmanCharacter character, Ground g) {
 		double xOne = character.getPosX();
 		double yOne = character.getPosY();
 		double xTwo = g.getPosX();
@@ -268,7 +271,21 @@ public class PacmanGame implements Game {
 		double memberTwo = (yTwo - yOne);
 		
 		return Math.sqrt(memberOne*memberOne + memberTwo*memberTwo);
-	}	
+	}*/	
+	
+	/**
+	* Verifie si le personnage est sur la case du tresor
+	* Si oui, il gagne
+	* @return gameState = true si le personnage est sur la case du tresor
+	* @author Adham
+	*/
+	public boolean checkWin(){
+		if(mapBuilder.get((int)pacmanCharacter.getPosX(),(int)pacmanCharacter.getPosY()).isTreasure()) {
+			gameState= true;
+			System.out.println("You Won !");
+		}
+	return gameState;
+	}
 	
 	/**
 	 * Retourne l'échelle (largeur x hauteur) de chaque image du jeu
@@ -279,3 +296,4 @@ public class PacmanGame implements Game {
 		return this.scale;
 	}
 }
+

@@ -3,6 +3,10 @@ package engine;
 import model.*;
 import model.effect.EffectMagic;
 import model.effect.EffectTrap;
+import model.Ground;
+import model.Passage;
+import model.Treasure;
+import model.Wall;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -97,6 +101,10 @@ public class MapBuilder {
                 res = new Passage(x, y);
                 setPassages(res);
                 break;
+            case 'k':
+                // treasure
+                res = new Treasure(x, y);
+                break;
             default:
                 // par défault, la case est un sol
                 res = new Ground(x, y);
@@ -174,5 +182,4 @@ public class MapBuilder {
         }
         return sb.toString();
     }
-
 }

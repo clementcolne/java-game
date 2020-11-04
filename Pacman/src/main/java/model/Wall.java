@@ -19,15 +19,20 @@ public class Wall extends Ground {
 		super(x, y);
 		this.name = 'w';
 		this.color = Color.DARK_GRAY;
+
 	}
-	
+
+	public Wall() {
+		this.path = "Wall/wall_lvl1.png";
+	}
+
 	/**
 	 * Permet d'indiquer qu'un mur est bloquant (ne peut pas être traversé)
 	 * @author Raphaël
 	 * @return false
 	 */
 	@Override
-    public boolean isAccessible() {
+	public boolean isAccessible() {
 		return false;
 	}
 
