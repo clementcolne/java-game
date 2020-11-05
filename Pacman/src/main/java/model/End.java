@@ -1,5 +1,7 @@
 package model;
 
+import model.factory.ImageFactory;
+
 import java.awt.*;
 
 /**
@@ -13,10 +15,7 @@ public class End extends Ground {
         super(x, y);
         this.name = 'k';
         this.color  = Color.PINK;
-    }
-
-    public End(){
-        this.path = "Extra/treasure40x40.png";
+        this.image = ImageFactory.getInstance().get("Extra/treasure40x40.png");
     }
 
     @Override

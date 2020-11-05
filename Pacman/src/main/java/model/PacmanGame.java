@@ -87,11 +87,18 @@ public class PacmanGame implements Game {
 		if (canMove) {
 			if(mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isTreasure())
 				isFinished = true;
+
 			mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).doEffect(pacmanCharacter);
 			consumeGroundEffect((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY());
 		}
 	}
 
+	/**
+	 * Crée un bloc d'herbe à la position [x;y] où était l'éffet
+	 * @param x position en x
+	 * @param y position en y
+	 * @author Clément
+	 */
 	public void consumeGroundEffect(int x, int y) {
 		if(mapBuilder.get(x, y).isEffect()) {
 			mapBuilder.set((int) pacmanCharacter.getPosX(), (int) pacmanCharacter.getPosY(), new Ground((int) pacmanCharacter.getPosX(), (int) pacmanCharacter.getPosY()));
@@ -108,21 +115,6 @@ public class PacmanGame implements Game {
 	public boolean canMoove(double x, double y) {
 		return pacmanCharacter.canMoove(x, y, mapBuilder);
 	}
-
-
-	/**
-	 * Vérifie si la case où se trouve le personnage est une case passage.
-	 * Si c'est le cas, le personnage est téléporté vers la case passage
-	 * correspondante.
-	 * @author Clément
-	 */
-	/*public void checkPassage() {
-		if(mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isPassage()) {
-			Passage p = (Passage)mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY());
-			pacmanCharacter.setPosX(p.getLinkedPassage().getPosX());
-			pacmanCharacter.setPosY(p.getLinkedPassage().getPosY());
-		}
-	}*/
 
 	/**
 	 * Affiche l'état du personnage dans le terminal

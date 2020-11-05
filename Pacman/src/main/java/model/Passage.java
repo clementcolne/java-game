@@ -1,5 +1,7 @@
 package model;
 
+import model.factory.ImageFactory;
+
 import java.awt.*;
 
 /**
@@ -19,10 +21,7 @@ public class Passage extends Ground {
         super(x, y);
         this.name = 'p';
         this.color = Color.BLUE;
-    }
-
-    public Passage(){
-        this.path = "Extra/passage.png";
+        this.image = ImageFactory.getInstance().get("Extra/passage.png");
     }
 
     /**

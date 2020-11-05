@@ -1,6 +1,8 @@
 package model;
 
-import java.awt.Color;
+import model.factory.ImageFactory;
+
+import java.awt.*;
 
 /**
  * Classe représentant à la fois un sol concret ainsi qu'un type générique pour d'autres types de sols
@@ -12,7 +14,7 @@ public class Ground {
 	protected int posX, posY;
 	protected char name;
 	protected Color color;
-	protected String path;
+	protected Image image;
 	
 	/**
 	 * Constructeur de Ground (sol)
@@ -25,11 +27,13 @@ public class Ground {
 		this.posY = y;
 		this.name = 'g';
 		this.color = Color.WHITE;
+		this.image = ImageFactory.getInstance().get("Ground/ground_lvl1.png");
 	}
 
-	public Ground(){
-		this.path = "Ground/ground_lvl1.png";
+	public Image getImage() {
+		return image;
 	}
+
 	/**
 	 * Permet d'indiquer qu'un sol est toujours accessible par un personnage
 	 * @author Raphaël
@@ -47,7 +51,7 @@ public class Ground {
 		return false;
 	}
 
-	protected boolean isTreasure(){return false;}
+	protected boolean isTreasure() { return false; }
 	
 	/**
 	 * Permet d'indiquer que le case est ou non un effet
@@ -93,15 +97,6 @@ public class Ground {
 	 */
 	public Color getColor() {
 		return this.color;
-	}
-
-	/**
-	 * Retourne le chemin d'image texture
-	 * @author Adham
-	 * @return String d'image
-	 */
-	protected String getPath(){
-		return this.path;
 	}
 
 	/**

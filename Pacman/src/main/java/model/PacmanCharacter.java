@@ -22,11 +22,10 @@ public class PacmanCharacter {
     private double previousPosY;
     private int life = 10;
     private MovingStrategy movingStrategy;
-	private double speed = 1;
-	private int range = 1;
-	private boolean ghost = false;
-	private List<double[]> visitedCoordinates;
-	private String path;
+	  private double speed = 1;
+	  private int range = 1;
+	  private boolean ghost = false;
+	  private List<double[]> visitedCoordinates;
 
     /**
      * Constructeur du personnage pacman
@@ -38,13 +37,8 @@ public class PacmanCharacter {
         this.posX = posX;
         this.posY = posY;
         movingStrategy = new DefaultMovingStrategy();
-        visitedCoordinates = new LinkedList<double[]>(Arrays.asList(new double[] {this.posX, this.posY}));
+        visitedCoordinates = new LinkedList<>(Arrays.asList(new double[] {this.posX, this.posY}));
     }
-
-    public PacmanCharacter(){
-        this.path = "Character/wraith.gif";
-    }
-
 
     /**
      *
@@ -234,10 +228,6 @@ public class PacmanCharacter {
      */
     public boolean canMoove(double x, double y, MapBuilder mapBuilder){
         return movingStrategy.canMoove(x, y, mapBuilder, this);
-    }
-
-    public String getPath() {
-        return path;
     }
 
     /**

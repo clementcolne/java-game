@@ -2,6 +2,7 @@ package model;
 
 import model.effect.EffectMagic;
 import model.effect.EffectTrap;
+import model.factory.ImageFactory;
 
 import java.awt.*;
 
@@ -24,6 +25,7 @@ public class Trap extends Ground{
         this.effect = eff;
         this.name = 't';
         this.color = Color.RED;
+        this.image = ImageFactory.getInstance().get("Extra/treasure.png");
     }
 
     /**
