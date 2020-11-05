@@ -7,20 +7,25 @@ import java.awt.*;
  * @author Adham
  *
  */
-public class Treasure extends Ground {
+public class End extends Ground {
 
-    public Treasure(int x, int y) {
+    public End(int x, int y) {
         super(x, y);
         this.name = 'k';
         this.color  = Color.PINK;
     }
 
-    public Treasure(){
+    public End(){
         this.path = "Extra/treasure40x40.png";
     }
 
     @Override
     public boolean isTreasure(){
         return true ;
+    }
+
+    @Override
+    public void doEffect(PacmanCharacter pacmanCharacter) {
+        System.out.println("You Won !");
     }
 }

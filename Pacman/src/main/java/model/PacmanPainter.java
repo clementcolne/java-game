@@ -20,7 +20,7 @@ public class PacmanPainter implements GamePainter {
 	private Ground g;
 	private Wall w;
 	private Passage p;
-	private Treasure tr;
+	private End tr;
 	private PacmanCharacter pc;
 
 	/**
@@ -33,7 +33,7 @@ public class PacmanPainter implements GamePainter {
 		g = new Ground();
 		w = new Wall();
 		p  = new Passage();
-		tr = new Treasure();
+		tr = new End();
 		pc = new PacmanCharacter();
 	}
 
