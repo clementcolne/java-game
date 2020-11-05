@@ -63,28 +63,27 @@ public class RandomMovingStrategy implements MovingStrategy{
     		x = -y;
     		y = 0;
     	}
-    	
-    	if (!pacmanCharacter.getGhost()) {
-	    	double testX = posX;
-	    	while ((factorX > 0) ? testX < posX + x : testX > posX + x) {
-	    		testX += factorX;		
-	    		if (!mapBuilder.get((int)testX, posY).isAccessible()) {
-	    			pacmanCharacter.setPosX((int)testX-factorX);
-	    			return false;
-	    		}
-	    	}
 
-	    	double testY = posY;
-	    	while ((factorY > 0) ? testY < posY + y : testY > posY + y) {
-	    		testY += factorY;
-	    		if (!mapBuilder.get(posX, (int) testY).isAccessible()) {
-	    			pacmanCharacter.setPosY((int)(testY-factorY));
-	    			return false;
-	    		}
-	    	}
-    	}
+		double testX = posX;
+		while ((factorX > 0) ? testX < posX + x : testX > posX + x) {
+			testX += factorX;
+			if (!mapBuilder.get((int)testX, posY).isAccessible()) {
+				pacmanCharacter.setPosX((int)testX-factorX);
+				return false;
+			}
+		}
+
+		double testY = posY;
+		while ((factorY > 0) ? testY < posY + y : testY > posY + y) {
+			testY += factorY;
+			if (!mapBuilder.get(posX, (int) testY).isAccessible()) {
+				pacmanCharacter.setPosY((int)(testY-factorY));
+				return false;
+			}
+		}
+
     	
-    	boolean isAccessible = (posX + x > 0 && posY + y >=0) ? true : false;
+    	boolean isAccessible = posX + x > 0 && posY + y >= 0;
     	boolean isInsideGame = posX + x < mapBuilder.getWidth() && posY + y < mapBuilder.getHeight() && posX + x >=0 && posY + y >=0;
     	
         return isAccessible && isInsideGame;
