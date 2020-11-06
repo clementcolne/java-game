@@ -22,10 +22,10 @@ public class PacmanCharacter {
     private double previousPosY;
     private int life = 10;
     private MovingStrategy movingStrategy;
-	  private double speed = 1;
-	  private int range = 1;
-	  private boolean ghost = false;
-	  private List<double[]> visitedCoordinates;
+	private double speed = 1;
+	private int range = 1;
+	private boolean ghost = false;
+	private List<double[]> visitedCoordinates;
 
     /**
      * Constructeur du personnage pacman
@@ -36,7 +36,7 @@ public class PacmanCharacter {
     public PacmanCharacter(double posX, double posY) {
         this.posX = posX;
         this.posY = posY;
-        movingStrategy = new DefaultMovingStrategy();
+        movingStrategy = new DefaultMovingStrategy(this);
         visitedCoordinates = new LinkedList<>(Arrays.asList(new double[] {this.posX, this.posY}));
     }
 
@@ -46,7 +46,7 @@ public class PacmanCharacter {
      * @author Adham
      */
     public void mooveRight() {
-        movingStrategy.mooveRight(this);
+        movingStrategy.mooveRight();
     }
 
     /**
@@ -54,7 +54,7 @@ public class PacmanCharacter {
      * @author Adèle
      */
     public void mooveLeft() {
-        movingStrategy.mooveLeft(this);
+        movingStrategy.mooveLeft();
     }
 
     /**
@@ -62,7 +62,7 @@ public class PacmanCharacter {
      * @author Raphael
      */
     public void mooveUp() {
-    	movingStrategy.mooveUp(this);
+    	movingStrategy.mooveUp();
     }
 
     /**
@@ -70,7 +70,7 @@ public class PacmanCharacter {
      * @author Clément
      */
     public void mooveDown() {
-        movingStrategy.mooveDown(this);
+        movingStrategy.mooveDown();
     }
 
     /**
@@ -145,12 +145,22 @@ public class PacmanCharacter {
 	}
 
 
+	/**
+	 * Modifier la position en abscisse du Pacman
+	 * @author Adèle
+	 * @param posX Position en abscisse
+	 */
     public void setPosX(double posX) {
     	this.previousPosX = this.posX;
         this.posX = posX;
         this.visitedCoordinates.add(new double[] {this.posX, this.posY});
     }
 
+    /**
+     * Modifier la position en ordonnée du Pacman
+     * @author Adèle
+     * @param posY Position en ordonnée
+     */
     public void setPosY(double posY) {
     	this.previousPosY = this.posY;
         this.posY = posY;
@@ -227,7 +237,7 @@ public class PacmanCharacter {
      * @return true si le personnage peut se déplacer vers la case souhaitée
      */
     public boolean canMoove(double x, double y, MapBuilder mapBuilder){
-        return movingStrategy.canMoove(x, y, mapBuilder, this);
+        return movingStrategy.canMoove(x, y, mapBuilder);
     }
 
     /**

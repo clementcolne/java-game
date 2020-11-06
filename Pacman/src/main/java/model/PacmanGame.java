@@ -186,10 +186,10 @@ public class PacmanGame implements Game {
 		
 		while (visitedCoordinates.hasNext()) {
 			double[] coordinates = visitedCoordinates.next();
-			System.out.println("x : "+coordinates[0]+",y:"+coordinates[1]);
+			
 			if (mapBuilder.get((int)coordinates[0], (int)coordinates[1]).isAccessible()) {
-				pacmanCharacter.setPosX((int)coordinates[0]);
-				pacmanCharacter.setPosY((int)coordinates[1]);
+				pacmanCharacter.setPosX(coordinates[0]);
+				pacmanCharacter.setPosY(coordinates[1]);
 			}
 		}
 	}
@@ -215,15 +215,14 @@ public class PacmanGame implements Game {
 	}*/
 	
 	/**
-	 * Permet de connaître les sols avec lesquels le Pacman est en collision
+	 * Permet de connaître les sols avec lesquels une position est en collision
 	 * @author Raphaël
-	 * @param character Pacman à partir duquel on doit détecter les sols en collision
+	 * @param x Position en abscisse
+	 * @param y Position en ordonnée
+	 * @param mapBuilder Générateur de map du jeu
 	 * @return Liste de sols en collision avec le Pacman
 	 */
-	/*public List<Ground> getCollidingGrounds(PacmanCharacter character) {
-		double x = character.getPosX();
-		double y = character.getPosY();
-		
+	public static ListIterator<Ground> getCollidingGrounds(double x, double y, MapBuilder mapBuilder) {		
 		List<Ground> collidingGrounds = new LinkedList<Ground>();
 		
 		if ((int)x == x && (int)y == y) {
@@ -241,30 +240,27 @@ public class PacmanGame implements Game {
 			collidingGrounds.add(mapBuilder.get((int)x, (int)y));
 			collidingGrounds.add(mapBuilder.get((int)x+1, (int)y));
 			collidingGrounds.add(mapBuilder.get((int)x, (int)y+1));
-			collidingGrounds.add(mapBuilder.get((int)x+1, (int)y));
+			collidingGrounds.add(mapBuilder.get((int)x+1, (int)y+1));
 		}
 		
-		return collidingGrounds;
-	}*/
+		return collidingGrounds.listIterator();
+	}
 	
 	/**
 	 * Calculer la distance entre un Pacman et un sol
 	 * @author Raphaël
-	 * @param character Pacman à partir duquel on doit calculer la distance
-	 * @param g Sol vers lequel on doit calculer la distance
+	 * @param xOne Position en abscisse du premier point
+	 * @parma yOne Position en ordonnée du premier point
+	 * @param xTwo Position en abscisse du deuxième point
+	 * @param yTwo Position en ordonnée du deuxième point
 	 * @return Distance entre le Pacman et le sol
 	 */
-	/*public double calculateDistance(PacmanCharacter character, Ground g) {
-		double xOne = character.getPosX();
-		double yOne = character.getPosY();
-		double xTwo = g.getPosX();
-		double yTwo = g.getPosY();
-		
+	public static double calculateDistance(double xOne, double yOne, double xTwo, double yTwo) {	
 		double memberOne = (xTwo - xOne);
 		double memberTwo = (yTwo - yOne);
 		
 		return Math.sqrt(memberOne*memberOne + memberTwo*memberTwo);
-	}*/
+	}
 	
 	/**
 	 * Retourne l'échelle (largeur x hauteur) de chaque image du jeu
