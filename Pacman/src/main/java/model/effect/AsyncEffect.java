@@ -56,6 +56,7 @@ public class AsyncEffect extends TimerTask {
 					tasks.put(this.effect.getClass(), this);
 					new Timer().schedule(this, this.startTime, this.period);
 					this.runned = true;
+					System.out.println(this.effect);
 				}
 				else if (effects.contains(this.effect) && this.runned) {
 					this.executionNumber++;

@@ -71,4 +71,14 @@ public class Passage extends Ground {
         character.setPosX(getLinkedPassage().getPosX());
         character.setPosY(getLinkedPassage().getPosY());
     }
+    
+    /**
+	 * Permet d'indiquer que le sol Passage effectue une action ayant une répercussion sur d'autres objets
+	 * @author Raphaël
+	 * @return false pour un une case de téléportation
+	 */
+    @Override
+	public boolean hasEmptyBehavior() {
+		return false;
+	}
 }

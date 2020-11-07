@@ -1,6 +1,6 @@
 package model.movingStrategy;
 
-import java.util.ListIterator;
+import java.util.Iterator;
 
 import engine.MapBuilder;
 import model.Ground;
@@ -76,7 +76,7 @@ public abstract class MovingStrategy {
     	double testX = posX;
     	while ((this.factorX > 0) ? testX < posX + x : testX > posX + x) {  
     		testX += this.factorX;
-    		ListIterator<Ground> collidingGrounds = PacmanGame.getCollidingGrounds(testX, posY, this.mapBuilder);
+    		Iterator<Ground> collidingGrounds = PacmanGame.getCollidingGrounds(testX, posY, this.mapBuilder);
     		
     		while (collidingGrounds.hasNext()) {
     			Ground collidingGround = collidingGrounds.next();
@@ -93,7 +93,7 @@ public abstract class MovingStrategy {
     	double testY = posY;
     	while ((this.factorY > 0) ? testY < posY + y : testY > posY + y) {
     		testY += this.factorY;
-    		ListIterator<Ground> collidingGrounds = PacmanGame.getCollidingGrounds(posX, testY, this.mapBuilder);
+    		Iterator<Ground> collidingGrounds = PacmanGame.getCollidingGrounds(posX, testY, this.mapBuilder);
     		
     		while (collidingGrounds.hasNext()) {
     			Ground collidingGround = collidingGrounds.next();

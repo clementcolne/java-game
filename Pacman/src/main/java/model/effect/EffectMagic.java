@@ -26,7 +26,6 @@ public class EffectMagic extends Effect {
     public void doEffect(PacmanCharacter pacmanCharacter) {
         EffectMagic temp = magicEffects.get((int)(Math.random()*magicEffects.size()));
     	temp.doEffect(pacmanCharacter);
-        System.out.println(temp);
     }
     
   

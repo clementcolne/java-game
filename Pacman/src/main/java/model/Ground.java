@@ -112,8 +112,18 @@ public class Ground {
 	
 	/**
 	 * Permet de déléguer la gestion des comportements des cases aux classes filles (qui sont des sols de différents types)
+	 * @author Raphaël
 	 * @param pacmanCharacter Pacman auquel doit être appliqué l'effet
 	 */
 	public void doEffect(PacmanCharacter pacmanCharacter) {}
+	
+	/**
+	 * Permet d'indiquer si le sol n'effectue aucune action ayant une répercussion sur d'autres objets
+	 * @author Raphaël
+	 * @return true pour un sol par défaut
+	 */
+	public boolean hasEmptyBehavior() {
+		return true;
+	}
 
 }

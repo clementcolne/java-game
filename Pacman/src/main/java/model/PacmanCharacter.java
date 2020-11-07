@@ -1,10 +1,11 @@
 package model;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 
+import engine.CustomIterator;
 import engine.MapBuilder;
 import model.movingStrategy.DefaultMovingStrategy;
 import model.movingStrategy.MovingStrategy;
@@ -15,11 +16,8 @@ import model.movingStrategy.MovingStrategy;
  */
 public class PacmanCharacter {
 
-    //TODO : afficher la vie dans le terminal
     private double posX;
     private double posY;
-    private double previousPosX;
-    private double previousPosY;
     private int life = 10;
     private MovingStrategy movingStrategy;
 	private double speed = 1;
@@ -151,7 +149,6 @@ public class PacmanCharacter {
 	 * @param posX Position en abscisse
 	 */
     public void setPosX(double posX) {
-    	this.previousPosX = this.posX;
         this.posX = posX;
         this.visitedCoordinates.add(new double[] {this.posX, this.posY});
     }
@@ -162,7 +159,6 @@ public class PacmanCharacter {
      * @param posY Position en ordonnée
      */
     public void setPosY(double posY) {
-    	this.previousPosY = this.posY;
         this.posY = posY;
         this.visitedCoordinates.add(new double[] {this.posX, this.posY});
     }
@@ -195,24 +191,6 @@ public class PacmanCharacter {
     }
 
     /**
-     * Rertourne la coordonnée précédente en abscisse du personnage
-     * @author Raphaël
-     * @return Position en abscisse du personnage
-     */
-    public double getPreviousPosX() {
-    	return this.previousPosX;
-    }
-
-    /**
-     * Rertourne la coordonnée précédente en ordonnée du personnage
-     * @author Raphaël
-     * @return Position en ordonnée du personnage
-     */
-    public double getPreviousPosY() {
-    	return this.previousPosY;
-    }
-
-    /**
      * @author Adèle
      * @return le nombre de point de vie du personnage
      */
@@ -225,8 +203,8 @@ public class PacmanCharacter {
      * @author Raphaël
      * @return Itérateur sur la liste des coordonées parcourues par le Pacman
      */
-    public ListIterator<double[]> getVisitedCoordinates() {
-    	return new LinkedList<double[]>(this.visitedCoordinates).listIterator();
+    public Iterator<double[]> getVisitedCoordinates() {
+    	return new CustomIterator<double[]>(this.visitedCoordinates);
     }
 
     /**

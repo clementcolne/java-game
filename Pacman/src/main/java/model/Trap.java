@@ -41,4 +41,14 @@ public class Trap extends Ground{
     public boolean isEffect() {
         return true;
     }
+    
+    /**
+	 * Permet d'indiquer que le sol Trap effectue une action ayant une répercussion sur d'autres objets
+	 * @author Raphaël
+	 * @return false pour un une case piège
+	 */
+    @Override
+	public boolean hasEmptyBehavior() {
+		return false;
+	}
 }

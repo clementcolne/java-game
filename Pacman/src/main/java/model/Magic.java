@@ -47,6 +47,16 @@ public class Magic extends Ground {
     public boolean isEffect() {
     	return true;
     }
+    
+    /**
+	 * Permet d'indiquer que le sol Magic effectue une action ayant une répercussion sur d'autres objets
+	 * @author Raphaël
+	 * @return false pour un une case magique
+	 */
+    @Override
+	public boolean hasEmptyBehavior() {
+		return false;
+	}
 	
 	
 
