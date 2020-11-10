@@ -90,7 +90,6 @@ public class PacmanGame implements Game {
 				move = false;
 				break;
 		}
-		
 		this.doEffect(move);
 	}
 

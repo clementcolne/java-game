@@ -2,7 +2,12 @@ package model.factory;
 
 import java.awt.*;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.imageio.ImageIO;
+
+import engine.Animation;
 
 /**
  * @author Clément Colné
@@ -10,7 +15,8 @@ import javax.imageio.ImageIO;
  */
 public class ImageFactory {
 
-    private Image pacmanImage;
+	private static Map<String, Image> images = new HashMap<String, Image>();
+	private Animation pacmanImage;
     private Image groundImage;
 
     /**
@@ -18,9 +24,7 @@ public class ImageFactory {
      * Construit le GIF du pacman et un ground
      */
     private ImageFactory() {
-        // utilisation de toolkit afin de charger un gif
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        pacmanImage = toolkit.getImage("resources/Character/wraith.gif");
+        pacmanImage = loadAnimation("/Character/wraith.gif", 60);
         groundImage = loadImage("/Ground/Ground_lvl1.png");
     }
 
@@ -47,7 +51,7 @@ public class ImageFactory {
      * Retourne le GIF du Pacman
      * @return le gif du Pacman
      */
-    public Image getPacmanImage() {
+    public Animation getPacmanImage() {
         return pacmanImage;
     }
 
@@ -66,14 +70,32 @@ public class ImageFactory {
      * @return l'image
      */
     public Image loadImage(String path){
-        Image temp = null;
+        Image temp;
+        
+        if ((temp = (images.get(path))) != null) {
+        	return temp;
+        }
+        
         try{
             temp = ImageIO.read(new File("resources/" + path));
+            images.put(path, temp);
         }
         catch(Exception e){
-            System.out.println("Error loading Image" + e.getMessage());
+            System.err.println("Error loading Image" + e.getMessage());
         }
-        return temp;
+        
+        return images.get(path);
+    }
+    
+    /**
+     * Créé une nouvelle animation à partir d'une image GIF (ou autre, cela fonctionne également)
+     * @author Raphaël
+     * @param path Chemin vers le GIF (peut également être un chemin vers une image normale sans animation)
+     * @param fps Nombre d'images par seconde de l'animation
+     * @return Animation
+     */
+    public Animation loadAnimation(String path, int fps) {
+    	return new Animation("resources/" + path, fps);
     }
 
 }

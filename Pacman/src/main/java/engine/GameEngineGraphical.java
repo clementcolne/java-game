@@ -1,5 +1,8 @@
 package engine;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * @author Horatiu Cirstea, Vincent Thomas
  *
@@ -55,18 +58,29 @@ public class GameEngineGraphical {
 		this.gui = new GraphicalInterface(this.gamePainter,this.gameController);
 
 		// boucle de game
-		while (!this.game.isFinished()) {
-			// demande controle utilisateur
-			Cmd c = this.gameController.getCommand();
-			// fait evoluer le game
-			this.game.evolve(c);
-			// affiche le game
-			this.gui.paint();
-			// met en attente
-			Thread.sleep(100);
-		}
-		Thread.sleep(1000);
-		System.exit(0);
+		new Timer().schedule(new TimerTask() {
+			
+			public void run() {
+				if (!game.isFinished()) {
+					// demande controle utilisateur
+					Cmd c = gameController.getCommand();
+					// fait evoluer le game
+					game.evolve(c);
+					// affiche le game
+					gui.paint();
+				}
+				else {
+					try {
+						Thread.sleep(1000);
+						System.exit(0);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}, 0, 120);
+		
+		
 	}
 
 }

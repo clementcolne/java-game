@@ -35,9 +35,9 @@ public class GraphicalInterface  {
 		this.panel.addKeyListener(gameController);	
 		
 		f.pack();
-		f.setVisible(true);
 		f.getContentPane().setFocusable(true);
 		f.getContentPane().requestFocus();
+		f.setVisible(true);
 	}
 	
 	/**

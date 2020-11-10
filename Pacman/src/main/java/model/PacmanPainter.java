@@ -3,6 +3,7 @@ package model;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import engine.Animation;
 import engine.GamePainter;
 import model.factory.ImageFactory;
 
@@ -15,6 +16,7 @@ import model.factory.ImageFactory;
 public class PacmanPainter implements GamePainter {
 
 	private PacmanGame pacmanGame;
+	private Animation pacman;
 
 	/**
 	 * appelle constructeur parent
@@ -23,6 +25,7 @@ public class PacmanPainter implements GamePainter {
 	 */
 	public PacmanPainter(PacmanGame game) {
 		pacmanGame = game;
+		this.pacman = ImageFactory.getInstance().getPacmanImage();
 	}
 
 	/**
@@ -41,8 +44,7 @@ public class PacmanPainter implements GamePainter {
 	 * @param im BufferedImage
 	 */
 	public void drawCharacter(BufferedImage im) {
-		Graphics2D crayon = (Graphics2D) im.getGraphics();
-		crayon.drawImage(ImageFactory.getInstance().getPacmanImage(),(int)(pacmanGame.getCharacterPosX()*pacmanGame.getScale()), (int)(pacmanGame.getCharacterPosY()*pacmanGame.getScale()),pacmanGame.getScale(),pacmanGame.getScale(),null);
+		this.pacman.drawImage((int)(pacmanGame.getCharacterPosX()*pacmanGame.getScale()), (int)(pacmanGame.getCharacterPosY()*pacmanGame.getScale()), pacmanGame.getScale(), pacmanGame.getScale(), null, (Graphics2D) im.getGraphics());
 	}
 
 	/**
