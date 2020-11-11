@@ -2,8 +2,8 @@ package model;
 
 import java.awt.Color;
 
+import engine.ImageFactory;
 import model.effect.EffectMagic;
-import model.factory.ImageFactory;
 
 /**
  * Classe qui représente un sol associé à un effet magique
@@ -25,7 +25,7 @@ public class Magic extends Ground {
 		this.name = 'm';
 		this.effect = eff;
 		this.color = Color.PINK;
-		this.image = ImageFactory.getInstance().get("Extra/treasure.png");
+		this.image = ImageFactory.getInstance().loadImage("Extra/treasure.png");
 	}
 	
 	/**

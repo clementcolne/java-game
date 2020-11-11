@@ -1,8 +1,8 @@
 package model;
 
-import model.factory.ImageFactory;
-
 import java.awt.*;
+
+import engine.ImageFactory;
 
 /**
  * Classe représentant le tresor
@@ -15,7 +15,7 @@ public class End extends Ground {
         super(x, y);
         this.name = 'k';
         this.color  = Color.PINK;
-        this.image = ImageFactory.getInstance().get("Extra/treasure40x40.png");
+        this.image = ImageFactory.getInstance().loadImage("Extra/treasure40x40.png");
     }
 
     @Override

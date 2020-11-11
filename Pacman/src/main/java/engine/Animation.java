@@ -4,9 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -36,8 +35,16 @@ public class Animation {
 	 */
 	public Animation(String path, int fps) {		
 		try {
-			File image = new File(path);
-	    	ImageReader reader = (ImageReader)ImageIO.getImageReadersByMIMEType(Files.probeContentType(image.toPath())).next();    	
+			InputStream image = Animation.class.getClassLoader().getResourceAsStream(path);
+			int slash = Math.max(path.lastIndexOf("/"), path.lastIndexOf("\\"));
+			int point = path.lastIndexOf(".");
+			
+			String format = "";
+			if (point > slash) {
+				format = path.substring(point+1);
+			}
+			
+	    	ImageReader reader = (ImageReader)ImageIO.getImageReadersByFormatName(format).next();    	
 	    	ImageInputStream is = ImageIO.createImageInputStream(image);    	
 	    	reader.setInput(is, false);
 	    	

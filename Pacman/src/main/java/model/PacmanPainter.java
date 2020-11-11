@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 import engine.Animation;
 import engine.GamePainter;
-import model.factory.ImageFactory;
+import engine.ImageFactory;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -25,7 +25,7 @@ public class PacmanPainter implements GamePainter {
 	 */
 	public PacmanPainter(PacmanGame game) {
 		pacmanGame = game;
-		this.pacman = ImageFactory.getInstance().getPacmanImage();
+		this.pacman = ImageFactory.getInstance().loadAnimation("Character/wraith.gif", 60);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class PacmanPainter implements GamePainter {
 		for (int i = 0 ; i < pacmanGame.getMapBuilder().getWidth() ; i++){
 			for (int j = 0 ; j < pacmanGame.getMapBuilder().getHeight() ; j++){
 				// on commence par mettre de l'herbe partout (pour que les objets soient posés sur le sol)
-				crayon.drawImage(ImageFactory.getInstance().getGround(),i*pacmanGame.getScale(),j*pacmanGame.getScale(),pacmanGame.getScale(),pacmanGame.getScale(),null);
+				crayon.drawImage(ImageFactory.getInstance().loadImage("Ground/Ground_lvl1.png"),i*pacmanGame.getScale(),j*pacmanGame.getScale(),pacmanGame.getScale(),pacmanGame.getScale(),null);
 				Ground g = pacmanGame.getMapBuilder().get(i, j);
 				
 				if(g.isEffect()) {

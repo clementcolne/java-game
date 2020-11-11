@@ -2,9 +2,10 @@ package model;
 
 import model.effect.EffectMagic;
 import model.effect.EffectTrap;
-import model.factory.ImageFactory;
 
 import java.awt.*;
+
+import engine.ImageFactory;
 
 /**
  * Classe représentant une case piège
@@ -25,7 +26,7 @@ public class Trap extends Ground{
         this.effect = eff;
         this.name = 't';
         this.color = Color.RED;
-        this.image = ImageFactory.getInstance().get("Extra/treasure.png");
+        this.image = ImageFactory.getInstance().loadImage("Extra/treasure.png");
     }
 
     /**

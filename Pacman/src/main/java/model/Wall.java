@@ -1,8 +1,8 @@
 package model;
 
-import model.factory.ImageFactory;
-
 import java.awt.Color;
+
+import engine.ImageFactory;
 
 /**
  * Classe représentant un mur
@@ -22,7 +22,7 @@ public class Wall extends Ground {
 		this.name = 'w';
 		this.color = Color.DARK_GRAY;
 
-		this.image = ImageFactory.getInstance().get("Wall/wall_lvl1.png");
+		this.image = ImageFactory.getInstance().loadImage("Wall/Wall_lvl1.png");
 	}
 
 	/**

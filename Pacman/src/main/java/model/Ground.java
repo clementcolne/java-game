@@ -1,8 +1,8 @@
 package model;
 
-import model.factory.ImageFactory;
-
 import java.awt.*;
+
+import engine.ImageFactory;
 
 /**
  * Classe représentant à la fois un sol concret ainsi qu'un type générique pour d'autres types de sols
@@ -27,7 +27,7 @@ public class Ground {
 		this.posY = y;
 		this.name = 'g';
 		this.color = Color.WHITE;
-		this.image = ImageFactory.getInstance().get("Ground/ground_lvl1.png");
+		this.image = ImageFactory.getInstance().loadImage("Ground/Ground_lvl1.png");
 	}
 
 	public Image getImage() {

@@ -14,8 +14,6 @@ import model.Passage;
 import model.End;
 import model.Wall;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
@@ -56,25 +54,19 @@ public class MapBuilder {
         this.map = new Ground[height+1][width+1];
 
         // lecture du fichier
-        try {
-            File file = new File("resources/Map/" + path);
-            Scanner reader = new Scanner(file);
-            // compteur de lignes
-            int i = 0;
-            while(i < height && reader.hasNext()) {
-                String data = reader.nextLine();
-                for(int j = 0 ; j < data.length() && j < width ; j++) {
-                    // pour chaque colonne
-                    // complète la map
-                    map[i][j] = getGround(data.charAt(j), j, i);
-                }
-                i++;
+        Scanner reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ path));
+        // compteur de lignes
+        int i = 0;
+        while(i < height && reader.hasNext()) {
+            String data = reader.nextLine();
+            for(int j = 0 ; j < data.length() && j < width ; j++) {
+                // pour chaque colonne
+                // complète la map
+                map[i][j] = getGround(data.charAt(j), j, i);
             }
-            reader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Le fichier n'a pas été trouvé");
-            e.printStackTrace();
+            i++;
         }
+        reader.close();
     }
 
     /**

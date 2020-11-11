@@ -1,8 +1,8 @@
 package model;
 
-import model.factory.ImageFactory;
-
 import java.awt.*;
+
+import engine.ImageFactory;
 
 /**
  * @author Clément Colné
@@ -21,7 +21,7 @@ public class Passage extends Ground {
         super(x, y);
         this.name = 'p';
         this.color = Color.BLUE;
-        this.image = ImageFactory.getInstance().get("Extra/passage.png");
+        this.image = ImageFactory.getInstance().loadImage("Extra/passage.png");
     }
 
     /**

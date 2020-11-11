@@ -6,12 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.NoSuchElementException;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-
 import engine.Animation;
+import engine.ImageFactory;
 
-@RunWith(JUnit4.class)
 class AnimationTest{
 
 	private Animation ground, character;
@@ -19,8 +16,8 @@ class AnimationTest{
 	
     @org.junit.jupiter.api.BeforeEach
 	protected void setUp() {
-        character = new Animation("resources/Character/wraith.gif", 12);
-        ground = new Animation("resources/Ground/Ground_lvl1.png", 60);
+        character = ImageFactory.getInstance().loadAnimation("Character/wraith.gif", 12);
+        ground = ImageFactory.getInstance().loadAnimation("Ground/Ground_lvl1.png", 60);
     }
 
     @org.junit.jupiter.api.Test
@@ -109,7 +106,7 @@ class AnimationTest{
     @org.junit.jupiter.api.Test
     void testChangeSpeedBoundary() {
     	try {
-    		Animation boundary = new Animation("resources/Character/wraith.gif", 60);
+    		Animation boundary = ImageFactory.getInstance().loadAnimation("Character/wraith.gif", 60);
 	    	boundary.animate();
 	    	Thread.sleep(1000);
 	    	
@@ -129,7 +126,7 @@ class AnimationTest{
     		new Animation(null,60);
     	}, "Une animation avec un chemin d'image null ne peut pas exister");
     	
-    	assertThrows(IllegalArgumentException.class, () -> {
+    	assertThrows(NoSuchElementException.class, () -> {
     		new Animation("",60);
     	}, "Une animation avec un chemin d'image inexistant ne peut pas exister");
     
@@ -141,13 +138,13 @@ class AnimationTest{
     @org.junit.jupiter.api.Test
     void testBoundaryGifCreation() {
     	try {
-	    	Animation boundary = new Animation("resources/Character/wraith.gif", 0);
+	    	Animation boundary = ImageFactory.getInstance().loadAnimation("Character/wraith.gif", 0);
 	    	boundary.animate();
 	    	Thread.sleep(1000);
 	    	
 	    	assertEquals(0, boundary.getIndex(), "Le numéro de l'image de l'animation doit rester à 0 puisque la vitesse est de 0 FPS");
 	    	
-	    	boundary = new Animation("resources/Character/wraith.gif", 0);
+	    	boundary = ImageFactory.getInstance().loadAnimation("Character/wraith.gif", 0);
 	    	Thread.sleep(1000);
 	    	
 	    	assertEquals(0, boundary.getIndex(), "Le numéro de l'image de l'animation doit rester à 0 puisque la vitesse est de 0 FPS");
