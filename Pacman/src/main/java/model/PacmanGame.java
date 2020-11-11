@@ -181,10 +181,10 @@ public class PacmanGame implements Game {
 	 * @author Raphaël
 	 */
 	public void resetPosition() {		
-		Iterator<double[]> visitedCoordinates = this.pacmanCharacter.getVisitedCoordinates();
+		Iterator<int[]> visitedCoordinates = this.pacmanCharacter.getVisitedCoordinates();
 		
 		while (visitedCoordinates.hasNext()) {
-			double[] coordinates = visitedCoordinates.next();
+			int[] coordinates = visitedCoordinates.next();
 			
 			if (mapBuilder.get((int)coordinates[0], (int)coordinates[1]).isAccessible()) {
 				this.pacmanCharacter.setPosX(coordinates[0]);
@@ -209,7 +209,7 @@ public class PacmanGame implements Game {
 		while (nearestGrounds.hasNext()) {
 			Ground collidingGround = nearestGrounds.next();
 			
-			if (collidingGround.hasEmptyBehavior()) {
+			if (collidingGround == null || collidingGround.hasEmptyBehavior()) {
 				continue;
 			}
 			
@@ -295,6 +295,10 @@ public class PacmanGame implements Game {
 	 */
 	public int getScale() {
 		return this.scale;
+	}
+	
+	public PacmanCharacter getCharacter() {
+		return this.pacmanCharacter;
 	}
 }
 

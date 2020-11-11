@@ -73,9 +73,48 @@ public abstract class MovingStrategy {
     	double posX = this.pacmanCharacter.getPosX();
     	double posY = this.pacmanCharacter.getPosY();
     	
+    	boolean insideXArea = posX + x >= 0 && ((posX + x) >= 0 ? Math.ceil(posX + x) < this.mapBuilder.getWidth() : false);
+		boolean insideYArea = posY + y >= 0 && ((posY + y) >= 0 ? Math.ceil(posY + y) < this.mapBuilder.getHeight() : false);
+		
+
+    	if (this.pacmanCharacter.getGhost()) {    		
+    		if (insideXArea && insideYArea) {
+    			return true;
+    		}
+    		else {
+    			if (posX + x < 0) {
+    				pacmanCharacter.setPosX(0);
+    			}
+    			else if (Math.ceil(posX + x) >= mapBuilder.getWidth()) {
+    				pacmanCharacter.setPosX(mapBuilder.getWidth()-1);
+    			}
+    			else if (posY + y < 0) {
+    				pacmanCharacter.setPosY(0);
+    			}
+    			else if (Math.ceil(posY + y) >= mapBuilder.getHeight()) {
+    				pacmanCharacter.setPosY(mapBuilder.getHeight()-1);
+    			}
+    			return false;
+    		}
+    	}
+
     	double testX = posX;
-    	while ((this.factorX > 0) ? testX < posX + x : testX > posX + x) {  
+    	boolean insideGameX = true;
+    	while ((this.factorX > 0) ? testX < posX + x &&  insideGameX: testX > posX + x && insideGameX) {
+    		
     		testX += this.factorX;
+    		
+    		insideGameX = testX >= 0 && ((testX) >= 0 ? Math.ceil(testX) < this.mapBuilder.getWidth() : false);
+    		
+    		if (!insideGameX) {
+    			if ((int)posX != posX) {
+					this.factorX /= 2;
+				}
+    			
+				this.pacmanCharacter.setPosX(testX-this.factorX);
+    			return false;
+    		};
+    		
     		Iterator<Ground> collidingGrounds = PacmanGame.getCollidingGrounds(testX, posY, this.mapBuilder);
     		
     		while (collidingGrounds.hasNext()) {
@@ -84,6 +123,7 @@ public abstract class MovingStrategy {
     				if ((int)posX != posX) {
     					this.factorX /= 2;
     				}
+    				
     				this.pacmanCharacter.setPosX(testX-this.factorX);
 	    			return false;
     			}
@@ -91,8 +131,24 @@ public abstract class MovingStrategy {
     	}
     	
     	double testY = posY;
-    	while ((this.factorY > 0) ? testY < posY + y : testY > posY + y) {
+    	boolean insideGameY = true;
+    	while ((this.factorY > 0) ? testY < posY + y && insideGameY: testY > posY + y && insideGameY) {
+    		
     		testY += this.factorY;
+    		
+
+    		
+    		insideGameY = testY >= 0 && ((testY) >= 0 ? Math.ceil(testY) < this.mapBuilder.getHeight() : false);
+
+    		if (!insideGameY) {
+    			if ((int)posY != posY) {
+					this.factorY /= 2;
+				}
+				
+				this.pacmanCharacter.setPosY(testY-this.factorY);
+    			return false;
+    		};
+    		
     		Iterator<Ground> collidingGrounds = PacmanGame.getCollidingGrounds(posX, testY, this.mapBuilder);
     		
     		while (collidingGrounds.hasNext()) {

@@ -59,12 +59,13 @@ public class PacmanPainter implements GamePainter {
 			for (int j = 0 ; j < pacmanGame.getMapBuilder().getHeight() ; j++){
 				// on commence par mettre de l'herbe partout (pour que les objets soient posés sur le sol)
 				crayon.drawImage(ImageFactory.getInstance().getGround(),i*pacmanGame.getScale(),j*pacmanGame.getScale(),pacmanGame.getScale(),pacmanGame.getScale(),null);
-				Ground g = pacmanGame.getMapBuilder().get(i,j);
+				Ground g = pacmanGame.getMapBuilder().get(i, j);
+				
 				if(g.isEffect()) {
 					// ici, je regarde si c'est un effet afin de dessiner la pomme en plus petit
 					crayon.drawImage(g.getImage(),i*pacmanGame.getScale() + 10,j*pacmanGame.getScale() + 10,pacmanGame.getScale()/2,pacmanGame.getScale()/2,null);
 				}else{
-					crayon.drawImage(g.getImage(), i * pacmanGame.getScale(), j * pacmanGame.getScale(), pacmanGame.getScale(), pacmanGame.getScale(), null);
+					crayon.drawImage(g.getImage(), i * pacmanGame.getScale(), j* pacmanGame.getScale(), pacmanGame.getScale(), pacmanGame.getScale(), null);
 				}
 			}
 		}

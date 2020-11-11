@@ -1,11 +1,14 @@
 package model.effect;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import engine.CustomIterator;
 
 /**
  * Cette classe permet de gérer les effets de façon à ce que chaque effet puisse être exécuté pendant que le joueur continue de se déplacer
@@ -20,8 +23,8 @@ public class AsyncEffect extends TimerTask {
 	private long remainingTime, startTime, period;
 	private boolean end = false, runned = false;
 	private int executionNumber = 0;
-	private static Set<Effect> effects = new HashSet<Effect>();
-	private static Map<Class<? extends Effect>, AsyncEffect> tasks = new HashMap<Class<? extends Effect>, AsyncEffect>();
+	private static Set<Effect> effects = Collections.synchronizedSet(new HashSet<Effect>());
+	private static Map<Class<? extends Effect>, AsyncEffect> tasks = Collections.synchronizedMap( new HashMap<Class<? extends Effect>, AsyncEffect>());
 	
 	/**
 	 * Constructeur de l'effet asynchrone
@@ -106,20 +109,35 @@ public class AsyncEffect extends TimerTask {
 	 * Permet de forcer le stoppage de la tâche associée à l'effet courant
 	 * @author Raphaël
 	 */
-	public void end() {
+	public synchronized void end() {
 		if (this.runned && !this.end) { 
 			this.end = true;
 			this.execute();
 			
-			synchronized (effects) {
-				effects.remove(this.effect);
-			}
-			synchronized (tasks) {
-				tasks.remove(this.effect.getClass());
-			}
+			effects.remove(this.effect);
+			tasks.remove(this.effect.getClass());
 			
 	        this.cancel();
 			System.out.println(effect + " est fini");
+		}
+	}
+	
+	
+	/**
+	 * Permet de terminer un effet spécifique ou tous les effets
+	 * @param effClass Classe de l'effet (ou Effect.class pour tous les effets)
+	 */
+	public static void end(Class<? extends Effect> effClass) {
+		CustomIterator<AsyncEffect> aeList = new CustomIterator<AsyncEffect>(tasks.values());
+		
+		synchronized (aeList) {
+			while (aeList.hasNext()) {
+				AsyncEffect ae = aeList.next();
+				
+				if (effClass.isAssignableFrom(ae.getEffect().getClass())) {
+					ae.end();
+				}
+			}
 		}
 	}
 	
@@ -133,13 +151,21 @@ public class AsyncEffect extends TimerTask {
 	}
 	
 	/**
+	 * Retourne l'effet associé à la tâche
+	 * @return Effet de la tâche
+	 */
+	public Effect getEffect() {
+		return this.effect;
+	}
+	
+	/**
 	 * Retourne une nouvelle liste contenant les effets actuellement en cours
 	 * @author Raphaël
 	 * @return Liste des effets actuellement en cours
 	 */
-	public static HashSet<Effect> getEffects() {
+	public synchronized static CustomIterator<Effect> getEffects() {
 		synchronized (effects) {
-			return new HashSet<Effect>(effects);
+			return new CustomIterator<Effect>(effects);
 		}
 	}
 

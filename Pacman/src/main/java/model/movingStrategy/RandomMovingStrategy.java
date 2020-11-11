@@ -78,17 +78,8 @@ public class RandomMovingStrategy extends MovingStrategy {
     	// On valide l'inversement des axes pour les méthodes de déplacement
 		this.setFactorY(y);
 		this.setFactorX(x);
-		
     	this.mapBuilder = mapBuilder;
-    	
-    	double posX = pacmanCharacter.getPosX();
-    	double posY = pacmanCharacter.getPosY();
-    	boolean canBypass = true;
-    	
-    	if (!pacmanCharacter.getGhost()) {
-	    	canBypass = this.canBypassGround(x, y);   	
-    	}
-    	
-    	return canBypass && posX + x < mapBuilder.getWidth() && posY + y < mapBuilder.getHeight() && posX + x >= 0 && posY + y >= 0;
+
+    	return this.canBypassGround(x, y);
     }
 }

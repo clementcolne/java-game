@@ -2,6 +2,7 @@ package engine;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,7 +21,7 @@ public class CustomIterator<E> implements Iterator<E> {
 	 * @author Raphaël
 	 * @param l Liste d'objets
 	 */
-	public CustomIterator(List<E> l) {
+	public CustomIterator(Collection<E> l) {
 		this.list = new ArrayList<E>(l);
 	}
 

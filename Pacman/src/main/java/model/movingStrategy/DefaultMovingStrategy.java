@@ -34,14 +34,6 @@ public class DefaultMovingStrategy extends MovingStrategy {
     	this.setFactorY(y);
     	this.mapBuilder = mapBuilder;
     	
-    	double posX = this.pacmanCharacter.getPosX();
-    	double posY = this.pacmanCharacter.getPosY();
-    	boolean canBypass = true;
-    	
-    	if (!pacmanCharacter.getGhost()) {
-	    	canBypass = this.canBypassGround(x, y);   	
-    	}
-    	
-    	return canBypass && posX + x < mapBuilder.getWidth() && posY + y < mapBuilder.getHeight() && posX + x >= 0 && posY + y >= 0;
+    	return this.canBypassGround(x, y);
     }
 }

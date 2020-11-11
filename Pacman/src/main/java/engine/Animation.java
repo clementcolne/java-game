@@ -43,7 +43,7 @@ public class Animation {
 	    	
 	    	int frames = reader.getNumImages(true);
 	    	this.frames = new BufferedImage[frames];
-	    	this.framesFps = fps;
+	    	this.framesFps = fps >= 0 ? fps : 0;
 	    		
 	    	for (int i = 0; i < frames; i++) {
 				this.frames[i] = reader.read(i);
@@ -63,15 +63,16 @@ public class Animation {
 		if (!this.started) {
 			this.started = true;
 			
+			int refreshRate = this.framesFps > 0 ? 1000/this.framesFps : 1000;
 			this.counter = new Timer();
 			this.counter.schedule(new TimerTask() {
 				@Override
 				public void run() {
-					if (!pause) {
+					if (!pause && framesFps > 0) {
 						index = index < frames.length - 1 ? index + 1 : 0;
 					}
 				}
-			}, 0, 1000/this.framesFps);
+			}, 0, refreshRate);
 		}
 	}
 	
@@ -105,13 +106,14 @@ public class Animation {
 	 * @param fps Nombre d'images par seconde
 	 */
 	public void setFramesFps(int fps) {
-		this.framesFps = 1;
-		if (this.framesFps > 0) {
+		this.counter.cancel();
+		this.started = false;
+		this.framesFps = 0;
+		
+		if (this.framesFps >= 0) {
 			this.framesFps = fps;
 		}
 		
-		this.counter.cancel();
-		this.started = false;
 		this.animate();
 	}
 	
@@ -175,5 +177,22 @@ public class Animation {
 	public int getFps() {
 		return this.framesFps;
 	}
+	
+	/**
+	 * Retourne l'indice actuel de l'image de l'animation
+	 * @author Raphaël
+	 * @return Indice actuel de l'image de l'animation
+	 */
+	public int getIndex() {
+		return this.index;
+	}
 
+	/**
+	 * Retourne le nombre d'images de l'animation
+	 * @author Raphaël
+	 * @return Nombre d'images de l'animation
+	 */
+	public int getNumberOfFrames() {
+		return this.frames.length;
+	}
 }

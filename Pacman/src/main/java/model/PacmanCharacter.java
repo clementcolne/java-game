@@ -23,7 +23,7 @@ public class PacmanCharacter {
 	private double speed = 1;
 	private int range = 1;
 	private boolean ghost = false;
-	private List<double[]> visitedCoordinates;
+	private List<int[]> visitedCoordinates;
 
     /**
      * Constructeur du personnage pacman
@@ -34,8 +34,9 @@ public class PacmanCharacter {
     public PacmanCharacter(double posX, double posY) {
         this.posX = posX;
         this.posY = posY;
+        
         movingStrategy = new DefaultMovingStrategy(this);
-        visitedCoordinates = new LinkedList<>(Arrays.asList(new double[] {this.posX, this.posY}));
+        visitedCoordinates = new LinkedList<>(Arrays.asList(new int[] {(int) this.posX, (int) this.posY}));
     }
 
     /**
@@ -150,7 +151,7 @@ public class PacmanCharacter {
 	 */
     public void setPosX(double posX) {
         this.posX = posX;
-        this.visitedCoordinates.add(new double[] {this.posX, this.posY});
+        this.visitedCoordinates.add(new int[] {(int) this.posX, (int) this.posY});
     }
 
     /**
@@ -160,7 +161,7 @@ public class PacmanCharacter {
      */
     public void setPosY(double posY) {
         this.posY = posY;
-        this.visitedCoordinates.add(new double[] {this.posX, this.posY});
+        this.visitedCoordinates.add(new int[] {(int) this.posX, (int) this.posY});
     }
 
     /**
@@ -172,6 +173,9 @@ public class PacmanCharacter {
         this.movingStrategy = movingStrategy;
     }
 
+    public MovingStrategy getMovingStrategy() {
+    	return this.movingStrategy;
+    }
     /**
      * Retourne la position en X du personnage
      * @author Clément
@@ -203,8 +207,8 @@ public class PacmanCharacter {
      * @author Raphaël
      * @return Itérateur sur la liste des coordonées parcourues par le Pacman
      */
-    public Iterator<double[]> getVisitedCoordinates() {
-    	return new CustomIterator<double[]>(this.visitedCoordinates);
+    public Iterator<int[]> getVisitedCoordinates() {
+    	return new CustomIterator<int[]>(this.visitedCoordinates);
     }
 
     /**
