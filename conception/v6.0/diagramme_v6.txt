@@ -1,0 +1,57 @@
+@startuml
+abstract class Character{
+double posX
+double posY
+int range
+int speed
+String path
+void setMovingStrategy()
+}
+
+class PacmanCharacter {
+void MooveUp(Character character)
+void MooveDown(Character character)
+void MooveRight(Character character)
+void MooveLeft(Character character)
+}
+
+class MonsterCharacter {
+void moove(Character character)
+}
+
+interface MoovingStrategy
+interface PacmanMovingStrategy{
+void MooveUp(Character character)
+void MooveDown(Character character)
+void MooveRight(Character character)
+void MooveLeft(Character character)
+}
+
+interface MonsterMovingStrategy {
+void moove(Character character)
+}
+
+class DefaultPacmanMovingStrategy
+class RandomPacmanMovingStrategy
+class GhostPacmanMovingStrategy
+
+class DefaultMonsterMovingStrategy
+class GhostMonsterMovingStrategy
+
+MoovingStrategy <|-- PacmanMovingStrategy
+MoovingStrategy <|-- MonsterMovingStrategy
+
+DefaultPacmanMovingStrategy ..> PacmanMovingStrategy
+RandomPacmanMovingStrategy ..> PacmanMovingStrategy
+GhostPacmanMovingStrategy ..> PacmanMovingStrategy
+
+
+DefaultMonsterMovingStrategy ..> MonsterMovingStrategy
+GhostMonsterMovingStrategy ..> MonsterMovingStrategy
+
+Character --"1" MoovingStrategy
+
+
+PacmanCharacter --|> Character
+MonsterCharacter --|> Character
+@enduml
