@@ -1,7 +1,5 @@
 package model.effect;
 
-import java.awt.Color;
-
 import model.PacmanCharacter;
 
 /**
@@ -10,14 +8,6 @@ import model.PacmanCharacter;
  *
  */
 public class Bow extends EffectMagic {
-	
-	/**
-	 * Constructeur de l'effet Bow
-	 * @author Raphaël
-	 */
-	public Bow() {
-		this.color = Color.YELLOW;
-	}
 	
 	/**
 	 * Appliquer l'effet de portée d'attaque augmentée sur le Pacman. L'effet est appliqué au début, puis retiré au bout de 5 secondes
