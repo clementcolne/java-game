@@ -23,7 +23,7 @@ public class PacmanGame implements Game {
 	private final int scale = 40;
 	private PacmanCharacter pacmanCharacter;
 	private MapBuilder mapBuilder;
-	private boolean gameState;
+	private boolean isFinished;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -32,7 +32,7 @@ public class PacmanGame implements Game {
 	public PacmanGame(String source, MapBuilder map) {
 		pacmanCharacter = new PacmanCharacter(1, 1);
 		mapBuilder = map;
-		gameState = false;
+		isFinished = false;
 		BufferedReader helpReader;
 		try {
 			helpReader = new BufferedReader(new FileReader(source));
@@ -85,8 +85,9 @@ public class PacmanGame implements Game {
 		}
 
 		if (canMove) {
+			if(mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isTreasure())
+				isFinished = true;
 			mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).doEffect(pacmanCharacter);
-			this.checkWin();
 			consumeGroundEffect((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY());
 		}
 	}
@@ -140,7 +141,7 @@ public class PacmanGame implements Game {
 	@Override
 	public boolean isFinished() {
 		// le jeu se termine si le personnage n'a plus de point de vie
-		return pacmanCharacter.getLife() == 0;
+		return pacmanCharacter.getLife() == 0 || isFinished;
 	}
 
 	/**
@@ -270,21 +271,7 @@ public class PacmanGame implements Game {
 		double memberTwo = (yTwo - yOne);
 		
 		return Math.sqrt(memberOne*memberOne + memberTwo*memberTwo);
-	}*/	
-	
-	/**
-	* Verifie si le personnage est sur la case du tresor
-	* Si oui, il gagne
-	* @return gameState = true si le personnage est sur la case du tresor
-	* @author Adham
-	*/
-	public boolean checkWin(){
-		if(mapBuilder.get((int)pacmanCharacter.getPosX(),(int)pacmanCharacter.getPosY()).isTreasure()) {
-			gameState= true;
-			System.out.println("You Won !");
-		}
-	return gameState;
-	}
+	}*/
 	
 	/**
 	 * Retourne l'échelle (largeur x hauteur) de chaque image du jeu

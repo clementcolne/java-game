@@ -5,7 +5,7 @@ import model.effect.EffectMagic;
 import model.effect.EffectTrap;
 import model.Ground;
 import model.Passage;
-import model.Treasure;
+import model.End;
 import model.Wall;
 
 import java.io.File;
@@ -103,7 +103,7 @@ public class MapBuilder {
                 break;
             case 'k':
                 // treasure
-                res = new Treasure(x, y);
+                res = new End(x, y);
                 break;
             default:
                 // par défault, la case est un sol
