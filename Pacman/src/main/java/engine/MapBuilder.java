@@ -9,11 +9,6 @@ import model.effect.Slow;
 import model.effect.Speed;
 import model.effect.Stop;
 import model.effect.Stun;
-import model.Ground;
-import model.Passage;
-import model.End;
-import model.Wall;
-
 import java.util.Scanner;
 
 /**
@@ -25,10 +20,13 @@ public class MapBuilder {
     private String path;
     // Tableau représentant la map du jeu
     private Ground[][] map;
+    private PacmanCharacter[][] characters;
+    private static PacmanCharacter uniqueCharacter;
     private int width;
     private int height;
     private Passage p1;
     private Passage p2;
+    private Scanner reader;
 
     /**
      * @author Clément
@@ -37,10 +35,33 @@ public class MapBuilder {
      * @param width largeur de la map
      * @param height longueur de la map
      */
-    public MapBuilder(String path, int width, int height) {
+    public MapBuilder(String path) {
+    	uniqueCharacter = null;
         this.path = path;
-        this.width = width;
-        this.height = height;
+        
+        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ path));
+        
+        while(reader.hasNext()) {
+            String data = reader.nextLine();
+            if (data.length() > this.width) {
+            	this.width = data.length();
+            }
+            this.height++;
+        }
+
+        this.reader.close();
+        
+        if (this.height == 0) {
+            this.height = 1;
+        }
+        if (this.width == 0) {
+        	this.width = 1;
+        }
+        
+        // initialisation du tableau qui contiendra les objets de la map
+        this.map = new Ground[height][width];
+        this.characters = new PacmanCharacter[height][width];
+        
         buildMap();
     }
 
@@ -50,19 +71,17 @@ public class MapBuilder {
      * @return tableau contenant des objets de type Ground décrivant la map
      */
     private void buildMap() {
-        // initialisation du tableau qui contiendra les objets de la map
-        this.map = new Ground[height+1][width+1];
-
-        // lecture du fichier
-        Scanner reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ path));
+        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ path));
+       
         // compteur de lignes
         int i = 0;
-        while(i < height && reader.hasNext()) {
+        while(reader.hasNext()) {
             String data = reader.nextLine();
-            for(int j = 0 ; j < data.length() && j < width ; j++) {
+            for(int j = 0 ; j < width ; j++) {
                 // pour chaque colonne
                 // complète la map
                 map[i][j] = getGround(data.charAt(j), j, i);
+                characters[i][j] = generateCharacter(data.charAt(j), j, i);
             }
             i++;
         }
@@ -70,6 +89,28 @@ public class MapBuilder {
     }
 
     /**
+     * Permet de récupérer un éventuel personnage associé à une case
+     * @author Raphaël
+     * @param c Caractère décrivant le personnage
+     * @param x Position en abscisse du personnage
+     * @param y Position en ordonnée du personnage
+     * @return Personnage si existant, sinon null
+     */
+    private PacmanCharacter generateCharacter(char c, int x, int y) {
+    	PacmanCharacter res = null;
+        switch (c) {
+            case '1':
+                if (uniqueCharacter == null) {
+                	res = new PacmanCharacter(x, y);
+                	uniqueCharacter = res;
+                }
+                break;
+        }
+        
+        return res;
+	}
+
+	/**
      * @author Clément
      * Retourne l'objet de type Ground correspondant au caractère en paramètre
      * @param c caractère qui décrit l'objet
@@ -123,6 +164,9 @@ public class MapBuilder {
                 // treasure
                 res = new End(x, y);
                 break;
+            case '^':
+            	res = new Ground(x, y);
+				break;
             default:
                 // par défault, la case est un sol
                 res = new Ground(x, y);
@@ -151,9 +195,20 @@ public class MapBuilder {
     	if (y < height && x < width && y >= 0 && x >= 0 && map[y][x] != null) {
     		return map[y][x];
     	}
-    	else {
-    		return new Ground(x, y);
+    	return new Wall(x, y);
+    }
+    
+    /**
+     * Retourne le personnage éventuel associé à une case
+     * @param x Position en abscisse dans le tableau de personnages
+     * @param y Position en abscisse dans le tableau de personnages
+     * @return Pacman si associé, null sinon
+     */
+    public PacmanCharacter getCharacter(int x, int y) {
+    	if (y < height && x < width && y >= 0 && x >= 0 && characters[y][x] != null) {
+    		return characters[y][x];
     	}
+    	return null;
     }
 
     /**

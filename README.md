@@ -1,4 +1,4 @@
-ACL-2020-kbc
+# ACL-2020-kbc
 
 v5.1
 In repertory Pacman
@@ -24,3 +24,21 @@ Note : Maven uses the same version for compiling the sources
 
 Design :
 All design documents can be found inside the folder ACL-2020-kbc\conception
+
+---
+
+The following characters can be used in map files :
+- Ground : +
+- Wall : -
+- End : e
+- Magic : m
+- Bow : b
+- Ghost : g
+- Speed : >
+- Trap : t
+- Slow : <
+- Stop : x
+- Stun : ~
+- Passage : p
+- Treasure : k
+- Pacman : 1
