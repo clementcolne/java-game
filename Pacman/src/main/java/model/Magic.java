@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Color;
 
+import engine.ImageFactory;
 import model.effect.EffectMagic;
 
 /**
@@ -24,6 +25,7 @@ public class Magic extends Ground {
 		this.name = 'm';
 		this.effect = eff;
 		this.color = Color.PINK;
+		this.image = ImageFactory.getInstance().loadImage("Extra/treasure.png");
 	}
 	
 	/**
@@ -45,6 +47,16 @@ public class Magic extends Ground {
     public boolean isEffect() {
     	return true;
     }
+    
+    /**
+	 * Permet d'indiquer que le sol Magic effectue une action ayant une répercussion sur d'autres objets
+	 * @author Raphaël
+	 * @return false pour un une case magique
+	 */
+    @Override
+	public boolean hasEmptyBehavior() {
+		return false;
+	}
 	
 	
 

@@ -2,6 +2,8 @@ package model;
 
 import java.awt.*;
 
+import engine.ImageFactory;
+
 /**
  * Classe représentant le tresor
  * @author Adham
@@ -13,10 +15,7 @@ public class End extends Ground {
         super(x, y);
         this.name = 'k';
         this.color  = Color.PINK;
-    }
-
-    public End(){
-        this.path = "Extra/treasure40x40.png";
+        this.image = ImageFactory.getInstance().loadImage("Extra/treasure40x40.png");
     }
 
     @Override
@@ -28,4 +27,14 @@ public class End extends Ground {
     public void doEffect(PacmanCharacter pacmanCharacter) {
         System.out.println("You Won !");
     }
+    
+    /**
+	 * Permet d'indiquer que le sol End effectue une action ayant une répercussion sur d'autres objets
+	 * @author Raphaël
+	 * @return false pour un une case de fin
+	 */
+    @Override
+	public boolean hasEmptyBehavior() {
+		return false;
+	}
 }

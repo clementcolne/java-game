@@ -1,7 +1,5 @@
 package model.effect;
 
-import java.awt.Color;
-
 import model.PacmanCharacter;
 import model.movingStrategy.DefaultMovingStrategy;
 import model.movingStrategy.GhostMovingStrategy;
@@ -13,14 +11,6 @@ import model.movingStrategy.RandomMovingStrategy;
  *
  */
 public class Ghost extends EffectMagic {
-	
-	/**
-	 * Constructeur de l'effet Ghost
-	 * @author Raphaël
-	 */
-	public Ghost() {
-		this.color = Color.BLACK;
-	}
 	
 	/**
 	 * Appliquer l'effet fantôme sur le Pacman. L'effet est appliqué au début, puis retiré au bout de 5 secondes

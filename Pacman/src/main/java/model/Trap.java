@@ -5,6 +5,8 @@ import model.effect.EffectTrap;
 
 import java.awt.*;
 
+import engine.ImageFactory;
+
 /**
  * Classe représentant une case piège
  * @author Adèle Barbier
@@ -24,6 +26,7 @@ public class Trap extends Ground{
         this.effect = eff;
         this.name = 't';
         this.color = Color.RED;
+        this.image = ImageFactory.getInstance().loadImage("Extra/treasure.png");
     }
 
     /**
@@ -39,4 +42,14 @@ public class Trap extends Ground{
     public boolean isEffect() {
         return true;
     }
+    
+    /**
+	 * Permet d'indiquer que le sol Trap effectue une action ayant une répercussion sur d'autres objets
+	 * @author Raphaël
+	 * @return false pour un une case piège
+	 */
+    @Override
+	public boolean hasEmptyBehavior() {
+		return false;
+	}
 }

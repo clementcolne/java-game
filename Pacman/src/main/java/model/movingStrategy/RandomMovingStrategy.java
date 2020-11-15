@@ -7,26 +7,47 @@ import model.PacmanCharacter;
  * @author Adèle Barbier
  * 30/10/2020
  **/
-public class RandomMovingStrategy implements MovingStrategy{
+public class RandomMovingStrategy extends MovingStrategy {
 
-    @Override
-    public void mooveUp(PacmanCharacter character) {
-        character.setPosX(character.getPosX()-character.getSpeed());
+	/**
+	 * Constructeur de la stratégie Random (déplacement étourdi)
+	 * @author Raphaël
+	 * @param pc Pacman concerné par la stratégie
+	 */
+    public RandomMovingStrategy(PacmanCharacter pc) {
+		super(pc);
+	}
+
+	/**
+	 * Ici, bouger vers le haut fait bouger dans une autre direction indiquée dans canMoove
+	 */
+	@Override
+    public void mooveUp() {
+        this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
     }
 
+	/**
+	 * Ici, bouger vers le bas fait bouger dans une autre direction indiquée dans canMoove
+	 */
     @Override
-    public void mooveDown(PacmanCharacter character) {
-        character.setPosX(character.getPosX()+character.getSpeed());
+    public void mooveDown() {
+    	this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
     }
 
+    /**
+	 * Ici, bouger vers la droite fait bouger dans une autre direction indiquée dans canMoove
+	 */
     @Override
-    public void mooveRight(PacmanCharacter character) {
-        character.setPosY(character.getPosY()-character.getSpeed());
+    public void mooveRight() {
+    	this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
     }
 
+    /**
+	 * Ici, bouger vers la gauche fait bouger dans une autre direction indiquée dans canMoove
+	 */
     @Override
-    public void mooveLeft(PacmanCharacter character) {
-        character.setPosY(character.getPosY()+character.getSpeed());
+    public void mooveLeft() {
+    	this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
     }
 
     /**
@@ -39,53 +60,26 @@ public class RandomMovingStrategy implements MovingStrategy{
      * @param pacmanCharacter Pacman sur lequel la vérification de déplacement doit être effectuée
      */
     @Override
-    public boolean canMoove(double x, double y, MapBuilder mapBuilder, PacmanCharacter pacmanCharacter) {
-    	int posX = (int)pacmanCharacter.getPosX();
-    	int posY = (int)pacmanCharacter.getPosY();
-    	int factorX = 0, factorY = 0;
-    	if (x > 0) {
-    		factorY = -1;
-    		y = -x;
+    public boolean canMoove(double x, double y, MapBuilder mapBuilder) {
+    	if (x != 0 && y != 0) {
+    		return false;
+    	}
+    	
+    	// Inversement des axes
+    	if (x > 0 || x < 0) {
+    		y = x;
     		x = 0;
     	}
-    	else if (x < 0) {
-    		factorY = 1;
-    		y = -x;
-    		x = 0;
-    	}
-    	else if (y > 0) {
-    		factorX = 1;
+    	else if (y > 0 || y < 0) {
     		x = y;
     		y = 0;
     	}
-    	else if (y < 0) {
-    		factorX = -1;
-    		x = -y;
-    		y = 0;
-    	}
 
-		double testX = posX;
-		while ((factorX > 0) ? testX < posX + x : testX > posX + x) {
-			testX += factorX;
-			if (!mapBuilder.get((int)testX, posY).isAccessible()) {
-				pacmanCharacter.setPosX((int)testX-factorX);
-				return false;
-			}
-		}
+    	// On valide l'inversement des axes pour les méthodes de déplacement
+		this.setFactorY(y);
+		this.setFactorX(x);
+    	this.mapBuilder = mapBuilder;
 
-		double testY = posY;
-		while ((factorY > 0) ? testY < posY + y : testY > posY + y) {
-			testY += factorY;
-			if (!mapBuilder.get(posX, (int) testY).isAccessible()) {
-				pacmanCharacter.setPosY((int)(testY-factorY));
-				return false;
-			}
-		}
-
-    	
-    	boolean isAccessible = posX + x > 0 && posY + y >= 0;
-    	boolean isInsideGame = posX + x < mapBuilder.getWidth() && posY + y < mapBuilder.getHeight() && posX + x >=0 && posY + y >=0;
-    	
-        return isAccessible && isInsideGame;
+    	return this.canBypassGround(x, y);
     }
 }

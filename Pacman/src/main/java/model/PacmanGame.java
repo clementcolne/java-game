@@ -3,11 +3,12 @@ package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 
 import engine.Cmd;
+import engine.CustomIterator;
 import engine.Game;
 import engine.MapBuilder;
 
@@ -24,6 +25,7 @@ public class PacmanGame implements Game {
 	private PacmanCharacter pacmanCharacter;
 	private MapBuilder mapBuilder;
 	private boolean isFinished;
+	private Ground executedEffect;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -33,6 +35,7 @@ public class PacmanGame implements Game {
 		pacmanCharacter = new PacmanCharacter(1, 1);
 		mapBuilder = map;
 		isFinished = false;
+		executedEffect = new Ground(0, 0);
 		BufferedReader helpReader;
 		try {
 			helpReader = new BufferedReader(new FileReader(source));
@@ -55,46 +58,50 @@ public class PacmanGame implements Game {
 	@Override
 	public void evolve(Cmd commande) {
 		if (!pacmanCharacter.getGhost() && !mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isAccessible()) {
-			this.resetPosition(pacmanCharacter);
+			this.resetPosition();
 		}
 		
-		boolean canMove = false;
+		this.executedEffect = getNearestEffectiveGround(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosY());
+		
+
+		boolean move;
 		switch(commande) {
 			case LEFT:
-				if(canMove = canMoove(-pacmanCharacter.getSpeed(), 0)) {
+				if(move = canMoove(-pacmanCharacter.getSpeed(), 0)) {
 					pacmanCharacter.mooveLeft();
 				}
 				break;
 			case RIGHT:
-				if(canMove = canMoove(pacmanCharacter.getSpeed(), 0)) {
+				if(move = canMoove(pacmanCharacter.getSpeed(), 0)) {
 					pacmanCharacter.mooveRight();
 				}
 				break;
 			case UP:
-				if(canMove = canMoove(0, -pacmanCharacter.getSpeed())) {
+				if(move = canMoove(0, -pacmanCharacter.getSpeed())) {
 					pacmanCharacter.mooveUp();
 				}
 				break;
 			case DOWN:
-				if(canMove = canMoove(0, pacmanCharacter.getSpeed())) {
+				if(move = canMoove(0, pacmanCharacter.getSpeed())) {
 					pacmanCharacter.mooveDown();
 				}
 				break;
 			default:
+				move = false;
 				break;
 		}
-
-		if (canMove) {
-			if(mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isTreasure())
-				isFinished = true;
-			mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).doEffect(pacmanCharacter);
-			consumeGroundEffect((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY());
-		}
+		this.doEffect(move);
 	}
 
+	/**
+	 * Crée un bloc d'herbe à la position [x;y] où était l'éffet
+	 * @param x position en x
+	 * @param y position en y
+	 * @author Clément
+	 */
 	public void consumeGroundEffect(int x, int y) {
 		if(mapBuilder.get(x, y).isEffect()) {
-			mapBuilder.set((int) pacmanCharacter.getPosX(), (int) pacmanCharacter.getPosY(), new Ground((int) pacmanCharacter.getPosX(), (int) pacmanCharacter.getPosY()));
+			mapBuilder.set(x, y, new Ground(x, y));
 		}
 	}
 
@@ -108,21 +115,6 @@ public class PacmanGame implements Game {
 	public boolean canMoove(double x, double y) {
 		return pacmanCharacter.canMoove(x, y, mapBuilder);
 	}
-
-
-	/**
-	 * Vérifie si la case où se trouve le personnage est une case passage.
-	 * Si c'est le cas, le personnage est téléporté vers la case passage
-	 * correspondante.
-	 * @author Clément
-	 */
-	/*public void checkPassage() {
-		if(mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isPassage()) {
-			Passage p = (Passage)mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY());
-			pacmanCharacter.setPosX(p.getLinkedPassage().getPosX());
-			pacmanCharacter.setPosY(p.getLinkedPassage().getPosY());
-		}
-	}*/
 
 	/**
 	 * Affiche l'état du personnage dans le terminal
@@ -185,53 +177,61 @@ public class PacmanGame implements Game {
 	}
 	
 	/**
-	 * Permet de revenir à une position qui était accessible (non bloquée)
+	 * Permet de revenir à une position qui était accessible dans le jeu (non bloquée)
 	 * @author Raphaël
-	 * @param character Pacman qui possède la liste des positions parcourues
 	 */
-	public void resetPosition(PacmanCharacter character) {		
-		ListIterator<double[]> visitedCoordinates = character.getVisitedCoordinates();
+	public void resetPosition() {		
+		Iterator<int[]> visitedCoordinates = this.pacmanCharacter.getVisitedCoordinates();
 		
 		while (visitedCoordinates.hasNext()) {
-			double[] coordinates = visitedCoordinates.next();
-			System.out.println("x : "+coordinates[0]+",y:"+coordinates[1]);
+			int[] coordinates = visitedCoordinates.next();
+
 			if (mapBuilder.get((int)coordinates[0], (int)coordinates[1]).isAccessible()) {
-				pacmanCharacter.setPosX((int)coordinates[0]);
-				pacmanCharacter.setPosY((int)coordinates[1]);
+				this.pacmanCharacter.setPosX(coordinates[0]);
+				this.pacmanCharacter.setPosY(coordinates[1]);
 			}
 		}
 	}
 	
 	/**
-	 * Permet d'exécuter l'effet dont la case est la plus proche du Pacman
+	 * Retourner le sol le plus proche d'une position n'ayant pas un comportement vide
 	 * @author Raphaël
-	 * @param character Pacman sur lequel on doit exécuter l'effet
+	 * @param x Position en abscisse
+	 * @param y Position en ordonnée
+	 * @return Sol le plus proche n'ayant pas un comportement vide
 	 */
-	/*public void doEffect(PacmanCharacter character) {
+	public Ground getNearestEffectiveGround(double x, double y) {
 		double min = -1;
-		Ground nearestToPacman = mapBuilder.get((int)character.getPosX(), (int)character.getPosY());
+
+		Ground nearestGround = this.mapBuilder.get((int)x, (int)y);
+		Iterator<Ground> nearestGrounds = getCollidingGrounds(x, y, this.mapBuilder);
 		
-		for (Ground g:this.getCollidingGrounds(character)) {
-			double cDist = this.calculateDistance(character, g);
+		while (nearestGrounds.hasNext()) {
+			Ground collidingGround = nearestGrounds.next();
+			
+			if (collidingGround == null || collidingGround.hasEmptyBehavior()) {
+				continue;
+			}
+			
+			double cDist = calculateDistance(x, y, collidingGround.getPosX(), collidingGround.getPosY());
 			if (cDist < min || min == -1) {
 				min = cDist;
-				nearestToPacman = g;
+				nearestGround = collidingGround;
 			}
 		}
 		
-		nearestToPacman.doEffect(character);
-	}*/
+		return nearestGround;
+	}
 	
 	/**
-	 * Permet de connaître les sols avec lesquels le Pacman est en collision
+	 * Permet de connaître les sols avec lesquels une position est en collision
 	 * @author Raphaël
-	 * @param character Pacman à partir duquel on doit détecter les sols en collision
-	 * @return Liste de sols en collision avec le Pacman
+	 * @param x Position en abscisse
+	 * @param y Position en ordonnée
+	 * @param mapBuilder Générateur de map du jeu
+	 * @return Itérateur sur les sols en collision avec le Pacman
 	 */
-	/*public List<Ground> getCollidingGrounds(PacmanCharacter character) {
-		double x = character.getPosX();
-		double y = character.getPosY();
-		
+	public static Iterator<Ground> getCollidingGrounds(double x, double y, MapBuilder mapBuilder) {		
 		List<Ground> collidingGrounds = new LinkedList<Ground>();
 		
 		if ((int)x == x && (int)y == y) {
@@ -249,30 +249,44 @@ public class PacmanGame implements Game {
 			collidingGrounds.add(mapBuilder.get((int)x, (int)y));
 			collidingGrounds.add(mapBuilder.get((int)x+1, (int)y));
 			collidingGrounds.add(mapBuilder.get((int)x, (int)y+1));
-			collidingGrounds.add(mapBuilder.get((int)x+1, (int)y));
+			collidingGrounds.add(mapBuilder.get((int)x+1, (int)y+1));
 		}
 		
-		return collidingGrounds;
-	}*/
+		return new CustomIterator<Ground>(collidingGrounds);
+	}
 	
 	/**
-	 * Calculer la distance entre un Pacman et un sol
+	 * Calculer la distance entre deux points
 	 * @author Raphaël
-	 * @param character Pacman à partir duquel on doit calculer la distance
-	 * @param g Sol vers lequel on doit calculer la distance
-	 * @return Distance entre le Pacman et le sol
+	 * @param xOne Position en abscisse du premier point
+	 * @parma yOne Position en ordonnée du premier point
+	 * @param xTwo Position en abscisse du deuxième point
+	 * @param yTwo Position en ordonnée du deuxième point
+	 * @return Distance entre les deux points
 	 */
-	/*public double calculateDistance(PacmanCharacter character, Ground g) {
-		double xOne = character.getPosX();
-		double yOne = character.getPosY();
-		double xTwo = g.getPosX();
-		double yTwo = g.getPosY();
-		
+	public static double calculateDistance(double xOne, double yOne, double xTwo, double yTwo) {	
 		double memberOne = (xTwo - xOne);
 		double memberTwo = (yTwo - yOne);
 		
 		return Math.sqrt(memberOne*memberOne + memberTwo*memberTwo);
-	}*/
+	}
+	
+	/**
+	 * Permet d'exécuter l'effet en collision le plus proche avec le Pacman 
+	 * @author Raphaël
+	 */
+	public void doEffect(boolean move) {
+		Ground nearest = getNearestEffectiveGround(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosY());
+		
+		if (nearest.isTreasure()) {
+			this.isFinished = true;
+		}
+		
+		if (!nearest.equals(this.executedEffect) || (!move && !this.executedEffect.isPassage())) {
+			nearest.doEffect(this.pacmanCharacter);
+			this.consumeGroundEffect(nearest.getPosX(), nearest.getPosY());
+		}
+	}
 	
 	/**
 	 * Retourne l'échelle (largeur x hauteur) de chaque image du jeu
@@ -281,6 +295,10 @@ public class PacmanGame implements Game {
 	 */
 	public int getScale() {
 		return this.scale;
+	}
+	
+	public PacmanCharacter getCharacter() {
+		return this.pacmanCharacter;
 	}
 }
 

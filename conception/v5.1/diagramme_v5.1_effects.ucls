@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="model.effect.AsyncEffect" project="Pacman" 
+    file="/Pacman/src/main/java/model/effect/AsyncEffect.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="600" y="208"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="model.effect.Ghost" project="Pacman" 
+    file="/Pacman/src/main/java/model/effect/Ghost.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-72" y="881"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="model.effect.Bow" project="Pacman" 
+    file="/Pacman/src/main/java/model/effect/Bow.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="179" y="881"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="model.effect.Stun" project="Pacman" 
+    file="/Pacman/src/main/java/model/effect/Stun.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="681" y="881"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="model.effect.Speed" project="Pacman" 
+    file="/Pacman/src/main/java/model/effect/Speed.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="430" y="881"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="model.effect.EffectMagic" project="Pacman" 
+    file="/Pacman/src/main/java/model/effect/EffectMagic.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="272" y="716"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="model.effect.Effect" project="Pacman" 
+    file="/Pacman/src/main/java/model/effect/Effect.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="554" y="534"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="model.effect.EffectTrap" project="Pacman" 
+    file="/Pacman/src/main/java/model/effect/EffectTrap.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="837" y="716"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="model.effect.Stop" project="Pacman" 
+    file="/Pacman/src/main/java/model/effect/Stop.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="932" y="881"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="model.effect.Slow" project="Pacman" 
+    file="/Pacman/src/main/java/model/effect/Slow.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1183" y="881"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="engine.CustomIterator" project="Pacman" 
+    file="/Pacman/src/main/java/engine/CustomIterator.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="245" y="230"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="model.Magic" project="Pacman" file="/Pacman/src/main/java/model/Magic.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="276" y="515"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="model.Trap" project="Pacman" file="/Pacman/src/main/java/model/Trap.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="840" y="504"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <generalization id="14">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="15">    
+    <bendpoint x="976" y="717"/>    
+    <bendpoint x="976" y="690"/>    
+    <bendpoint x="957" y="683"/>    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="16" name="traps"/>      
+      <multiplicity id="17" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="18">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="19" name="magicEffects"/>      
+      <multiplicity id="20" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="21">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="22" name="tasks"/>      
+      <multiplicity id="23" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="24">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="25" name="effect"/>      
+      <multiplicity id="26" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="27">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <generalization id="28">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="29">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <generalization id="30">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <generalization id="31">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <association id="32">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="33" name="effect"/>      
+      <multiplicity id="34" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="35">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="36">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="37" name="effect"/>      
+      <multiplicity id="38" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="39">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <generalization id="40">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <association id="41">    
+    <bendpoint x="471" y="410"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="42" name="effects"/>      
+      <multiplicity id="43" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
