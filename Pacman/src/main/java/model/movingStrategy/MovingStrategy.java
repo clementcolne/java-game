@@ -75,6 +75,28 @@ public abstract class MovingStrategy {
     	
     	boolean insideXArea = posX + x >= 0 && ((posX + x) >= 0 ? Math.ceil(posX + x) < this.mapBuilder.getWidth() : false);
 		boolean insideYArea = posY + y >= 0 && ((posY + y) >= 0 ? Math.ceil(posY + y) < this.mapBuilder.getHeight() : false);
+		
+
+    	if (this.pacmanCharacter.getGhost()) {    		
+    		if (insideXArea && insideYArea) {
+    			return true;
+    		}
+    		else {
+    			if (posX + x < 0) {
+    				pacmanCharacter.setPosX(0);
+    			}
+    			else if (Math.ceil(posX + x) >= mapBuilder.getWidth()) {
+    				pacmanCharacter.setPosX(mapBuilder.getWidth()-1);
+    			}
+    			else if (posY + y < 0) {
+    				pacmanCharacter.setPosY(0);
+    			}
+    			else if (Math.ceil(posY + y) >= mapBuilder.getHeight()) {
+    				pacmanCharacter.setPosY(mapBuilder.getHeight()-1);
+    			}
+    			return false;
+    		}
+    	}
 
     	double testX = posX;
     	boolean insideGameX = true;

@@ -8,7 +8,7 @@ import model.PacmanCharacter;
  * 30/10/2020
  **/
 public class DefaultMovingStrategy extends MovingStrategy {
-
+	
 	/**
 	 * Constructeur de la stratégie par défaut
 	 * @author Raphaël
@@ -33,7 +33,7 @@ public class DefaultMovingStrategy extends MovingStrategy {
     	this.setFactorX(x);
     	this.setFactorY(y);
     	this.mapBuilder = mapBuilder;
-
+    	
     	return this.canBypassGround(x, y);
     }
 }
