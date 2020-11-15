@@ -10,15 +10,12 @@ import model.PacmanGame;
  * lancement du moteur avec le jeu
  */
 public class Main {
-
-	private static final int WIDTH = 15;
-	private static final int HEIGHT = 15;
-
+	
 	public static void main(String[] args) throws InterruptedException {
 		// définition de la largeur et hauteur de la MAP
 
 		// creation du jeu particulier et de son afficheur
-		MapBuilder map = new MapBuilder("map.txt", WIDTH, HEIGHT);
+		MapBuilder map = new MapBuilder("map.txt");
 		PacmanGame game = new PacmanGame("helpFilePacman.txt", map);
 		PacmanPainter painter = new PacmanPainter(game);
 		PacmanController controller = new PacmanController();

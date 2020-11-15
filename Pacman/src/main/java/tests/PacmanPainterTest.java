@@ -23,7 +23,7 @@ class PacmanPainterTest {
 
     @BeforeEach
     void setUp() {
-        map = new MapBuilder("map.txt", 15, 15);
+        map = new MapBuilder("map.txt");
         game = new PacmanGame("helpFilePacman.txt", map);
         painter = new PacmanPainter(game);
     }
