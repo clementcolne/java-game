@@ -21,7 +21,7 @@ public class Ghost extends EffectMagic {
     public void doEffect(final PacmanCharacter pacmanCharacter) {	
 		new AsyncEffect(this, Effect.class, 5000, 0, 5000) {
 			public void execute() {
-				pacmanCharacter.setMovingStrategy(!this.isEnded() ? new GhostMovingStrategy() : new DefaultMovingStrategy());
+				pacmanCharacter.setMovingStrategy(!this.isEnded() ? new GhostMovingStrategy(pacmanCharacter) : new DefaultMovingStrategy(pacmanCharacter));
 			}
 		}.run();
     }
