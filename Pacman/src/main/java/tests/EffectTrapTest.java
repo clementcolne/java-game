@@ -39,7 +39,7 @@ class EffectTrapTest {
     @Test
     void slowEffect() throws InterruptedException {
         new Slow().doEffect(pacman);
-        Thread.sleep(1);
+        Thread.sleep(10);
         assertEquals(0.5, pacman.getSpeed(), "La vitesse du pacman n'a pas diminuée");
         Thread.sleep(5100);
         assertEquals(1, pacman.getSpeed(), "La vitesse du pacman n'est pas revenue à la normale");
@@ -48,7 +48,7 @@ class EffectTrapTest {
     @Test
     void stopEffect() throws InterruptedException {
         new Stop().doEffect(pacman);
-        Thread.sleep(1);
+        Thread.sleep(10);
         assertEquals(0, pacman.getSpeed(), "La vitesse du pacman n'est pas nulle");
         Thread.sleep(5100);
         assertEquals(1, pacman.getSpeed(), "La vitesse du pacman n'est pas revenue à la normale");

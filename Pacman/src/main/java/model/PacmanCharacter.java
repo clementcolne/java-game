@@ -156,7 +156,7 @@ public class PacmanCharacter extends Character{
      * @param posY Position en ordonnée
      */
     public void setPosY(double posY) {
-        super.setPosX(posY);
+        super.setPosY(posY);
         this.visitedCoordinates.add(new int[] {(int) this.posX, (int) this.posY});
     }
 

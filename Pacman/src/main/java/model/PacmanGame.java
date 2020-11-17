@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import engine.*;
+import model.movingStrategy.GhostMovingStrategy;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -40,7 +41,6 @@ public class PacmanGame implements Game {
 				}
 			}
 		}
-		
 		isFinished = false;
 		executedEffect = new Ground(0, 0);
 		BufferedReader helpReader;
@@ -64,7 +64,7 @@ public class PacmanGame implements Game {
 	 */
 	@Override
 	public void evolve(Cmd commande) {
-		if (!pacmanCharacter.getGhost() && !mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isAccessible()) {
+		if (!pacmanCharacter.getMovingStrategy().equals(new GhostMovingStrategy(pacmanCharacter)) && !mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isAccessible()) {
 			this.resetPosition();
 		}
 		

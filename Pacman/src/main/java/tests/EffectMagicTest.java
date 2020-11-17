@@ -2,9 +2,12 @@ package tests;
 
 import model.PacmanCharacter;
 import model.effect.*;
+import model.movingStrategy.DefaultMovingStrategy;
+import model.movingStrategy.GhostMovingStrategy;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -38,7 +41,7 @@ class EffectMagicTest {
     		i--;
     	}    
 
-		assertTrue(pacman.getGhost(), "Le Pacman doit désormais être un fantôme");
+		assertEquals(new GhostMovingStrategy(pacman), pacman.getMovingStrategy(), "Le Pacman doit désormais être un fantôme");
     	assertEquals(2, pacman.getSpeed(), "Le Pacman doit désormais voir sa vitesse incrémentée de 1");
     	assertEquals(2, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 1");
     	
@@ -105,7 +108,7 @@ class EffectMagicTest {
     	
     	Thread.sleep(200);
     	assertEquals(0, AsyncEffect.getEffects().size(), "Tous les effets du Pacman doivent être inactifs");
-    	assertFalse(pacman.getGhost(), "Tous les effets du Pacman doivent être inactifs");
+    	assertEquals(new DefaultMovingStrategy(pacman), pacman.getMovingStrategy(), "Tous les effets du Pacman doivent être inactifs");
     	assertEquals(1, pacman.getSpeed(), "Tous les effets du Pacman doivent être inactifs");
     	assertEquals(1, pacman.getRange(), "Tous les effets du Pacman doivent être inactifs");
     }
@@ -128,13 +131,13 @@ class EffectMagicTest {
     	}  
     	
     	assertEquals(3, AsyncEffect.getEffects().size(), "Un effet ne doit pas être lancé plus d'une fois !");
-		assertTrue(pacman.getGhost(), "Le Pacman doit désormais être un fantôme");
+    	assertEquals(new GhostMovingStrategy(pacman), pacman.getMovingStrategy(), "Le Pacman doit désormais être un fantôme");
     	assertEquals(2, pacman.getSpeed(), "Le Pacman doit désormais voir sa vitesse incrémentée de 1");
     	assertEquals(2, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 1");
     	
     	Thread.sleep(6000);
     	assertEquals(0, AsyncEffect.getEffects().size(), "Tous les effets du Pacman doivent être inactifs");
-    	assertFalse(pacman.getGhost(), "Tous les effets du Pacman doivent être inactifs");
+    	assertEquals(new DefaultMovingStrategy(pacman), pacman.getMovingStrategy(), "Tous les effets du Pacman doivent être inactifs");
     	assertEquals(1, pacman.getSpeed(), "Tous les effets du Pacman doivent être inactifs");
     	assertEquals(1, pacman.getRange(), "Tous les effets du Pacman doivent être inactifs");
     	
@@ -183,15 +186,15 @@ class EffectMagicTest {
         	i--;
     	} 
 		
-		Thread.sleep(100);
+		Thread.sleep(120);
     	
-    	assertTrue(pacman.getGhost(), "Le Pacman doit désormais être un fantôme");
+		assertEquals(new GhostMovingStrategy(pacman), pacman.getMovingStrategy(), "Le Pacman doit désormais être un fantôme");
     	assertEquals(0.5, pacman.getSpeed(), "L'effet Slow doit pas remplacer l'effet Speed");
     	assertEquals(2, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 1");
     	
     	Thread.sleep(6000);
     	assertEquals(1, AsyncEffect.getEffects().size(), "Seul l'effet Slow doit être actif puisqu'il supprime Speed");
-    	assertFalse(pacman.getGhost(), "Seul l'effet Slow doit être actif puisqu'il supprime Speed");
+    	assertEquals(new DefaultMovingStrategy(pacman), pacman.getMovingStrategy(), "Seul l'effet Slow doit être actif puisqu'il supprime Speed");
     	assertEquals(0.5, pacman.getSpeed(), "Seul l'effet Slow doit être actif puisqu'il supprime Speed");
     	assertEquals(1, pacman.getRange(), "Seul l'effet Slow doit être actif puisqu'il supprime Speed");
     	
