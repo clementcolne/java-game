@@ -41,7 +41,7 @@ class EffectTrapTest {
         new Slow().doEffect(pacman);
         Thread.sleep(1);
         assertEquals(0.5, pacman.getSpeed(), "La vitesse du pacman n'a pas diminuée");
-        Thread.sleep(5001);
+        Thread.sleep(5100);
         assertEquals(1, pacman.getSpeed(), "La vitesse du pacman n'est pas revenue à la normale");
     }
 
@@ -50,7 +50,7 @@ class EffectTrapTest {
         new Stop().doEffect(pacman);
         Thread.sleep(1);
         assertEquals(0, pacman.getSpeed(), "La vitesse du pacman n'est pas nulle");
-        Thread.sleep(5001);
+        Thread.sleep(5100);
         assertEquals(1, pacman.getSpeed(), "La vitesse du pacman n'est pas revenue à la normale");
     }
 }
