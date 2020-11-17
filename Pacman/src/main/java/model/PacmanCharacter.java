@@ -14,13 +14,9 @@ import model.movingStrategy.MovingStrategy;
  * Cette classe décrit le comportement d'un personnage
  * @author Clément Colné
  */
-public class PacmanCharacter {
+public class PacmanCharacter extends Character{
 
-    private double posX;
-    private double posY;
     private int life = 10;
-    private MovingStrategy movingStrategy;
-	private double speed = 1;
 	private int range = 1;
 	private boolean ghost = false;
 	private List<int[]> visitedCoordinates;
@@ -32,8 +28,7 @@ public class PacmanCharacter {
      * @param posY Position du personnage en Y
      */
     public PacmanCharacter(double posX, double posY) {
-        this.posX = posX;
-        this.posY = posY;
+        super(posX, posY);
         
         movingStrategy = new DefaultMovingStrategy(this);
         visitedCoordinates = new LinkedList<>(Arrays.asList(new int[] {(int) this.posX, (int) this.posY}));
