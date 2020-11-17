@@ -7,7 +7,7 @@ import model.PacmanCharacter;
 /**
  * @author Clément Colné
  */
-public class DefaultMonsterMovingStrategy extends MonsterMovingStrategy {
+public class DefaultMonsterMovingStrategy extends MovingStrategy {
     /**
      * Constructeur permettant d'indiquer qui est concerné par la stratégie
      *
@@ -16,16 +16,6 @@ public class DefaultMonsterMovingStrategy extends MonsterMovingStrategy {
      */
     public DefaultMonsterMovingStrategy(PacmanCharacter pc) {
         super(pc);
-    }
-
-    @Override
-    public void moove(Character character) {
-        // TODO : pour l'instant aucune vérification si le perso a le droit de se déplacer
-        double x, y;
-        x = (Math.random() * (1 - -1 + 1) + -1);
-        y = (Math.random() * (1 - -1 + 1) + -1);
-        character.setPosX(character.getPosX() + x);
-        character.setPosY(character.getPosY() + y);
     }
 
     @Override
