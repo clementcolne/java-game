@@ -161,6 +161,19 @@ public class PacmanCharacter extends Character{
     }
 
     /**
+     * Modifie la stratégie de déplacement en vigueur
+     * @param movingStrategy nouvelle stratégie de déplacement à appliquer
+     * @author Adèle
+     */
+    public void setMovingStrategy(MovingStrategy movingStrategy) {
+        this.movingStrategy = movingStrategy;
+    }
+
+    public MovingStrategy getMovingStrategy() {
+    	return this.movingStrategy;
+    }
+
+    /**
      * @author Adèle
      * @return le nombre de point de vie du personnage
      */

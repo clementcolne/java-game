@@ -3,6 +3,7 @@ package model.movingStrategy;
 import java.util.Iterator;
 
 import engine.MapBuilder;
+import model.Character;
 import model.Ground;
 import model.PacmanCharacter;
 import model.PacmanGame;
@@ -54,7 +55,7 @@ public abstract class MovingStrategy {
 	 * Déplacement du personnage vers une direction aléatoire (utilisée uniquement par les monstres)
 	 * @author Adèle
 	 */
-	public abstract void moove();
+	public abstract void moove(Character character);
     
 	public abstract boolean canMoove(double x, double y, MapBuilder mapBuilder);
 	

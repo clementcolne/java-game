@@ -1,6 +1,7 @@
 package model.movingStrategy;
 
 import engine.MapBuilder;
+import model.Character;
 import model.PacmanCharacter;
 
 /**
@@ -50,7 +51,11 @@ public class DefaultMovingStrategy extends PacmanMovingStrategy {
 		this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
 	}
 
-    /**
+	public void moove(Character character) {
+
+	}
+
+	/**
      * Vérifie si le joueur peut se déplacer dans la direction par défaut
      * @author Raphaël
      * @param x Position en x à ajouter au Pacman

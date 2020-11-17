@@ -7,10 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import engine.Cmd;
-import engine.CustomIterator;
-import engine.Game;
-import engine.MapBuilder;
+import engine.*;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -303,8 +300,9 @@ public class PacmanGame implements Game {
 	 */
 	public void doEffect(boolean move, Cmd cmd) {
 		Ground nearest = getNearestEffectiveGround(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosY());
-		
+
 		if (nearest.isTreasure()) {
+			nearest.setImage(ImageFactory.getInstance().loadImage("Extra/treasureOpen40x40.png"));
 			this.isFinished = true;
 		}
 		
