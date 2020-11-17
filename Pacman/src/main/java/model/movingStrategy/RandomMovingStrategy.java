@@ -8,7 +8,7 @@ import model.PacmanCharacter;
  * @author Adèle Barbier
  * 30/10/2020
  **/
-public class RandomMovingStrategy extends PacmanMovingStrategy {
+public class RandomMovingStrategy extends MovingStrategy {
 
 	/**
 	 * Constructeur de la stratégie Random (déplacement étourdi)
@@ -17,39 +17,6 @@ public class RandomMovingStrategy extends PacmanMovingStrategy {
 	 */
     public RandomMovingStrategy(PacmanCharacter pc) {
 		super(pc);
-	}
-
-	/**
-	 * Ici, bouger vers le haut fait bouger dans une autre direction indiquée dans canMoove
-	 */
-    public void mooveUp() {
-        this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
-    }
-
-	/**
-	 * Ici, bouger vers le bas fait bouger dans une autre direction indiquée dans canMoove
-	 */
-    public void mooveDown() {
-    	this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
-    }
-
-    /**
-	 * Ici, bouger vers la droite fait bouger dans une autre direction indiquée dans canMoove
-	 */
-    public void mooveRight() {
-    	this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
-    }
-
-    /**
-	 * Ici, bouger vers la gauche fait bouger dans une autre direction indiquée dans canMoove
-	 */
-    public void mooveLeft() {
-    	this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
-    }
-
-	@Override
-	public void moove(Character character) {
-
 	}
 
 	/**

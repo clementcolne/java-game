@@ -26,36 +26,38 @@ public abstract class MovingStrategy {
 	public MovingStrategy(PacmanCharacter pc) {
 		this.pacmanCharacter = pc;
 	}
-    
+
 	/**
-	 * Déplacement du personnage par défaut vers le haut (utilisée uniquement par le pacman)
+	 * Déplacement du personnage par défaut vers le haut
 	 * @author Raphaël
 	 */
-    public abstract void mooveUp();
-
-    /**
-     * Déplacement du personange par défaut vers le bas (utilisée uniquement par le pacman)
-     * @author Raphaël
-     */
-    public abstract void mooveDown();
-
-    /**
-     * Déplacement du personnage par défaut vers la droite (utilisée uniquement par le pacman)
-     * @author Raphaël
-     */
-    public abstract void mooveRight();
-
-    /**
-     * Déplacement du personnage par défaut vers la gauche (utilisée uniquement par le pacman)
-     * @author Raphaël
-     */
-    public abstract void mooveLeft();
+	public void mooveUp() {
+		this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
+	}
 
 	/**
-	 * Déplacement du personnage vers une direction aléatoire (utilisée uniquement par les monstres)
-	 * @author Adèle
+	 * Déplacement du personange par défaut vers le bas
+	 * @author Raphaël
 	 */
-	public abstract void moove(Character character);
+	public void mooveDown() {
+		this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
+	}
+
+	/**
+	 * Déplacement du personnage par défaut vers la droite
+	 * @author Raphaël
+	 */
+	public void mooveRight() {
+		this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
+	}
+
+	/**
+	 * Déplacement du personnage par défaut vers la gauche
+	 * @author Raphaël
+	 */
+	public void mooveLeft() {
+		this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
+	}
     
 	public abstract boolean canMoove(double x, double y, MapBuilder mapBuilder);
 	
