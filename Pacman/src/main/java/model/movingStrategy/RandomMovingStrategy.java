@@ -7,7 +7,7 @@ import model.PacmanCharacter;
  * @author Adèle Barbier
  * 30/10/2020
  **/
-public class RandomMovingStrategy extends MovingStrategy {
+public class RandomMovingStrategy extends PacmanMovingStrategy {
 
 	/**
 	 * Constructeur de la stratégie Random (déplacement étourdi)
@@ -21,7 +21,6 @@ public class RandomMovingStrategy extends MovingStrategy {
 	/**
 	 * Ici, bouger vers le haut fait bouger dans une autre direction indiquée dans canMoove
 	 */
-	@Override
     public void mooveUp() {
         this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
     }
@@ -29,7 +28,6 @@ public class RandomMovingStrategy extends MovingStrategy {
 	/**
 	 * Ici, bouger vers le bas fait bouger dans une autre direction indiquée dans canMoove
 	 */
-    @Override
     public void mooveDown() {
     	this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
     }
@@ -37,7 +35,6 @@ public class RandomMovingStrategy extends MovingStrategy {
     /**
 	 * Ici, bouger vers la droite fait bouger dans une autre direction indiquée dans canMoove
 	 */
-    @Override
     public void mooveRight() {
     	this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
     }
@@ -45,7 +42,6 @@ public class RandomMovingStrategy extends MovingStrategy {
     /**
 	 * Ici, bouger vers la gauche fait bouger dans une autre direction indiquée dans canMoove
 	 */
-    @Override
     public void mooveLeft() {
     	this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
     }
@@ -59,7 +55,6 @@ public class RandomMovingStrategy extends MovingStrategy {
      * @param mapBuilder Générateur de la carte
      * @param pacmanCharacter Pacman sur lequel la vérification de déplacement doit être effectuée
      */
-    @Override
     public boolean canMoove(double x, double y, MapBuilder mapBuilder) {
     	if (x != 0 && y != 0) {
     		return false;

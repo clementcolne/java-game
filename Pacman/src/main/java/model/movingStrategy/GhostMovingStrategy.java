@@ -7,7 +7,7 @@ import model.PacmanCharacter;
  * @author Adèle Barbier
  * 05/11/2020
  **/
-public class GhostMovingStrategy extends MovingStrategy{
+public class GhostMovingStrategy extends PacmanMovingStrategy{
 
     /**
      * Constructeur permettant d'indiquer qui est concerné par la stratégie
@@ -19,27 +19,22 @@ public class GhostMovingStrategy extends MovingStrategy{
         super(pc);
     }
 
-    @Override
     public void mooveUp() {
         pacmanCharacter.setPosY(pacmanCharacter.getPosY()-pacmanCharacter.getSpeed());
     }
 
-    @Override
     public void mooveDown() {
         pacmanCharacter.setPosY(pacmanCharacter.getPosY()+pacmanCharacter.getSpeed());
     }
 
-    @Override
     public void mooveRight() {
         pacmanCharacter.setPosX(pacmanCharacter.getPosX()+pacmanCharacter.getSpeed());
     }
 
-    @Override
     public void mooveLeft() {
         pacmanCharacter.setPosX(pacmanCharacter.getPosX()-pacmanCharacter.getSpeed());
     }
 
-    @Override
     public boolean canMoove(double x, double y, MapBuilder mapBuilder) {
         return pacmanCharacter.getPosX() + x < mapBuilder.getWidth() && pacmanCharacter.getPosY() + y < mapBuilder.getHeight() && pacmanCharacter.getPosX() + x >=0 && pacmanCharacter.getPosY() + y >=0;
     }
@@ -71,4 +66,6 @@ public class GhostMovingStrategy extends MovingStrategy{
             return false;
         }
     }
+
+
 }

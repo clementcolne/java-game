@@ -27,36 +27,34 @@ public abstract class MovingStrategy {
 	}
     
 	/**
-	 * Déplacement du personnage par défaut vers le haut
+	 * Déplacement du personnage par défaut vers le haut (utilisée uniquement par le pacman)
 	 * @author Raphaël
 	 */
-    public void mooveUp() {
-        this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
-    }
+    public abstract void mooveUp();
 
     /**
-     * Déplacement du personange par défaut vers le bas
+     * Déplacement du personange par défaut vers le bas (utilisée uniquement par le pacman)
      * @author Raphaël
      */
-    public void mooveDown() {
-    	this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
-    }
+    public abstract void mooveDown();
 
     /**
-     * Déplacement du personnage par défaut vers la droite
+     * Déplacement du personnage par défaut vers la droite (utilisée uniquement par le pacman)
      * @author Raphaël
      */
-    public void mooveRight() {
-    	this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
-    }
+    public abstract void mooveRight();
 
     /**
-     * Déplacement du personnage par défaut vers la gauche
+     * Déplacement du personnage par défaut vers la gauche (utilisée uniquement par le pacman)
      * @author Raphaël
      */
-    public void mooveLeft() {
-    	this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
-    }
+    public abstract void mooveLeft();
+
+	/**
+	 * Déplacement du personnage vers une direction aléatoire (utilisée uniquement par les monstres)
+	 * @author Adèle
+	 */
+	public abstract void moove();
     
 	public abstract boolean canMoove(double x, double y, MapBuilder mapBuilder);
 	
@@ -77,7 +75,7 @@ public abstract class MovingStrategy {
 		boolean insideYArea = posY + y >= 0 && ((posY + y) >= 0 ? Math.ceil(posY + y) < this.mapBuilder.getHeight() : false);
 		
 
-    	if (this.pacmanCharacter.getGhost()) {    		
+    	if (this.pacmanCharacter.getGhost()) {
     		if (insideXArea && insideYArea) {
     			return true;
     		}
