@@ -1,6 +1,7 @@
 package model.movingStrategy;
 
 import engine.MapBuilder;
+import model.Character;
 import model.PacmanCharacter;
 
 /**
@@ -33,6 +34,11 @@ public class GhostMovingStrategy extends PacmanMovingStrategy{
 
     public void mooveLeft() {
         pacmanCharacter.setPosX(pacmanCharacter.getPosX()-pacmanCharacter.getSpeed());
+    }
+
+    @Override
+    public void moove(Character character) {
+        
     }
 
     public boolean canMoove(double x, double y, MapBuilder mapBuilder) {

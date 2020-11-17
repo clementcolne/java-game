@@ -1,6 +1,7 @@
 package model.movingStrategy;
 
 import engine.MapBuilder;
+import model.Character;
 import model.PacmanCharacter;
 
 /**
@@ -46,7 +47,12 @@ public class RandomMovingStrategy extends PacmanMovingStrategy {
     	this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
     }
 
-    /**
+	@Override
+	public void moove(Character character) {
+
+	}
+
+	/**
      * Vérifie si le joueur peut se déplacer dans la direction Random.
      * Etant donné que l'appel à canMoove est générique, les paramètres x et y sont inversés selon la direction choisie dans les méthodes moove.
      * @author Raphaël

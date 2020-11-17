@@ -31,4 +31,31 @@ public abstract class Character {
     public void setMovingStrategy(MovingStrategy strategy){
         movingStrategy = strategy;
     }
+
+    public abstract void setPosX(double posX);
+
+    /**
+     * Modifier la position en ordonnée du Pacman
+     * @author Adèle
+     * @param posY Position en ordonnée
+     */
+    public abstract void setPosY(double posY);
+
+    /**
+     * Retourne la position en X du personnage
+     * @author Clément
+     * @return position en X du personnage
+     */
+    public double getPosX() {
+        return posX;
+    }
+
+    /**
+     * Retourne la position en Y du personnage
+     * @author Clément
+     * @return position en Y du personnage
+     */
+    public double getPosY() {
+        return posY;
+    }
 }
