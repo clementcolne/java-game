@@ -34,6 +34,10 @@ public class Ground {
 		return image;
 	}
 
+	public void setImage(Image i) {
+		this.image = i;
+	}
+
 	/**
 	 * Permet d'indiquer qu'un sol est toujours accessible par un personnage
 	 * @author Raphaël
