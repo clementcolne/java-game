@@ -31,4 +31,52 @@ public abstract class Character {
     public void setMovingStrategy(MovingStrategy strategy){
         movingStrategy = strategy;
     }
+
+    public MovingStrategy getMovingStrategy() {
+        return movingStrategy;
+    }
+
+    /**
+     * Retourne la position en X du personnage
+     * @author Clément
+     * @return position en X du personnage
+     */
+    public double getPosX() {
+        return posX;
+    }
+
+    /**
+     * Modifier la position en abscisse du Pacman
+     * @author Adèle
+     * @param posX Position en abscisse
+     */
+    public void setPosX(double posX) {
+        this.posX = posX;
+    }
+
+    /**
+     * Retourne la position en Y du personnage
+     * @author Clément
+     * @return position en Y du personnage
+     */
+    public double getPosY() {
+        return posY;
+    }
+
+    /**
+     * Modifier la position en ordonnée du Pacman
+     * @author Adèle
+     * @param posY Position en ordonnée
+     */
+    public void setPosY(double posY) {
+        this.posY = posY;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
 }

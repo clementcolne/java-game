@@ -144,8 +144,9 @@ public class PacmanCharacter extends Character{
 	 * @author Adèle
 	 * @param posX Position en abscisse
 	 */
+	@Override
     public void setPosX(double posX) {
-        this.posX = posX;
+        super.setPosX(posX);
         this.visitedCoordinates.add(new int[] {(int) this.posX, (int) this.posY});
     }
 
@@ -155,38 +156,8 @@ public class PacmanCharacter extends Character{
      * @param posY Position en ordonnée
      */
     public void setPosY(double posY) {
-        this.posY = posY;
+        super.setPosX(posY);
         this.visitedCoordinates.add(new int[] {(int) this.posX, (int) this.posY});
-    }
-
-    /**
-     * Modifie la stratégie de déplacement en vigueur
-     * @param movingStrategy nouvelle stratégie de déplacement à appliquer
-     * @author Adèle
-     */
-    public void setMovingStrategy(MovingStrategy movingStrategy) {
-        this.movingStrategy = movingStrategy;
-    }
-
-    public MovingStrategy getMovingStrategy() {
-    	return this.movingStrategy;
-    }
-    /**
-     * Retourne la position en X du personnage
-     * @author Clément
-     * @return position en X du personnage
-     */
-    public double getPosX() {
-        return posX;
-    }
-
-    /**
-     * Retourne la position en Y du personnage
-     * @author Clément
-     * @return position en Y du personnage
-     */
-    public double getPosY() {
-        return posY;
     }
 
     /**
