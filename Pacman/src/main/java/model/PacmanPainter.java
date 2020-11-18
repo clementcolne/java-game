@@ -43,7 +43,7 @@ public class PacmanPainter implements GamePainter {
 		drawCharacter(im);
 		// Deuxièmement, on affiche HUD
 		drawHealthBar(crayon);
-		drawHUD(crayon);
+		//drawHUD(crayon);
 	}
 
 	/**
@@ -88,12 +88,12 @@ public class PacmanPainter implements GamePainter {
 		}
 	}
 
-	public void drawHUD(Graphics2D crayon){
+	/*public void drawHUD(Graphics2D crayon){
 		crayon.setColor(Color.white);
 		if (pacmanGame.getCharacter().getCurrentEffect() != "No Effect"){
 		crayon.drawString(pacmanGame.getCharacter().getCurrentEffect(), 42,50);
 		}
-	}
+	}*/
 
 	@Override
 	public int getWidth() {
