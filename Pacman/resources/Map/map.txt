@@ -1,25 +1,31 @@
-wwwwwwwwwwwwwww
-wsssssssssssspw
-wswwwwwwwwwwwww
-wsssssssssssssw
-wwwwwwwwwwwwwsw
-wsssssssssssssw
-wswwwwwwwwwwwww
-wsssssssssssssw
-wwwwwwwwwwwwwsw
-wsssssssssssssw
-wswwwwwwwwwwwww
-wsssssssssssssw
-wwwwwwwwwwwwwsw
-wpssssssssssskw
-wwwwwwwwwwwwwww
+---------------
+-++++++t++++tp-
+-+-------------
+-+++++mmm+++++-
+-----++++----+-
+-++++++t++++++-
+-+-------------
+-+++++++++++++-
+-------m-----+-
+-+++++++m+++++-
+-+-------------
+-++++++m++++++-
+-------------+-
+-p+++++++++++k-
+---------------
 /******************************************/
 /* Description des caractères utilisables */
-/* Ground : g     WHITE                   */
-/* Wall : w       DARK GREY               */
-/* End : e        RED                     */
-/* Magic : m      CYAN                    */
-/* Trap : t       BLUE                    */
-/* Passage : p    BLACK                   */
-/* Treasure : k   PURPLE                  */
+/* Ground : +         	                  */
+/* Wall : -                               */
+/* End : e                                */
+/* Magic : m                              */
+/* Bow : b		                          */
+/* Ghost : g                              */
+/* Speed : >                              */
+/* Trap : t                               */
+/* Slow : <                               */
+/* Stop : x                               */
+/* Stun : ~                               */
+/* Passage : p                            */
+/* Treasure : k                           */
 /******************************************/

@@ -1,12 +1,19 @@
 package engine;
 
+import model.*;
+import model.effect.Bow;
+import model.effect.EffectMagic;
+import model.effect.EffectTrap;
+import model.effect.Ghost;
+import model.effect.Slow;
+import model.effect.Speed;
+import model.effect.Stop;
+import model.effect.Stun;
 import model.Ground;
 import model.Passage;
-import model.Treasure;
+import model.End;
 import model.Wall;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
@@ -44,28 +51,22 @@ public class MapBuilder {
      */
     private void buildMap() {
         // initialisation du tableau qui contiendra les objets de la map
-        this.map = new Ground[width][height];
+        this.map = new Ground[height+1][width+1];
 
         // lecture du fichier
-        try {
-            File file = new File("resources/Map/" + path);
-            Scanner reader = new Scanner(file);
-            // compteur de lignes
-            int i = 0;
-            while(i < height) {
-                String data = reader.nextLine();
-                for(int j = 0 ; j < data.length() ; j++) {
-                    // pour chaque colonne
-                    // complète la map
-                    map[j][i] = getGround(data.charAt(j), j, i);
-                }
-                i++;
+        Scanner reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ path));
+        // compteur de lignes
+        int i = 0;
+        while(i < height && reader.hasNext()) {
+            String data = reader.nextLine();
+            for(int j = 0 ; j < data.length() && j < width ; j++) {
+                // pour chaque colonne
+                // complète la map
+                map[i][j] = getGround(data.charAt(j), j, i);
             }
-            reader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Le fichier n'a pas été trouvé");
-            e.printStackTrace();
+            i++;
         }
+        reader.close();
     }
 
     /**
@@ -77,22 +78,42 @@ public class MapBuilder {
     private Ground getGround(char c, int x, int y) {
         Ground res = null;
         switch (c) {
-            case 'w':
+            case '-':
                 // wall
                 res = new Wall(x, y);
                 break;
-            case 'e':
-                // end
-                // res = new End(x, y);
-                break;
             case 'm':
                 // magic
-                // res = new Magic(x, y);
+                res = new Magic(x, y, new EffectMagic());
                 break;
+            case 'b':
+            	// bow
+            	res = new Magic(x,y, new Bow());
+            	break;
+            case 'g':
+            	// ghost
+            	res = new Magic(x,y, new Ghost());
+            	break;
+            case '>':
+            	// speed
+            	res = new Magic(x,y, new Speed());
+            	break;
             case 't':
                 // trap
-                // res = new Trap(x, y);
+                res = new Trap(x, y, new EffectTrap());
                 break;
+            case '<':
+            	// slow
+            	res = new Trap(x,y, new Slow());
+            	break;
+            case 'x':
+            	// stop
+            	res = new Trap(x,y, new Stop());
+            	break;
+            case '~':
+            	// stun
+            	res = new Trap(x,y, new Stun());
+            	break;
             case 'p':
                 // passage
                 res = new Passage(x, y);
@@ -100,7 +121,7 @@ public class MapBuilder {
                 break;
             case 'k':
                 // treasure
-                res = new Treasure(x, y);
+                res = new End(x, y);
                 break;
             default:
                 // par défault, la case est un sol
@@ -127,7 +148,22 @@ public class MapBuilder {
      * @return case à la position x;y
      */
     public Ground get(int x, int y) {
-        return map[x][y];
+    	if (y < height && x < width && y >= 0 && x >= 0 && map[y][x] != null) {
+    		return map[y][x];
+    	}
+    	else {
+    		return new Ground(x, y);
+    	}
+    }
+
+    /**
+     * Change le Ground [x;y] par le nouveau Ground en paramètre
+     * @param x position en x
+     * @param y position en y
+     * @param g nouveau Ground
+     */
+    public void set(int x, int y, Ground g) {
+        map[y][x] = g;
     }
 
     /**

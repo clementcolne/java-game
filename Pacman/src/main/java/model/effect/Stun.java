@@ -16,9 +16,14 @@ public class Stun extends EffectTrap{
     public void doEffect(final PacmanCharacter character) {
         new AsyncEffect(this, Effect.class, 5000, 0, 5000) {
             public void execute() {
-                character.setMovingStrategy(!this.isEnded() ? new RandomMovingStrategy() : new DefaultMovingStrategy());
+                character.setMovingStrategy(!this.isEnded() ? new RandomMovingStrategy(character) : new DefaultMovingStrategy(character));
             }
         }.run();
+    }
+
+    @Override
+    public String toString() {
+        return "Effet Etourdi";
     }
 
 }

@@ -2,10 +2,10 @@ package model;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import javax.imageio.ImageIO;
 
+import engine.Animation;
 import engine.GamePainter;
+import engine.ImageFactory;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -15,14 +15,8 @@ import engine.GamePainter;
  */
 public class PacmanPainter implements GamePainter {
 
-	private final int SCALE = 40; // @author Adèle permet d'agrandir de la même manière tous les éléments du jeu
 	private PacmanGame pacmanGame;
-	private Image pacman, wall, ground, treasure, portal;
-	private Ground g;
-	private Wall w;
-	private Passage p;
-	private Treasure tr;
-	private PacmanCharacter pc;
+	private Animation pacman;
 
 	/**
 	 * appelle constructeur parent
@@ -31,11 +25,7 @@ public class PacmanPainter implements GamePainter {
 	 */
 	public PacmanPainter(PacmanGame game) {
 		pacmanGame = game;
-		g = new Ground();
-		w = new Wall();
-		p  = new Passage();
-		tr = new Treasure();
-		pc = new PacmanCharacter();
+		this.pacman = ImageFactory.getInstance().loadAnimation("Character/wraith.gif", 60);
 	}
 
 	/**
@@ -43,11 +33,9 @@ public class PacmanPainter implements GamePainter {
 	 */
 	@Override
 	public void draw(BufferedImage im) {
-		// On commence par dessiner la Map puis le reste des éléments après sinon la map cache tout
-		drawMap(im);
-		// Ajout les textures des mur et de sol
+		// Premièrement, on affiche toute la map
 		addMapTextures(im);
-		// On dessine le personnage
+		// Deuxièmement, on affiche les personnages
 		drawCharacter(im);
 	}
 
@@ -56,98 +44,42 @@ public class PacmanPainter implements GamePainter {
 	 * @param im BufferedImage
 	 */
 	public void drawCharacter(BufferedImage im) {
-		Graphics2D crayon = (Graphics2D) im.getGraphics();
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		pacman = toolkit.getImage("resources/" + pc.getPath());
-		crayon.drawImage(pacman,(int)pacmanGame.getCharacterPosX()*SCALE, (int)pacmanGame.getCharacterPosY()*SCALE,SCALE,SCALE,null);
-	}
-
-
-	public void drawMap(BufferedImage im) {
-		Graphics2D crayon = (Graphics2D) im.getGraphics();
-		for(int i = 0 ; i < pacmanGame.getMapBuilder().getWidth() ; i++) {
-			for(int j = 0; j < pacmanGame.getMapBuilder().getHeight() ; j++) {
-				// pour chaque Ground de la map
-				Ground g = pacmanGame.getMapBuilder().get(i, j);
-				// on colorie de la couleur définie dans la classe Ground
-				crayon.setColor(g.getColor());
-				//System.out.println(g.getColor());
-				// on remplis un carré
-				crayon.fillRect(i * SCALE, j * SCALE, SCALE,SCALE);
-			}
-		}
+		this.pacman.drawImage((int)(pacmanGame.getCharacterPosX()*pacmanGame.getScale()), (int)(pacmanGame.getCharacterPosY()*pacmanGame.getScale()), pacmanGame.getScale(), pacmanGame.getScale(), null, (Graphics2D) im.getGraphics());
 	}
 
 	/**
 	 * Ajoute les textures des mur et de sol
-	 * @author Adham
+	 * @author Clément
 	 * @param im BufferedImage
 	 */
 	public void addMapTextures(BufferedImage im){
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
-		wall = LoadImage("resources/" + w.getPath());
-		ground = LoadImage("resources/" + g.getPath());
-		treasure = LoadImage("resources/" + tr.getPath());
-		portal = LoadImage("resources/" + p.getPath());
 
-		for (int i = 0; i< pacmanGame.getMapBuilder().getWidth(); i++){
-			for (int j = 0; j<pacmanGame.getMapBuilder().getHeight(); j++){
-				 Ground g = pacmanGame.getMapBuilder().get(i,j);
-				 // Si la couleur est blanche on ajoute les texture des murs
-				 if (g.color == Color.WHITE){
-				 	crayon.drawImage(ground,i*SCALE,j*SCALE,SCALE,SCALE,null);
-				 }
-				 // Si la couleur est grise on ajoute les texture de sol
-				 else if (g.color == Color.DARK_GRAY){
-				 	crayon.drawImage(wall,i*SCALE,j*SCALE,SCALE,SCALE,null);
-				 }
-				 // Si la couleur est rose on ajoute les texture de sol et puis les la texture du trésor
-				 else if (g.color == Color.PINK){
-				 	crayon.drawImage(ground,i*SCALE,j*SCALE,SCALE,SCALE,null);
-				 	crayon.drawImage(treasure,i*SCALE,j*SCALE,SCALE,SCALE,null);
-				 }
-				 // Si la couleur est rouge on ajoute les texture de sol et puis les la texture de passage
-				 else if (g.color == Color.RED){
-				 	crayon.drawImage(ground,i*SCALE,j*SCALE,SCALE,SCALE,null);
-				 	crayon.drawImage(portal,i*SCALE,j*SCALE,SCALE,SCALE,null);
-				 }
+		for (int i = 0 ; i < pacmanGame.getMapBuilder().getWidth() ; i++){
+			for (int j = 0 ; j < pacmanGame.getMapBuilder().getHeight() ; j++){
+				// on commence par mettre de l'herbe partout (pour que les objets soient posés sur le sol)
+				crayon.drawImage(ImageFactory.getInstance().loadImage("Ground/Ground_lvl1.png"),i*pacmanGame.getScale(),j*pacmanGame.getScale(),pacmanGame.getScale(),pacmanGame.getScale(),null);
+				Ground g = pacmanGame.getMapBuilder().get(i, j);
+				
+				if(g.isEffect()) {
+					// ici, je regarde si c'est un effet afin de dessiner la pomme en plus petit
+					crayon.drawImage(g.getImage(),i*pacmanGame.getScale() + 10,j*pacmanGame.getScale() + 10,pacmanGame.getScale()/2,pacmanGame.getScale()/2,null);
+				}else{
+					crayon.drawImage(g.getImage(), i * pacmanGame.getScale(), j* pacmanGame.getScale(), pacmanGame.getScale(), pacmanGame.getScale(), null);
+				}
 			}
 		}
 	}
 
-
 	@Override
 	public int getWidth() {
-		return pacmanGame.getWidth()* SCALE;
+		return pacmanGame.getWidth()* pacmanGame.getScale();
 	}
 
 	@Override
 	public int getHeight() {
-		return pacmanGame.getHeight()* SCALE;
+		return pacmanGame.getHeight()* pacmanGame.getScale();
 	}
 
-	/**
-	 * Obtient l'image
-	 * @author Adham
-	 * @param path repertoire de l'image
-	 * @return l'image
-	 */
-	public Image LoadImage(String path){
-		Image temp = null;
-		try{
-			temp = ImageIO.read(new File(path));
-		}
-		catch(Exception e){
-			System.out.println("Error loading Image" + e.getMessage());
-		}
-		return temp;
-	}
-
-	/**
-	 * @author Adèle
-	 * @return l'échelle du jeu
-	 */
-	public int getScale() {
-		return SCALE;
-	}
 }
+

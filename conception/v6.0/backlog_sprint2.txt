@@ -1,0 +1,15 @@
+(Adham) - Trouver 2 textures pour piège et effet magie, si possible 2 images qui se ressemblent comme 2 fioles par exemple mais qu'on peut différencier car une donne un effet positif et une un effet négatif
+(Clément) - Amélioration de l'utilisation des textures (au niveau des paths)
+(Adham) - Affichage de la vie du personnage et de l'effet ramassé par le personnage dans l'interface graphique
+  --> Affichage vie
+  --> Affichage nom effet en cours + quand il se termine
+  --> Message de fin 
+- Ajout des monstres basiques avec des déplacements aléatoires 
+   (Adèle)--> Refactor PacmanCharacter
+   (Clément)--> Création MonsterCharacter
+    (Adèle)-->  Passage de Ghost du PacMan pour une stratégie
+  (Clément)-->  Stratégie default des monstres
+- Ajout des fantômes (qui sont des monstres basiques mais qui peuvent traverser les murs)
+   (Raphaël)-->  Stratégie fantôme des monstres
+(Adèle) - Résoudre bug fin de partie
+(Raphaël) - Résoudre bug collision (bug fantome (0,0), bug case effet)
