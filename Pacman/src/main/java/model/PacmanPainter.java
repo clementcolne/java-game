@@ -2,10 +2,13 @@ package model;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Iterator;
 
 import engine.Animation;
 import engine.GamePainter;
 import engine.ImageFactory;
+import model.effect.AsyncEffect;
+import model.effect.Effect;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -17,7 +20,6 @@ public class PacmanPainter implements GamePainter {
 
 	private PacmanGame pacmanGame;
 	private Animation pacman;
-	private ImageFactory imageFactory;
 
 	/**
 	 * appelle constructeur parent
@@ -41,9 +43,11 @@ public class PacmanPainter implements GamePainter {
 		addMapTextures(crayon);
 		// Deuxièmement, on affiche les personnages
 		drawCharacter(im);
-		// Deuxièmement, on affiche HUD
+		// Troisièmement, on affiche HUD
 		drawHealthBar(crayon);
-		//drawHUD(crayon);
+		drawHUD(crayon);
+		// En fin, om affiche la message de fin
+		drawEnd(crayon);
 	}
 
 	/**
@@ -84,16 +88,24 @@ public class PacmanPainter implements GamePainter {
 	 */
 	public void drawHealthBar(Graphics2D crayon){
 		for (int i = 1; i<= pacmanGame.getCharacter().getLife();i++){
-			crayon.drawImage(imageFactory.getInstance().loadImage("Extra/vie.png"),10+(i*10),10,25, 25, null);
+			crayon.drawImage(ImageFactory.getInstance().loadImage("Extra/vie.png"),10+(i*10),10,25, 25, null);
 		}
 	}
 
-	/*public void drawHUD(Graphics2D crayon){
+	public void drawHUD(Graphics2D crayon){
 		crayon.setColor(Color.white);
-		if (pacmanGame.getCharacter().getCurrentEffect() != "No Effect"){
-		crayon.drawString(pacmanGame.getCharacter().getCurrentEffect(), 42,50);
+		Iterator<Effect> effects  = AsyncEffect.getEffects();
+		/*if (effects.hasNext()){
+			System.out.println(effects.toString());
+		}*/
+	}
+
+	public void drawEnd(Graphics2D crayon){
+		if(pacmanGame.isFinished()){
+			crayon.drawImage(ImageFactory.getInstance().loadImage("Extra/end.png"),0,0,null);
 		}
-	}*/
+
+	}
 
 	@Override
 	public int getWidth() {
