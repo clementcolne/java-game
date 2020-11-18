@@ -1,6 +1,7 @@
 package model.movingStrategy;
 
 import engine.MapBuilder;
+import model.Character;
 import model.PacmanCharacter;
 
 /**
@@ -18,7 +19,7 @@ public class DefaultMovingStrategy extends MovingStrategy {
 		super(pc);
 	}
 
-    /**
+	/**
      * Vérifie si le joueur peut se déplacer dans la direction par défaut
      * @author Raphaël
      * @param x Position en x à ajouter au Pacman

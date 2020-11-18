@@ -3,9 +3,11 @@ package model.movingStrategy;
 import java.util.Iterator;
 
 import engine.MapBuilder;
+import model.Character;
 import model.Ground;
 import model.PacmanCharacter;
 import model.PacmanGame;
+import model.effect.Effect;
 
 /**
  * @author Adèle Barbier, Raphaël Kimm
@@ -25,38 +27,38 @@ public abstract class MovingStrategy {
 	public MovingStrategy(PacmanCharacter pc) {
 		this.pacmanCharacter = pc;
 	}
-    
+
 	/**
 	 * Déplacement du personnage par défaut vers le haut
 	 * @author Raphaël
 	 */
-    public void mooveUp() {
-        this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
-    }
+	public void mooveUp() {
+		this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
+	}
 
-    /**
-     * Déplacement du personange par défaut vers le bas
-     * @author Raphaël
-     */
-    public void mooveDown() {
-    	this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
-    }
+	/**
+	 * Déplacement du personange par défaut vers le bas
+	 * @author Raphaël
+	 */
+	public void mooveDown() {
+		this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
+	}
 
-    /**
-     * Déplacement du personnage par défaut vers la droite
-     * @author Raphaël
-     */
-    public void mooveRight() {
-    	this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
-    }
+	/**
+	 * Déplacement du personnage par défaut vers la droite
+	 * @author Raphaël
+	 */
+	public void mooveRight() {
+		this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
+	}
 
-    /**
-     * Déplacement du personnage par défaut vers la gauche
-     * @author Raphaël
-     */
-    public void mooveLeft() {
-    	this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
-    }
+	/**
+	 * Déplacement du personnage par défaut vers la gauche
+	 * @author Raphaël
+	 */
+	public void mooveLeft() {
+		this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
+	}
     
 	public abstract boolean canMoove(double x, double y, MapBuilder mapBuilder);
 	
@@ -77,7 +79,7 @@ public abstract class MovingStrategy {
 		boolean insideYArea = posY + y >= 0 && ((posY + y) >= 0 ? Math.ceil(posY + y) < this.mapBuilder.getHeight() : false);
 		
 
-    	if (this.pacmanCharacter.getGhost()) {    		
+    	if (this.pacmanCharacter.getGhost()) {
     		if (insideXArea && insideYArea) {
     			return true;
     		}
@@ -243,4 +245,22 @@ public abstract class MovingStrategy {
 	public double getWayY() {
 		return wayY;
 	}    
+	
+	/**
+     * Permet de déterminer si une stratégie est égale à une autre par rapport au nom
+     * @author Raphaël
+     * @return true si les deux effets sont égaux, false sinon
+     */
+    public boolean equals(Object obj) {
+    	return ((MovingStrategy)this).getClass().equals(((MovingStrategy)obj).getClass());
+    }
+
+    /**
+     * Retourne le hash code associé uniquement à la classe de la stratégie
+     * @author Raphaël
+     * @return Hash code de l'effet
+     */
+    public int hashCode() {
+    	return this.getClass().hashCode();
+    }
 }
