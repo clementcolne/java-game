@@ -17,6 +17,7 @@ public class PacmanPainter implements GamePainter {
 
 	private PacmanGame pacmanGame;
 	private Animation pacman;
+	private ImageFactory imageFactory;
 
 	/**
 	 * appelle constructeur parent
@@ -33,10 +34,16 @@ public class PacmanPainter implements GamePainter {
 	 */
 	@Override
 	public void draw(BufferedImage im) {
+
+		Graphics2D crayon = (Graphics2D) im.getGraphics();
+
 		// Premièrement, on affiche toute la map
-		addMapTextures(im);
+		addMapTextures(crayon);
 		// Deuxièmement, on affiche les personnages
 		drawCharacter(im);
+		// Deuxièmement, on affiche HUD
+		drawHealthBar(crayon);
+		drawHUD(crayon);
 	}
 
 	/**
@@ -50,10 +57,9 @@ public class PacmanPainter implements GamePainter {
 	/**
 	 * Ajoute les textures des mur et de sol
 	 * @author Clément
-	 * @param im BufferedImage
+	 * @param crayon Graphics2D
 	 */
-	public void addMapTextures(BufferedImage im){
-		Graphics2D crayon = (Graphics2D) im.getGraphics();
+	public void addMapTextures(Graphics2D crayon){
 
 		for (int i = 0 ; i < pacmanGame.getMapBuilder().getWidth() ; i++){
 			for (int j = 0 ; j < pacmanGame.getMapBuilder().getHeight() ; j++){
@@ -68,6 +74,24 @@ public class PacmanPainter implements GamePainter {
 					crayon.drawImage(g.getImage(), i * pacmanGame.getScale(), j* pacmanGame.getScale(), pacmanGame.getScale(), pacmanGame.getScale(), null);
 				}
 			}
+		}
+	}
+
+	/**
+	 * Ajoute la vie de personnage
+	 * @author Adham
+	 * @param crayon Graphics2D
+	 */
+	public void drawHealthBar(Graphics2D crayon){
+		for (int i = 1; i<= pacmanGame.getCharacter().getLife();i++){
+			crayon.drawImage(imageFactory.getInstance().loadImage("Extra/vie.png"),10+(i*10),10,25, 25, null);
+		}
+	}
+
+	public void drawHUD(Graphics2D crayon){
+		crayon.setColor(Color.white);
+		if (pacmanGame.getCharacter().getCurrentEffect() != "No Effect"){
+		crayon.drawString(pacmanGame.getCharacter().getCurrentEffect(), 42,50);
 		}
 	}
 
