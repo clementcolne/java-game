@@ -1,6 +1,6 @@
 package model;
 
-import model.movingStrategy.DefaultMonsterMovingStrategy;
+import model.movingStrategy.DefaultMovingStrategy;
 
 /**
  * @author Clément Colné
@@ -14,7 +14,7 @@ public class MonsterCharacter extends Character {
      */
     public MonsterCharacter(double posX, double posY) {
         super(posX, posY);
-        setMovingStrategy(new DefaultMonsterMovingStrategy(this));
+        setMovingStrategy(new DefaultMovingStrategy(this));
     }
 
     @Override

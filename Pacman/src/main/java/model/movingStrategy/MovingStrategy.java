@@ -20,7 +20,7 @@ public abstract class MovingStrategy {
 	/**
 	 * Constructeur permettant d'indiquer qui est concerné par la stratégie
 	 * @author Raphaël
-	 * @param pc Pacman
+	 * @param c Character
 	 */
 	public MovingStrategy(Character c) {
 		this.character = c;
@@ -65,8 +65,6 @@ public abstract class MovingStrategy {
      * @author Raphaël
      * @param x Position à incrémenter par rapport à la position actuelle en abscisse du Pacman
      * @param y Position à incrémenter par rapport à la position actuelle en ordonnée du Pacman
-     * @param mapBuilder Map du jeu
-     * @param character Pacman
      * @return true s'il peut passer, false sinon
      */
     public boolean canBypassGround(double x, double y) {
@@ -75,7 +73,7 @@ public abstract class MovingStrategy {
     	
     	boolean insideXArea = posX + x >= 0 && ((posX + x) >= 0 ? Math.ceil(posX + x) < this.mapBuilder.getWidth() : false);
 		boolean insideYArea = posY + y >= 0 && ((posY + y) >= 0 ? Math.ceil(posY + y) < this.mapBuilder.getHeight() : false);
-		
+
 
     	if (this.character.getGhost()) {
     		if (insideXArea && insideYArea) {
@@ -147,7 +145,7 @@ public abstract class MovingStrategy {
 				
 				this.character.setPosY(testY-this.factorY);
     			return false;
-    		};
+    		}
     		
     		Iterator<Ground> collidingGrounds = PacmanGame.getCollidingGrounds(posX, testY, this.mapBuilder);
     		

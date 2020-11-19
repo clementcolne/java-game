@@ -15,7 +15,6 @@ public abstract class Character {
     protected int life = 10;
     protected int range = 1;
     protected boolean ghost = false;
-    protected String path;
     protected MovingStrategy movingStrategy;
 
     /**

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Random;
 
 import engine.*;
-import model.movingStrategy.DefaultMonsterMovingStrategy;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -113,25 +112,29 @@ public class PacmanGame implements Game {
 
 	public void mooveMonster() {
 		// les monstres bougent une 1 fois toutes les 10x(120ms)
-		if(monsterMooveCounter == 10) {
+		if(monsterMooveCounter == 5) {
 			Random rand = new Random(); //instance of random class
 			int way = rand.nextInt(4);
 			switch(way) {
 				case 0:
-					canMoove(monsterCharacter, 0, -pacmanCharacter.getSpeed());
-					monsterCharacter.mooveUp();
+					if(canMoove(monsterCharacter, 0, -pacmanCharacter.getSpeed())) {
+						monsterCharacter.mooveUp();
+					}
 					break;
 				case 1:
-					canMoove(monsterCharacter,0, pacmanCharacter.getSpeed());
-					monsterCharacter.mooveDown();
+					if(canMoove(monsterCharacter,0, pacmanCharacter.getSpeed())) {
+						monsterCharacter.mooveDown();
+					}
 					break;
 				case 2:
-					canMoove(monsterCharacter,pacmanCharacter.getSpeed(), 0);
-					monsterCharacter.mooveRight();
+					if(canMoove(monsterCharacter,pacmanCharacter.getSpeed(), 0)) {
+						monsterCharacter.mooveRight();
+					}
 					break;
 				case 3:
-					canMoove(monsterCharacter,-pacmanCharacter.getSpeed(), 0);
-					monsterCharacter.mooveLeft();
+					if(canMoove(monsterCharacter,-pacmanCharacter.getSpeed(), 0)) {
+						monsterCharacter.mooveLeft();
+					}
 					break;
 				default:
 					break;

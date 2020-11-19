@@ -10,7 +10,6 @@ import model.effect.Slow;
 import model.effect.Speed;
 import model.effect.Stop;
 import model.effect.Stun;
-import model.movingStrategy.DefaultMonsterMovingStrategy;
 
 import java.util.Scanner;
 
