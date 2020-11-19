@@ -4,6 +4,11 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * @author Adham
+ * Classe singleton qui permet d'instancier les fonts du jeu
+ */
+
 public class FontFactory {
 
     private FontFactory(){}
