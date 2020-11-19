@@ -22,7 +22,7 @@ public class PacmanGame implements Game {
 
 	private final int scale = 40;
 	private PacmanCharacter pacmanCharacter;
-	private MonsterCharacter monsterCharacter;
+	private MonsterCharacter[] monstersCharacter;
 	private MapBuilder mapBuilder;
 	private boolean isFinished;
 	private Ground executedEffect;
@@ -37,8 +37,9 @@ public class PacmanGame implements Game {
 		// création du pacman
 		this.pacmanCharacter = new PacmanCharacter(-1, -1);
 		// création d'un monstre
-		this.monsterCharacter = new MonsterCharacter(-1, -1);
+		this.monstersCharacter = new MonsterCharacter[mapBuilder.getNbMonsters()];
 
+		int cptIndex = 0;
 		for (int x = 0; x < mapBuilder.getWidth(); x++) {
 			for (int y = 0; y < mapBuilder.getHeight(); y++) {
 				PacmanCharacter character = mapBuilder.getCharacter(x, y);
@@ -47,7 +48,8 @@ public class PacmanGame implements Game {
 					this.pacmanCharacter = character;
 				}
 				if(monster != null) {
-					this.monsterCharacter = monster;
+					this.monstersCharacter[cptIndex] = monster;
+					cptIndex++;
 				}
 			}
 		}
@@ -113,33 +115,34 @@ public class PacmanGame implements Game {
 	public void mooveMonster() {
 		// les monstres bougent une 1 fois toutes les 10x(120ms)
 		if(monsterMooveCounter == 5) {
-			Random rand = new Random(); //instance of random class
-			int way = rand.nextInt(4);
-			switch(way) {
-				case 0:
-					if(canMoove(monsterCharacter, 0, -pacmanCharacter.getSpeed())) {
-						monsterCharacter.mooveUp();
-					}
-					break;
-				case 1:
-					if(canMoove(monsterCharacter,0, pacmanCharacter.getSpeed())) {
-						monsterCharacter.mooveDown();
-					}
-					break;
-				case 2:
-					if(canMoove(monsterCharacter,pacmanCharacter.getSpeed(), 0)) {
-						monsterCharacter.mooveRight();
-					}
-					break;
-				case 3:
-					if(canMoove(monsterCharacter,-pacmanCharacter.getSpeed(), 0)) {
-						monsterCharacter.mooveLeft();
-					}
-					break;
-				default:
-					break;
+			for(int i = 0; i < monstersCharacter.length ; i++) {
+				Random rand = new Random(); //instance of random class
+				int way = rand.nextInt(4);
+				switch (way) {
+					case 0:
+						if (canMoove(monstersCharacter[i], 0, -pacmanCharacter.getSpeed())) {
+							monstersCharacter[i].mooveUp();
+						}
+						break;
+					case 1:
+						if (canMoove(monstersCharacter[i], 0, pacmanCharacter.getSpeed())) {
+							monstersCharacter[i].mooveDown();
+						}
+						break;
+					case 2:
+						if (canMoove(monstersCharacter[i], pacmanCharacter.getSpeed(), 0)) {
+							monstersCharacter[i].mooveRight();
+						}
+						break;
+					case 3:
+						if (canMoove(monstersCharacter[i], -pacmanCharacter.getSpeed(), 0)) {
+							monstersCharacter[i].mooveLeft();
+						}
+						break;
+					default:
+						break;
+				}
 			}
-			System.out.println(monsterCharacter.toString());
 			monsterMooveCounter = 0;
 		}else{
 			monsterMooveCounter++;
@@ -190,6 +193,14 @@ public class PacmanGame implements Game {
 	}
 
 	/**
+	 * Retourne le nombre de monstres présents dans la map
+	 * @return int le nombre de monstres présents dans la map
+	 */
+	public int getNbMonsters() {
+		return mapBuilder.getNbMonsters();
+	}
+
+	/**
 	 * @return la largeur du plateau de jeu
 	 * @author Adèle
 	 */
@@ -225,16 +236,16 @@ public class PacmanGame implements Game {
 	 * @return la position horizontal du personnage
 	 * @author Adèle
 	 */
-	public double getMonsterPosX(){
-		return monsterCharacter.getPosX();
+	public double getMonsterPosX(int index){
+		return monstersCharacter[index].getPosX();
 	}
 
 	/**
 	 * @return la position vertical du personnage
 	 * @author Adèle
 	 */
-	public double getMonsterPosY(){
-		return monsterCharacter.getPosY();
+	public double getMonsterPosY(int index){
+		return monstersCharacter[index].getPosY();
 	}
 
 	/**
@@ -387,8 +398,8 @@ public class PacmanGame implements Game {
 		return this.pacmanCharacter;
 	}
 
-	public MonsterCharacter getMonsterCharacter() {
-		return monsterCharacter;
+	public MonsterCharacter getMonsterCharacter(int index) {
+		return monstersCharacter[index];
 	}
 }
 
