@@ -6,10 +6,6 @@ import model.PacmanPainter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author Adèle
  * 25/10/2020

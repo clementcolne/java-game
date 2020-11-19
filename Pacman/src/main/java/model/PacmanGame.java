@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import engine.*;
 import model.movingStrategy.GhostMovingStrategy;
@@ -21,9 +22,11 @@ public class PacmanGame implements Game {
 
 	private final int scale = 40;
 	private PacmanCharacter pacmanCharacter;
+	private MonsterCharacter monsterCharacter;
 	private MapBuilder mapBuilder;
 	private boolean isFinished;
 	private Ground executedEffect;
+	private int monsterMooveCounter = 0;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -31,13 +34,20 @@ public class PacmanGame implements Game {
 	 */
 	public PacmanGame(String source, MapBuilder map) {
 		mapBuilder = map;
+		// création du pacman
 		this.pacmanCharacter = new PacmanCharacter(-1, -1);
-		
+		// création d'un monstre
+		this.monsterCharacter = new MonsterCharacter(-1, -1);
+
 		for (int x = 0; x < mapBuilder.getWidth(); x++) {
 			for (int y = 0; y < mapBuilder.getHeight(); y++) {
 				PacmanCharacter character = mapBuilder.getCharacter(x, y);
+				MonsterCharacter monster = mapBuilder.getMonster(x, y);
 				if (character != null) {
 					this.pacmanCharacter = character;
+				}
+				if(monster != null) {
+					this.monsterCharacter = monster;
 				}
 			}
 		}
@@ -69,27 +79,26 @@ public class PacmanGame implements Game {
 		}
 		
 		this.executedEffect = getNearestEffectiveGround(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosY());
-		
 
 		boolean move;
 		switch(commande) {
 			case LEFT:
-				if(move = canMoove(-pacmanCharacter.getSpeed(), 0)) {
+				if(move = canMoove(pacmanCharacter, -pacmanCharacter.getSpeed(), 0)) {
 					pacmanCharacter.mooveLeft();
 				}
 				break;
 			case RIGHT:
-				if(move = canMoove(pacmanCharacter.getSpeed(), 0)) {
+				if(move = canMoove(pacmanCharacter, pacmanCharacter.getSpeed(), 0)) {
 					pacmanCharacter.mooveRight();
 				}
 				break;
 			case UP:
-				if(move = canMoove(0, -pacmanCharacter.getSpeed())) {
+				if(move = canMoove(pacmanCharacter, 0, -pacmanCharacter.getSpeed())) {
 					pacmanCharacter.mooveUp();
 				}
 				break;
 			case DOWN:
-				if(move = canMoove(0, pacmanCharacter.getSpeed())) {
+				if(move = canMoove(pacmanCharacter, 0, pacmanCharacter.getSpeed())) {
 					pacmanCharacter.mooveDown();
 				}
 				break;
@@ -98,6 +107,43 @@ public class PacmanGame implements Game {
 				break;
 		}
 		this.doEffect(move, commande);
+		mooveMonster();
+	}
+
+	public void mooveMonster() {
+		// les monstres bougent une 1 fois toutes les 10x(120ms)
+		if(monsterMooveCounter == 5) {
+			Random rand = new Random(); //instance of random class
+			int way = rand.nextInt(4);
+			switch(way) {
+				case 0:
+					if(canMoove(monsterCharacter, 0, -pacmanCharacter.getSpeed())) {
+						monsterCharacter.mooveUp();
+					}
+					break;
+				case 1:
+					if(canMoove(monsterCharacter,0, pacmanCharacter.getSpeed())) {
+						monsterCharacter.mooveDown();
+					}
+					break;
+				case 2:
+					if(canMoove(monsterCharacter,pacmanCharacter.getSpeed(), 0)) {
+						monsterCharacter.mooveRight();
+					}
+					break;
+				case 3:
+					if(canMoove(monsterCharacter,-pacmanCharacter.getSpeed(), 0)) {
+						monsterCharacter.mooveLeft();
+					}
+					break;
+				default:
+					break;
+			}
+			System.out.println(monsterCharacter.toString());
+			monsterMooveCounter = 0;
+		}else{
+			monsterMooveCounter++;
+		}
 	}
 
 	/**
@@ -119,8 +165,8 @@ public class PacmanGame implements Game {
 	 * @return vrai si le personnage peut accéder à la case, faux sinon
 	 * @author Clément
 	 */
-	public boolean canMoove(double x, double y) {
-		return pacmanCharacter.canMoove(x, y, mapBuilder);
+	public boolean canMoove(Character c, double x, double y) {
+		return c.canMoove(x, y, mapBuilder);
 	}
 
 	/**
@@ -173,6 +219,22 @@ public class PacmanGame implements Game {
 	 */
 	public double getCharacterPosY(){
 		return pacmanCharacter.getPosY();
+	}
+
+	/**
+	 * @return la position horizontal du personnage
+	 * @author Adèle
+	 */
+	public double getMonsterPosX(){
+		return monsterCharacter.getPosX();
+	}
+
+	/**
+	 * @return la position vertical du personnage
+	 * @author Adèle
+	 */
+	public double getMonsterPosY(){
+		return monsterCharacter.getPosY();
 	}
 
 	/**
@@ -323,6 +385,10 @@ public class PacmanGame implements Game {
 	
 	public PacmanCharacter getCharacter() {
 		return this.pacmanCharacter;
+	}
+
+	public MonsterCharacter getMonsterCharacter() {
+		return monsterCharacter;
 	}
 }
 

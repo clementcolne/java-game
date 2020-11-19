@@ -17,6 +17,7 @@ public class PacmanPainter implements GamePainter {
 
 	private PacmanGame pacmanGame;
 	private Animation pacman;
+	private Animation monster;
 
 	/**
 	 * appelle constructeur parent
@@ -26,6 +27,7 @@ public class PacmanPainter implements GamePainter {
 	public PacmanPainter(PacmanGame game) {
 		pacmanGame = game;
 		this.pacman = ImageFactory.getInstance().loadAnimation("Character/wraith.gif", 60);
+		this.monster = ImageFactory.getInstance().loadAnimation("Character/Personnage1.gif", 60);
 	}
 
 	/**
@@ -37,6 +39,7 @@ public class PacmanPainter implements GamePainter {
 		addMapTextures(im);
 		// Deuxièmement, on affiche les personnages
 		drawCharacter(im);
+		drawMonster(im);
 	}
 
 	/**
@@ -45,6 +48,10 @@ public class PacmanPainter implements GamePainter {
 	 */
 	public void drawCharacter(BufferedImage im) {
 		this.pacman.drawImage((int)(pacmanGame.getCharacterPosX()*pacmanGame.getScale()), (int)(pacmanGame.getCharacterPosY()*pacmanGame.getScale()), pacmanGame.getScale(), pacmanGame.getScale(), null, (Graphics2D) im.getGraphics());
+	}
+
+	public void drawMonster(BufferedImage im) {
+		this.monster.drawImage((int)(pacmanGame.getMonsterPosX()*pacmanGame.getScale()), (int)(pacmanGame.getMonsterPosY()*pacmanGame.getScale()), pacmanGame.getScale(), pacmanGame.getScale(), null, (Graphics2D) im.getGraphics());
 	}
 
 	/**

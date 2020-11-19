@@ -2,7 +2,6 @@ package model.movingStrategy;
 
 import engine.MapBuilder;
 import model.Character;
-import model.PacmanCharacter;
 
 /**
  * @author Adèle Barbier, Raphaël Kimm
@@ -15,8 +14,8 @@ public class DefaultMovingStrategy extends MovingStrategy {
 	 * @author Raphaël
 	 * @param pc Pacman concerné par la stratégie
 	 */
-    public DefaultMovingStrategy(PacmanCharacter pc) {
-		super(pc);
+    public DefaultMovingStrategy(Character c) {
+		super(c);
 	}
 
 	/**

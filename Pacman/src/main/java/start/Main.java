@@ -12,7 +12,6 @@ import model.PacmanGame;
 public class Main {
 	
 	public static void main(String[] args) throws InterruptedException {
-		// définition de la largeur et hauteur de la MAP
 
 		// creation du jeu particulier et de son afficheur
 		MapBuilder map = new MapBuilder("map.txt");

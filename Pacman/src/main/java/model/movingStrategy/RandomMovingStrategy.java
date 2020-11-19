@@ -1,7 +1,6 @@
 package model.movingStrategy;
 
 import engine.MapBuilder;
-import model.Character;
 import model.PacmanCharacter;
 
 /**
@@ -24,7 +23,7 @@ public class RandomMovingStrategy extends MovingStrategy {
 	 */
 		@Override
     public void mooveUp() {
-        this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
+        this.character.setPosX(this.character.getPosX()+this.character.getSpeed()*this.wayX);
     }
 
 	/**
@@ -32,7 +31,7 @@ public class RandomMovingStrategy extends MovingStrategy {
 	 */
 		@Override
     public void mooveDown() {
-    	this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
+    	this.character.setPosX(this.character.getPosX()+this.character.getSpeed()*this.wayX);
     }
 
     /**
@@ -40,7 +39,7 @@ public class RandomMovingStrategy extends MovingStrategy {
 	 */
 		@Override
     public void mooveRight() {
-    	this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
+    	this.character.setPosY(this.character.getPosY()+this.character.getSpeed()*this.wayY);
     }
 
     /**
@@ -48,7 +47,7 @@ public class RandomMovingStrategy extends MovingStrategy {
 	 */
 		@Override
     public void mooveLeft() {
-    	this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
+    	this.character.setPosY(this.character.getPosY()+this.character.getSpeed()*this.wayY);
     }
 
 	/**
