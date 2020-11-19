@@ -27,6 +27,6 @@ public class Ghost extends EffectMagic {
 
 	@Override
 	public String toString() {
-		return "Effet Fantôme";
+		return "Effet Fantome";
 	}
 }

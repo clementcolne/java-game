@@ -20,6 +20,6 @@ public class Stop extends EffectTrap{
 
     @Override
     public String toString() {
-        return "Effet Arrêt";
+        return "Effet Arret";
     }
 }
