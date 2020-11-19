@@ -5,7 +5,6 @@ import java.util.Iterator;
 import engine.MapBuilder;
 import model.Character;
 import model.Ground;
-import model.PacmanCharacter;
 import model.PacmanGame;
 
 /**
@@ -15,7 +14,7 @@ import model.PacmanGame;
 public abstract class MovingStrategy {
 	
 	protected MapBuilder mapBuilder;
-	protected PacmanCharacter pacmanCharacter;
+	protected Character character;
 	protected double factorX = 0, factorY = 0, wayX = 0, wayY = 0;
 	
 	/**
@@ -23,8 +22,8 @@ public abstract class MovingStrategy {
 	 * @author Raphaël
 	 * @param pc Pacman
 	 */
-	public MovingStrategy(PacmanCharacter pc) {
-		this.pacmanCharacter = pc;
+	public MovingStrategy(Character c) {
+		this.character = c;
 	}
 
 	/**
@@ -32,7 +31,7 @@ public abstract class MovingStrategy {
 	 * @author Raphaël
 	 */
 	public void mooveUp() {
-		this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
+		this.character.setPosY(this.character.getPosY()+this.character.getSpeed()*this.wayY);
 	}
 
 	/**
@@ -40,7 +39,7 @@ public abstract class MovingStrategy {
 	 * @author Raphaël
 	 */
 	public void mooveDown() {
-		this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
+		this.character.setPosY(this.character.getPosY()+this.character.getSpeed()*this.wayY);
 	}
 
 	/**
@@ -48,7 +47,7 @@ public abstract class MovingStrategy {
 	 * @author Raphaël
 	 */
 	public void mooveRight() {
-		this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
+		this.character.setPosX(this.character.getPosX()+this.character.getSpeed()*this.wayX);
 	}
 
 	/**
@@ -56,7 +55,7 @@ public abstract class MovingStrategy {
 	 * @author Raphaël
 	 */
 	public void mooveLeft() {
-		this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
+		this.character.setPosX(this.character.getPosX()+this.character.getSpeed()*this.wayX);
 	}
     
 	public abstract boolean canMoove(double x, double y, MapBuilder mapBuilder);
@@ -71,29 +70,29 @@ public abstract class MovingStrategy {
      * @return true s'il peut passer, false sinon
      */
     public boolean canBypassGround(double x, double y) {
-    	double posX = this.pacmanCharacter.getPosX();
-    	double posY = this.pacmanCharacter.getPosY();
+    	double posX = this.character.getPosX();
+    	double posY = this.character.getPosY();
     	
     	boolean insideXArea = posX + x >= 0 && ((posX + x) >= 0 ? Math.ceil(posX + x) < this.mapBuilder.getWidth() : false);
 		boolean insideYArea = posY + y >= 0 && ((posY + y) >= 0 ? Math.ceil(posY + y) < this.mapBuilder.getHeight() : false);
 		
 
-    	if (this.pacmanCharacter.getGhost()) {
+    	if (this.character.getGhost()) {
     		if (insideXArea && insideYArea) {
     			return true;
     		}
     		else {
     			if (posX + x < 0) {
-    				pacmanCharacter.setPosX(0);
+    				character.setPosX(0);
     			}
     			else if (Math.ceil(posX + x) >= mapBuilder.getWidth()) {
-    				pacmanCharacter.setPosX(mapBuilder.getWidth()-1);
+    				character.setPosX(mapBuilder.getWidth()-1);
     			}
     			else if (posY + y < 0) {
-    				pacmanCharacter.setPosY(0);
+    				character.setPosY(0);
     			}
     			else if (Math.ceil(posY + y) >= mapBuilder.getHeight()) {
-    				pacmanCharacter.setPosY(mapBuilder.getHeight()-1);
+    				character.setPosY(mapBuilder.getHeight()-1);
     			}
     			return false;
     		}
@@ -112,7 +111,7 @@ public abstract class MovingStrategy {
 					this.factorX /= 2;
 				}
     			
-				this.pacmanCharacter.setPosX(testX-this.factorX);
+				this.character.setPosX(testX-this.factorX);
     			return false;
     		};
     		
@@ -125,7 +124,7 @@ public abstract class MovingStrategy {
     					this.factorX /= 2;
     				}
     				
-    				this.pacmanCharacter.setPosX(testX-this.factorX);
+    				this.character.setPosX(testX-this.factorX);
 	    			return false;
     			}
     		}
@@ -146,7 +145,7 @@ public abstract class MovingStrategy {
 					this.factorY /= 2;
 				}
 				
-				this.pacmanCharacter.setPosY(testY-this.factorY);
+				this.character.setPosY(testY-this.factorY);
     			return false;
     		};
     		
@@ -158,7 +157,7 @@ public abstract class MovingStrategy {
     				if ((int)posY != posY) {
     					this.factorY /= 2;
     				}
-    				this.pacmanCharacter.setPosY(testY-this.factorY);
+    				this.character.setPosY(testY-this.factorY);
 	    			return false;
     			}
     		}
@@ -174,7 +173,7 @@ public abstract class MovingStrategy {
      */
 	public void setFactorX(double x) {
 		double sign = Math.signum(x);
-		double speed = pacmanCharacter.getSpeed();
+		double speed = character.getSpeed();
 		this.factorX = sign*speed + ((Math.abs(speed) > 1) ? sign - sign*speed : 0);
 		this.wayX = sign;
 	}
@@ -195,7 +194,7 @@ public abstract class MovingStrategy {
      */
 	public void setFactorY(double y) {
 		double sign = Math.signum(y);
-		double speed = pacmanCharacter.getSpeed();
+		double speed = character.getSpeed();
 		this.factorY = sign*speed + ((Math.abs(speed) > 1) ? sign - sign*speed : 0);
 		this.wayY = sign;
 	}

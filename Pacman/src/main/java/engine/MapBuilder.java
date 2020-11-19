@@ -1,6 +1,7 @@
 package engine;
 
 import model.*;
+import model.Character;
 import model.effect.Bow;
 import model.effect.EffectMagic;
 import model.effect.EffectTrap;
@@ -9,6 +10,8 @@ import model.effect.Slow;
 import model.effect.Speed;
 import model.effect.Stop;
 import model.effect.Stun;
+import model.movingStrategy.DefaultMonsterMovingStrategy;
+
 import java.util.Scanner;
 
 /**
@@ -21,7 +24,8 @@ public class MapBuilder {
     // Tableau représentant la map du jeu
     private Ground[][] map;
     private PacmanCharacter[][] characters;
-    private static PacmanCharacter uniqueCharacter;
+    private MonsterCharacter[][] monsters;
+    private static Character uniqueCharacter;
     private int width;
     private int height;
     private Passage p1;
@@ -32,8 +36,6 @@ public class MapBuilder {
      * @author Clément
      * Constructeur de la map
      * @param path chemin vers le fichier texte décrivant la map
-     * @param width largeur de la map
-     * @param height longueur de la map
      */
     public MapBuilder(String path) {
     	uniqueCharacter = null;
@@ -61,6 +63,7 @@ public class MapBuilder {
         // initialisation du tableau qui contiendra les objets de la map
         this.map = new Ground[height][width];
         this.characters = new PacmanCharacter[height][width];
+        this.monsters = new MonsterCharacter[height][width];
         
         buildMap();
     }
@@ -81,7 +84,8 @@ public class MapBuilder {
                 // pour chaque colonne
                 // complète la map
                 map[i][j] = getGround(data.charAt(j), j, i);
-                characters[i][j] = generateCharacter(data.charAt(j), j, i);
+                monsters[i][j] = GenerateMonsterCharacter(data.charAt(j), j, i);
+                characters[i][j] = GeneratePacmanCharacter(data.charAt(j), j, i);
             }
             i++;
         }
@@ -96,19 +100,32 @@ public class MapBuilder {
      * @param y Position en ordonnée du personnage
      * @return Personnage si existant, sinon null
      */
-    private PacmanCharacter generateCharacter(char c, int x, int y) {
-    	PacmanCharacter res = null;
-        switch (c) {
-            case '1':
-                if (uniqueCharacter == null) {
-                	res = new PacmanCharacter(x, y);
-                	uniqueCharacter = res;
-                }
-                break;
+    private PacmanCharacter GeneratePacmanCharacter(char c, int x, int y) {
+        PacmanCharacter res = null;
+        if(c == '1') {
+            if (uniqueCharacter == null) {
+              res = new PacmanCharacter(x, y);
+              uniqueCharacter = res;
+            }
         }
-        
         return res;
-	}
+	  }
+
+    /**
+     * Permet de récupérer un éventuel personnage associé à une case
+     * @author Raphaël
+     * @param c Caractère décrivant le personnage
+     * @param x Position en abscisse du personnage
+     * @param y Position en ordonnée du personnage
+     * @return Personnage si existant, sinon null
+     */
+    private MonsterCharacter GenerateMonsterCharacter(char c, int x, int y) {
+        MonsterCharacter res = null;
+        if(c == '2') {
+            res = new MonsterCharacter(x, y);
+        }
+        return res;
+    }
 
 	/**
      * @author Clément
@@ -209,6 +226,13 @@ public class MapBuilder {
     		return characters[y][x];
     	}
     	return null;
+    }
+
+    public MonsterCharacter getMonster(int x, int y) {
+        if (y < height && x < width && y >= 0 && x >= 0 && monsters[y][x] != null) {
+            return monsters[y][x];
+        }
+        return null;
     }
 
     /**

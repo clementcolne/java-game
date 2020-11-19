@@ -15,8 +15,8 @@ public class DefaultMovingStrategy extends MovingStrategy {
 	 * @author Raphaël
 	 * @param pc Pacman concerné par la stratégie
 	 */
-    public DefaultMovingStrategy(PacmanCharacter pc) {
-		super(pc);
+    public DefaultMovingStrategy(Character c) {
+		super(c);
 	}
 
 	/**
