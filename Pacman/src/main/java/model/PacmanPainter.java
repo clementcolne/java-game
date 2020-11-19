@@ -2,11 +2,8 @@ package model;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Iterator;
 
-import engine.Animation;
-import engine.GamePainter;
-import engine.ImageFactory;
+import engine.*;
 import model.effect.AsyncEffect;
 import model.effect.Effect;
 
@@ -82,7 +79,7 @@ public class PacmanPainter implements GamePainter {
 	}
 
 	/**
-	 * Ajoute la vie de personnage
+	 * Affichage de la vie de personnage
 	 * @author Adham
 	 * @param crayon Graphics2D
 	 */
@@ -92,14 +89,59 @@ public class PacmanPainter implements GamePainter {
 		}
 	}
 
+	/**
+	 * Affichage nom effet en cours
+	 * @author Adham
+	 * @param crayon Graphics2D
+	 */
+
 	public void drawHUD(Graphics2D crayon){
-		crayon.setColor(Color.white);
-		Iterator<Effect> effects  = AsyncEffect.getEffects();
-		/*if (effects.hasNext()){
-			System.out.println(effects.toString());
-		}*/
+		CustomIterator<Effect> effects  = AsyncEffect.getEffects();
+		crayon.setColor(Color.black);
+
+		crayon.setFont(FontFactory.getInstance().LoadFont("Font/Pixeboy.ttf",20f));
+		BasicStroke bs = new BasicStroke(20);
+		crayon.setStroke(bs);
+
+		if (effects.size()==1 || effects.hasNext()){
+			Effect effect = effects.next();
+
+			switch (effect.toString()){
+				case "Effet Lent":
+					crayon.fillRect(145,5,95,30);
+					break;
+
+				case "Effet Fantome":
+
+				case "Effet Etourdi":
+
+				case "Effet Vitesse":
+					crayon.fillRect(145,5,122,30);
+					break;
+
+				case "Effet Arret":
+					crayon.fillRect(145,5,103,30);
+					break;
+
+				case "Effet Arc":
+					crayon.fillRect(145,5,86,30);
+					break;
+
+			}
+
+			crayon.setColor(Color.white);
+			crayon.drawString(effect.toString(),150,25);
+		}
+
+
+
 	}
 
+	/**
+	 * Affichage message de fin
+	 * @author Adham
+	 * @param crayon Graphics2D
+	 */
 	public void drawEnd(Graphics2D crayon){
 		if(pacmanGame.isFinished()){
 			crayon.drawImage(ImageFactory.getInstance().loadImage("Extra/end.png"),0,0,null);
@@ -118,4 +160,3 @@ public class PacmanPainter implements GamePainter {
 	}
 
 }
-
