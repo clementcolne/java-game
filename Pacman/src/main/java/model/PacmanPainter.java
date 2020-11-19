@@ -51,7 +51,9 @@ public class PacmanPainter implements GamePainter {
 	}
 
 	public void drawMonster(BufferedImage im) {
-		this.monster.drawImage((int)(pacmanGame.getMonsterPosX()*pacmanGame.getScale()), (int)(pacmanGame.getMonsterPosY()*pacmanGame.getScale()), pacmanGame.getScale(), pacmanGame.getScale(), null, (Graphics2D) im.getGraphics());
+		for(int i = 0 ; i < pacmanGame.getNbMonsters() ; i++) {
+			this.monster.drawImage((int) (pacmanGame.getMonsterPosX(i) * pacmanGame.getScale()), (int) (pacmanGame.getMonsterPosY(i) * pacmanGame.getScale()), pacmanGame.getScale(), pacmanGame.getScale(), null, (Graphics2D) im.getGraphics());
+		}
 	}
 
 	/**
