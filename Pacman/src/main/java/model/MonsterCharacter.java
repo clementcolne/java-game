@@ -1,11 +1,23 @@
 package model;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 import model.movingStrategy.DefaultMovingStrategy;
+import model.movingStrategy.GhostMovingStrategy;
+import model.movingStrategy.MovingStrategy;
 
 /**
  * @author Clément Colné
  */
 public class MonsterCharacter extends Character {
+	
+	private List<MovingStrategy> strategies = new LinkedList<MovingStrategy>(Arrays.asList(new MovingStrategy[] {
+			new DefaultMovingStrategy(this),
+			new GhostMovingStrategy(this)
+	}));
+	
     /**
      * Crée un personnage à la position (posX, posY)
      *
@@ -14,7 +26,7 @@ public class MonsterCharacter extends Character {
      */
     public MonsterCharacter(double posX, double posY) {
         super(posX, posY);
-        setMovingStrategy(new DefaultMovingStrategy(this));
+        this.setMovingStrategy(this.strategies.get((int) (Math.random()*this.strategies.size())));
     }
 
     @Override
