@@ -154,7 +154,7 @@ class EffectMagicTest {
     	while (i>0) {
     		new AsyncEffect(new Ghost(), Effect.class, 5000, 0, 5000) {
 				public void execute() {
-					pacman.setGhost(!this.isEnded());
+					pacman.setMovingStrategy(!this.isEnded() ? new GhostMovingStrategy(pacman) : new DefaultMovingStrategy(pacman));
 				}
 			}.run();
 			
@@ -187,7 +187,7 @@ class EffectMagicTest {
     	} 
 		
 		Thread.sleep(120);
-    	
+		System.out.println(pacman.getMovingStrategy());
 		assertEquals(new GhostMovingStrategy(pacman), pacman.getMovingStrategy(), "Le Pacman doit désormais être un fantôme");
     	assertEquals(0.5, pacman.getSpeed(), "L'effet Slow doit pas remplacer l'effet Speed");
     	assertEquals(2, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 1");

@@ -57,16 +57,16 @@ class PacmanGameTest {
     	
     	assertEquals(11, characterWithoutPassage.getPosX(), "La position du pacman ne doit pas changer");
     	assertEquals(2, characterWithoutPassage.getPosY(), "La position du pacman ne doit pas changer");
-    	
-    	game.evolve(Cmd.DOWN);
+
+		gameWithoutPassage.evolve(Cmd.DOWN);
     	assertEquals(11, characterWithoutPassage.getPosX(), "La position du pacman ne doit pas changer");
     	assertEquals(2, characterWithoutPassage.getPosY(), "La position du pacman ne doit pas changer");
-    	
-    	game.evolve(Cmd.RIGHT);
+
+		gameWithoutPassage.evolve(Cmd.RIGHT);
     	assertEquals(11, characterWithoutPassage.getPosX(), "La position du pacman ne doit pas changer");
     	assertEquals(2, characterWithoutPassage.getPosY(), "La position du pacman ne doit pas changer");
-    	
-    	game.evolve(Cmd.LEFT);
+
+		gameWithoutPassage.evolve(Cmd.LEFT);
     	assertEquals(11, characterWithoutPassage.getPosX(), "La position du pacman ne doit pas changer");
     	assertEquals(2, characterWithoutPassage.getPosY(), "La position du pacman ne doit pas changer");
     	AsyncEffect.end(Effect.class);
@@ -445,7 +445,7 @@ class PacmanGameTest {
     	
     	assertEquals(15, characterWithoutPassage.getPosX(), "Le pacman ne doit pas pouvoir sortir du jeu");
     	assertEquals(0, characterWithoutPassage.getPosY(), "Le pacman ne doit pas pouvoir changer sa position en ordonnée");
-    	game.evolve(Cmd.UP);
+		gameWithoutPassage.evolve(Cmd.UP);
     	
     	assertEquals(15, characterWithoutPassage.getPosX(), "Le pacman ne doit pas pouvoir changer sa position en abscisse");
     	assertEquals(0, characterWithoutPassage.getPosY(), "Le pacman ne doit pas pouvoir sortir du jeu");
@@ -706,20 +706,20 @@ class PacmanGameTest {
     @Test
     void testEmpty() throws InterruptedException {
     	AsyncEffect.end(Effect.class);
+
     	gameEmpty.evolve(Cmd.UP);
-    	
     	assertEquals(0, characterEmpty.getPosX(), "La position du pacman ne doit pas changer");
     	assertEquals(0, characterEmpty.getPosY(), "La position du pacman ne doit pas changer");
-    	
-    	game.evolve(Cmd.DOWN);
+
+		gameEmpty.evolve(Cmd.DOWN);
     	assertEquals(0, characterEmpty.getPosX(), "La position du pacman ne doit pas changer");
     	assertEquals(0, characterEmpty.getPosY(), "La position du pacman ne doit pas changer");
-    	
-    	game.evolve(Cmd.RIGHT);
+
+		gameEmpty.evolve(Cmd.RIGHT);
     	assertEquals(0, characterEmpty.getPosX(), "La position du pacman ne doit pas changer");
     	assertEquals(0, characterEmpty.getPosY(), "La position du pacman ne doit pas changer");
-    	
-    	game.evolve(Cmd.LEFT);
+
+		gameEmpty.evolve(Cmd.LEFT);
     	assertEquals(0, characterEmpty.getPosX(), "La position du pacman ne doit pas changer");
     	assertEquals(0, characterEmpty.getPosY(), "La position du pacman ne doit pas changer");
     	AsyncEffect.end(Effect.class);

@@ -20,7 +20,10 @@ public class GhostMovingStrategy extends MovingStrategy{
     }
 
     public boolean canMoove(double x, double y, MapBuilder mapBuilder) {
-        return character.getPosX() + x < mapBuilder.getWidth() && character.getPosY() + y < mapBuilder.getHeight() && character.getPosX() + x >=0 && character.getPosY() + y >=0;
+        this.setFactorX(x);
+        this.setFactorY(y);
+        this.mapBuilder = mapBuilder;
+        return this.canBypassGround(x,y);
     }
 
     @Override
