@@ -6,6 +6,7 @@ import model.PacmanCharacter;
 import model.PacmanGame;
 import model.effect.AsyncEffect;
 import model.effect.Effect;
+import model.movingStrategy.DefaultMovingStrategy;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -540,7 +541,6 @@ class PacmanGameTest {
     	game.evolve(Cmd.DOWN);
     	game.evolve(Cmd.DOWN);
     	
-    	assertTrue(character.getGhost(), ""+index);
     	assertEquals(3, character.getPosX(), "Le pacman doit pouvoir bouger partout à l'intérieur du jeu");
     	assertEquals(3, character.getPosY(), "Le pacman doit pouvoir bouger partout à l'intérieur du jeu");
     	game.evolve(Cmd.UP);

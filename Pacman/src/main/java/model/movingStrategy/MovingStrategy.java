@@ -6,6 +6,7 @@ import engine.MapBuilder;
 import model.Character;
 import model.Ground;
 import model.PacmanGame;
+import model.effect.Effect;
 
 /**
  * @author Adèle Barbier, Raphaël Kimm
@@ -243,4 +244,22 @@ public abstract class MovingStrategy {
 	public double getWayY() {
 		return wayY;
 	}    
+	
+	/**
+     * Permet de déterminer si une stratégie est égale à une autre par rapport au nom
+     * @author Raphaël
+     * @return true si les deux effets sont égaux, false sinon
+     */
+    public boolean equals(Object obj) {
+    	return ((MovingStrategy)this).getClass().equals(((MovingStrategy)obj).getClass());
+    }
+
+    /**
+     * Retourne le hash code associé uniquement à la classe de la stratégie
+     * @author Raphaël
+     * @return Hash code de l'effet
+     */
+    public int hashCode() {
+    	return this.getClass().hashCode();
+    }
 }

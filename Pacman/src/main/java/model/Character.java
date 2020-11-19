@@ -105,6 +105,10 @@ public abstract class Character {
         movingStrategy.mooveDown();
     }
 
+    public MovingStrategy getMovingStrategy() {
+        return movingStrategy;
+    }
+
     public void setPosX(double posX) {
         this.posX = posX;
     }

@@ -1,6 +1,8 @@
 package model.effect;
 
 import model.PacmanCharacter;
+import model.movingStrategy.DefaultMovingStrategy;
+import model.movingStrategy.GhostMovingStrategy;
 
 /**
  * Classe représentant l'effet fantôme. Un fantôme peut traverser les murs.
@@ -18,7 +20,7 @@ public class Ghost extends EffectMagic {
     public void doEffect(final PacmanCharacter pacmanCharacter) {	
 		new AsyncEffect(this, Effect.class, 5000, 0, 5000) {
 			public void execute() {
-				pacmanCharacter.setGhost(!this.isEnded());
+				pacmanCharacter.setMovingStrategy(!this.isEnded() ? new GhostMovingStrategy(pacmanCharacter) : new DefaultMovingStrategy(pacmanCharacter));
 			}
 		}.run();
     }
