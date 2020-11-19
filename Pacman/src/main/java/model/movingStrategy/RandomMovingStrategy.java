@@ -7,7 +7,7 @@ import model.PacmanCharacter;
  * @author Adèle Barbier
  * 30/10/2020
  **/
-public class RandomMovingStrategy extends PacmanMovingStrategy {
+public class RandomMovingStrategy extends MovingStrategy {
 
 	/**
 	 * Constructeur de la stratégie Random (déplacement étourdi)
@@ -21,32 +21,36 @@ public class RandomMovingStrategy extends PacmanMovingStrategy {
 	/**
 	 * Ici, bouger vers le haut fait bouger dans une autre direction indiquée dans canMoove
 	 */
+		@Override
     public void mooveUp() {
-        this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
+        this.character.setPosX(this.character.getPosX()+this.character.getSpeed()*this.wayX);
     }
 
 	/**
 	 * Ici, bouger vers le bas fait bouger dans une autre direction indiquée dans canMoove
 	 */
+		@Override
     public void mooveDown() {
-    	this.pacmanCharacter.setPosX(this.pacmanCharacter.getPosX()+this.pacmanCharacter.getSpeed()*this.wayX);
+    	this.character.setPosX(this.character.getPosX()+this.character.getSpeed()*this.wayX);
     }
 
     /**
 	 * Ici, bouger vers la droite fait bouger dans une autre direction indiquée dans canMoove
 	 */
+		@Override
     public void mooveRight() {
-    	this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
+    	this.character.setPosY(this.character.getPosY()+this.character.getSpeed()*this.wayY);
     }
 
     /**
 	 * Ici, bouger vers la gauche fait bouger dans une autre direction indiquée dans canMoove
 	 */
+		@Override
     public void mooveLeft() {
-    	this.pacmanCharacter.setPosY(this.pacmanCharacter.getPosY()+this.pacmanCharacter.getSpeed()*this.wayY);
+    	this.character.setPosY(this.character.getPosY()+this.character.getSpeed()*this.wayY);
     }
 
-    /**
+	/**
      * Vérifie si le joueur peut se déplacer dans la direction Random.
      * Etant donné que l'appel à canMoove est générique, les paramètres x et y sont inversés selon la direction choisie dans les méthodes moove.
      * @author Raphaël
