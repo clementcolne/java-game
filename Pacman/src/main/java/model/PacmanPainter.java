@@ -27,7 +27,7 @@ public class PacmanPainter implements GamePainter {
 	public PacmanPainter(PacmanGame game) {
 		pacmanGame = game;
 		this.pacman = ImageFactory.getInstance().loadAnimation("Character/wraith.gif", 60);
-		this.monster = ImageFactory.getInstance().loadAnimation("Character/Personnage1.gif", 60);
+		this.monster = ImageFactory.getInstance().loadAnimation("Character/Personnage2.gif", 60);
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class PacmanPainter implements GamePainter {
 
 	public void drawMonster(BufferedImage im) {
 		for(int i = 0 ; i < pacmanGame.getNbMonsters() ; i++) {
-			this.monster.drawImage((int) (pacmanGame.getMonsterPosX(i) * pacmanGame.getScale()), (int) (pacmanGame.getMonsterPosY(i) * pacmanGame.getScale()), pacmanGame.getScale(), pacmanGame.getScale(), null, (Graphics2D) im.getGraphics());
+			this.monster.drawImage((int) (pacmanGame.getMonsterPosX(i) * pacmanGame.getScale()-5), (int) (pacmanGame.getMonsterPosY(i) * pacmanGame.getScale()-7), pacmanGame.getScale()+12, pacmanGame.getScale()+12, null, (Graphics2D) im.getGraphics());
 		}
 	}
 

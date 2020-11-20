@@ -28,6 +28,15 @@ public class MonsterCharacter extends Character {
     }
 
     /**
+     * Retourne vrai pour indiquer que personnage est un monstre
+     * @return true
+     */
+    @Override
+    public boolean isMonster() {
+        return true;
+    }
+
+    /**
      * Retourne la position en X et en Y du personnage
      * @author Clément
      * @return toString du personnage

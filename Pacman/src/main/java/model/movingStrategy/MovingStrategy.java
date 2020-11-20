@@ -72,7 +72,12 @@ public abstract class MovingStrategy {
     	double posY = this.character.getPosY();
     	
     	boolean insideXArea = posX + x >= 0 && ((posX + x) >= 0 ? Math.ceil(posX + x) < this.mapBuilder.getWidth() : false);
-		boolean insideYArea = posY + y >= 0 && ((posY + y) >= 0 ? Math.ceil(posY + y) < this.mapBuilder.getHeight() : false);
+			boolean insideYArea = posY + y >= 0 && ((posY + y) >= 0 ? Math.ceil(posY + y) < this.mapBuilder.getHeight() : false);
+
+			if(character.isMonster() && mapBuilder.get((int)(character.getPosX()+x), (int)(character.getPosY()+y)).isPassage()) {
+				// le personnage est un monstre, il ne peut pas marcher sur un portail
+				return false;
+			}
 
 
     	if (this.character.getGhost()) {

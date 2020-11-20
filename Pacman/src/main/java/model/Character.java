@@ -146,4 +146,12 @@ public abstract class Character {
         return movingStrategy.canMoove(x, y, mapBuilder);
     }
 
+    /**
+     * Retourne toujours faux
+     * @return false
+     */
+    public boolean isMonster() {
+        return false;
+    }
+
 }
