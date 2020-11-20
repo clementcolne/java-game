@@ -1,6 +1,6 @@
 # ACL-2020-kbc
 
-v5.1
+v6
 In repertory Pacman
 
 How to compile ACL-2020-kbc v6.0 ?
@@ -9,7 +9,7 @@ Using Maven 4.0.0 :
 
 How to run ACL-2020-kbc v6.0 ?
 >> Retrieve JAR from target/ACL_2020_kbc-6.0-SNAPSHOT.jar
->> java -jar ACL_2020_kbc-6.0-SNAPSHOT.jar "Path to map" (example : java -jar ACL_2020_kbc-6.0-SNAPSHOT.jar map.txt)
+>> java -jar ACL_2020_kbc-6.0-SNAPSHOT.jar
 
 Note : the JAR can be launched from everywhere
 
@@ -21,7 +21,7 @@ java.io
 
 Used Java version : 8
 
-Note : 
+Note :
 
 - Maven uses the same version for compiling the sources
 - Some maps can be found inside the folder Pacman/resources/Map

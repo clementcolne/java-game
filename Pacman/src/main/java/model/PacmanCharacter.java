@@ -40,7 +40,7 @@ public class PacmanCharacter extends Character{
             life -= damage;
         else
             life = 0;
-        System.out.println("Vie : "+life);
+        //System.out.println("Vie : "+life);
     }
 
 	/**

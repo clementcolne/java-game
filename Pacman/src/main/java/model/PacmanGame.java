@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Random;
 
 import engine.*;
-import model.movingStrategy.DefaultMonsterMovingStrategy;
 import model.movingStrategy.GhostMovingStrategy;
 
 /**
@@ -67,7 +66,7 @@ public class PacmanGame implements Game {
 		} catch (IOException e) {
 			System.out.println("Help not available");
 		}
-		System.out.println("Vie : "+pacmanCharacter.getLife());
+		//System.out.println("Vie : "+pacmanCharacter.getLife());
 	}
 
 	/**

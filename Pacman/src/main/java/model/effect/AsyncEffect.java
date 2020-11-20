@@ -59,7 +59,7 @@ public class AsyncEffect extends TimerTask {
 					tasks.put(this.effect.getClass(), this);
 					new Timer().schedule(this, this.startTime, this.period);
 					this.runned = true;
-					System.out.println(this.effect);
+					//System.out.println(this.effect);
 				}
 				else if (effects.contains(this.effect) && this.runned) {
 					this.executionNumber++;
@@ -118,7 +118,7 @@ public class AsyncEffect extends TimerTask {
 			tasks.remove(this.effect.getClass());
 			
 	        this.cancel();
-			System.out.println(effect + " est fini");
+			//System.out.println(effect + " est fini");
 		}
 	}
 	

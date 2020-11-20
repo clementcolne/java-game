@@ -25,7 +25,7 @@ public class Trap extends Ground{
         this.effect = eff;
         this.name = 't';
         this.color = Color.RED;
-        this.image = ImageFactory.getInstance().loadImage("Extra/treasure.png");
+        this.image = ImageFactory.getInstance().loadImage("Extra/trap.png");
     }
 
     /**

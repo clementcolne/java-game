@@ -185,7 +185,6 @@ class EffectMagicTest {
     	} 
 		
 		Thread.sleep(120);
-		System.out.println(pacman.getMovingStrategy());
 		assertEquals(new GhostMovingStrategy(pacman), pacman.getMovingStrategy(), "Le Pacman doit désormais être un fantôme");
     	assertEquals(0.5, pacman.getSpeed(), "L'effet Slow doit pas remplacer l'effet Speed");
     	assertEquals(2, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 1");

@@ -25,7 +25,7 @@ public class End extends Ground {
 
     @Override
     public void doEffect(PacmanCharacter pacmanCharacter) {
-        System.out.println("You Won !");
+        //System.out.println("You Won !");
     }
     
     /**
