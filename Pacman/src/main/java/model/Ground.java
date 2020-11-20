@@ -51,7 +51,7 @@ public class Ground {
 	 * Permet d'indiquer que la case est ou non un passage
 	 * @return toujours false saux si la case est un passage
 	 */
-	protected boolean isPassage() {
+	public boolean isPassage() {
 		return false;
 	}
 

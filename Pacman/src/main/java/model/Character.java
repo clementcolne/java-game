@@ -15,7 +15,6 @@ public abstract class Character {
     protected int life = 10;
     protected int range = 1;
     protected boolean ghost = false;
-    protected String path;
     protected MovingStrategy movingStrategy;
 
     /**
@@ -149,6 +148,14 @@ public abstract class Character {
      */
     public boolean canMoove(double x, double y, MapBuilder mapBuilder){
         return movingStrategy.canMoove(x, y, mapBuilder);
+    }
+
+    /**
+     * Retourne toujours faux
+     * @return false
+     */
+    public boolean isMonster() {
+        return false;
     }
 
 }

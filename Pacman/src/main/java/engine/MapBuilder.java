@@ -10,7 +10,6 @@ import model.effect.Slow;
 import model.effect.Speed;
 import model.effect.Stop;
 import model.effect.Stun;
-import model.movingStrategy.DefaultMonsterMovingStrategy;
 
 import java.util.Scanner;
 
@@ -31,6 +30,7 @@ public class MapBuilder {
     private Passage p1;
     private Passage p2;
     private Scanner reader;
+    private int nbMonsters;
 
     /**
      * @author Clément
@@ -40,6 +40,7 @@ public class MapBuilder {
     public MapBuilder(String path) {
     	uniqueCharacter = null;
         this.path = path;
+        this.nbMonsters = 0;
         
         this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ path));
         
@@ -123,8 +124,17 @@ public class MapBuilder {
         MonsterCharacter res = null;
         if(c == '2') {
             res = new MonsterCharacter(x, y);
+            this.nbMonsters++;
         }
         return res;
+    }
+
+    /**
+     * Retourne le nombre de monstres présents sur la map
+     * @return int le nombre de monstres présents sur la map
+     */
+    public int getNbMonsters() {
+        return nbMonsters;
     }
 
 	/**

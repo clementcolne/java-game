@@ -1,6 +1,6 @@
 package model;
 
-import model.movingStrategy.DefaultMonsterMovingStrategy;
+import model.movingStrategy.DefaultMovingStrategy;
 
 /**
  * @author Clément Colné
@@ -14,7 +14,7 @@ public class MonsterCharacter extends Character {
      */
     public MonsterCharacter(double posX, double posY) {
         super(posX, posY);
-        setMovingStrategy(new DefaultMonsterMovingStrategy(this));
+        setMovingStrategy(new DefaultMovingStrategy(this));
     }
 
     @Override
@@ -25,6 +25,15 @@ public class MonsterCharacter extends Character {
     @Override
     public void setPosY(double posY) {
         this.posY = posY;
+    }
+
+    /**
+     * Retourne vrai pour indiquer que personnage est un monstre
+     * @return true
+     */
+    @Override
+    public boolean isMonster() {
+        return true;
     }
 
     /**
