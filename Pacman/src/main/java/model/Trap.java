@@ -1,6 +1,5 @@
 package model;
 
-import model.effect.EffectMagic;
 import model.effect.EffectTrap;
 
 import java.awt.*;

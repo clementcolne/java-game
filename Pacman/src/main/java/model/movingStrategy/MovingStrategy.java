@@ -6,7 +6,6 @@ import engine.MapBuilder;
 import model.Character;
 import model.Ground;
 import model.PacmanGame;
-import model.effect.Effect;
 
 /**
  * @author Adèle Barbier, Raphaël Kimm
@@ -71,36 +70,11 @@ public abstract class MovingStrategy {
     public boolean canBypassGround(double x, double y) {
     	double posX = this.character.getPosX();
     	double posY = this.character.getPosY();
-    	
-    	boolean insideXArea = posX + x >= 0 && ((posX + x) >= 0 ? Math.ceil(posX + x) < this.mapBuilder.getWidth() : false);
-			boolean insideYArea = posY + y >= 0 && ((posY + y) >= 0 ? Math.ceil(posY + y) < this.mapBuilder.getHeight() : false);
 
-			if(character.isMonster() && mapBuilder.get((int)(character.getPosX()+x), (int)(character.getPosY()+y)).isPassage()) {
-				// le personnage est un monstre, il ne peut pas marcher sur un portail
-				return false;
-			}
-
-
-    	if (this.character.getGhost()) {
-    		if (insideXArea && insideYArea) {
-    			return true;
-    		}
-    		else {
-    			if (posX + x < 0) {
-    				character.setPosX(0);
-    			}
-    			else if (Math.ceil(posX + x) >= mapBuilder.getWidth()) {
-    				character.setPosX(mapBuilder.getWidth()-1);
-    			}
-    			else if (posY + y < 0) {
-    				character.setPosY(0);
-    			}
-    			else if (Math.ceil(posY + y) >= mapBuilder.getHeight()) {
-    				character.setPosY(mapBuilder.getHeight()-1);
-    			}
-    			return false;
-    		}
-    	}
+		if(character.isMonster() && mapBuilder.get((int)(character.getPosX()+x), (int)(character.getPosY()+y)).isPassage()) {
+			// le personnage est un monstre, il ne peut pas marcher sur un portail
+			return false;
+		}
 
     	double testX = posX;
     	boolean insideGameX = true;

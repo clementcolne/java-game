@@ -11,6 +11,8 @@ import model.effect.Speed;
 import model.effect.Stop;
 import model.effect.Stun;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
@@ -38,35 +40,56 @@ public class MapBuilder {
      * @param path chemin vers le fichier texte décrivant la map
      */
     public MapBuilder(String path) {
+    	if (path == null) {
+    		System.err.println("Chemin incorrect");
+    		System.exit(1);
+    	}
+    	
     	uniqueCharacter = null;
         this.path = path;
         this.nbMonsters = 0;
+        File f = new File(path);
         
-        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ path));
-        
-        while(reader.hasNext()) {
-            String data = reader.nextLine();
-            if (data.length() > this.width) {
-            	this.width = data.length();
-            }
-            this.height++;
+        if (f.exists() && f.canRead()) {
+	        try {
+				this.reader = new Scanner(f);
+		        
+		        while(reader.hasNext()) {
+		            String data = reader.nextLine();
+		            if (data.length() > this.width) {
+		            	this.width = data.length();
+		            }
+		            this.height++;
+		        }
+		
+		        this.reader.close();
+		        
+		        if (this.height == 0) {
+		            this.height = 1;
+		        }
+		        if (this.width == 0) {
+		        	this.width = 1;
+		        }
+		        
+		        // initialisation du tableau qui contiendra les objets de la map
+		        this.map = new Ground[height][width];
+		        this.characters = new PacmanCharacter[height][width];
+		        this.monsters = new MonsterCharacter[height][width];
+		        
+		        buildMap();
+			} catch (FileNotFoundException e) {
+				System.err.println("Erreur lors de la lecture de la map : "+path);
+			}
         }
-
-        this.reader.close();
-        
-        if (this.height == 0) {
-            this.height = 1;
+        else {
+        	if (!f.exists()) {
+        		System.err.println("La map référencée n'existe pas : "+path);
+        	}
+        	else if (!f.canRead()) {
+        		System.err.println("Impossible de lire la map : "+path);
+        	}
+        	System.exit(1);
         }
-        if (this.width == 0) {
-        	this.width = 1;
-        }
-        
-        // initialisation du tableau qui contiendra les objets de la map
-        this.map = new Ground[height][width];
-        this.characters = new PacmanCharacter[height][width];
-        this.monsters = new MonsterCharacter[height][width];
-        
-        buildMap();
     }
 
     /**
@@ -75,22 +98,26 @@ public class MapBuilder {
      * @return tableau contenant des objets de type Ground décrivant la map
      */
     private void buildMap() {
-        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ path));
-       
-        // compteur de lignes
-        int i = 0;
-        while(reader.hasNext()) {
-            String data = reader.nextLine();
-            for(int j = 0 ; j < width ; j++) {
-                // pour chaque colonne
-                // complète la map
-                map[i][j] = getGround(data.charAt(j), j, i);
-                monsters[i][j] = GenerateMonsterCharacter(data.charAt(j), j, i);
-                characters[i][j] = GeneratePacmanCharacter(data.charAt(j), j, i);
-            }
-            i++;
-        }
-        reader.close();
+        try {
+			this.reader = new Scanner(new File(this.path));
+		       
+	        // compteur de lignes
+	        int i = 0;
+	        while(reader.hasNext()) {
+	            String data = reader.nextLine();
+	            for(int j = 0 ; j < width ; j++) {
+	                // pour chaque colonne
+	                // complète la map
+	                map[i][j] = getGround(data.charAt(j), j, i);
+	                monsters[i][j] = GenerateMonsterCharacter(data.charAt(j), j, i);
+	                characters[i][j] = GeneratePacmanCharacter(data.charAt(j), j, i);
+	            }
+	            i++;
+	        }
+	        reader.close();
+		} catch (FileNotFoundException e) {
+			System.err.println("Erreur lors de la lecture de la map : "+this.path);
+		}
     }
 
     /**

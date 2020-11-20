@@ -14,7 +14,6 @@ public abstract class Character {
     protected double speed;
     protected int life = 10;
     protected int range = 1;
-    protected boolean ghost = false;
     protected MovingStrategy movingStrategy;
 
     /**
@@ -34,6 +33,11 @@ public abstract class Character {
      */
     public void setMovingStrategy(MovingStrategy strategy){
         movingStrategy = strategy;
+    }
+
+
+    public MovingStrategy getMovingStrategy() {
+        return movingStrategy;
     }
 
     /**
@@ -80,32 +84,11 @@ public abstract class Character {
     }
 
     /**
-     * Permet de modifier le caractère fantôme du Pacman. S'il est fantôme, il peut traverser les murs
-     * @author Raphaël
-     */
-    public void setGhost(boolean g) {
-        this.ghost = g;
-    }
-
-    /**
-     * Retourne si le Pacman est un fantôme
-     * @author Raphaël
-     * @return true ou false
-     */
-    public boolean getGhost() {
-        return this.ghost;
-    }
-
-    /**
      * Déplace la position du personnage d'une case vers le bas
      * @author Clément
      */
     public void mooveDown() {
         movingStrategy.mooveDown();
-    }
-
-    public MovingStrategy getMovingStrategy() {
-        return movingStrategy;
     }
 
     public void setPosX(double posX) {
@@ -139,7 +122,7 @@ public abstract class Character {
         return posY;
     }
 
-    /**
+   /**
      * Détermine si le personnage peut aller dans la direction désirée, en fonction de sa stratégie de déplacement
      * @param x coordonnée horizontale de la destination
      * @param y coordonnée horizontale de la destination

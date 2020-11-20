@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import engine.CustomIterator;
-import engine.MapBuilder;
 import model.movingStrategy.DefaultMovingStrategy;
 import model.movingStrategy.MovingStrategy;
 

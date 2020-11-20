@@ -2,7 +2,6 @@ package model.movingStrategy;
 
 import engine.MapBuilder;
 import model.Character;
-import model.PacmanCharacter;
 
 /**
  * @author Adèle Barbier, Raphaël Kimm

@@ -105,45 +105,29 @@ public class PacmanPainter implements GamePainter {
 	 */
 
 	public void drawHUD(Graphics2D crayon){
+		Font f = FontFactory.getInstance().loadFont("Font/Pixeboy.ttf",20f);
+		FontMetrics fm = crayon.getFontMetrics(f);
+
 		CustomIterator<Effect> effects  = AsyncEffect.getEffects();
 		crayon.setColor(Color.black);
+		crayon.setFont(f);
 
-		crayon.setFont(FontFactory.getInstance().LoadFont("Font/Pixeboy.ttf",20f));
 		BasicStroke bs = new BasicStroke(20);
 		crayon.setStroke(bs);
 
-		if (effects.size()==1 || effects.hasNext()){
+		int i = 0;
+		while (effects.hasNext()) {
 			Effect effect = effects.next();
 
-			switch (effect.toString()){
-				case "Effet Lent":
-					crayon.fillRect(145,5,95,30);
-					break;
+			int width = fm.stringWidth(effect.toString());
+			int height = fm.getHeight();
 
-				case "Effet Fantome":
-
-				case "Effet Etourdi":
-
-				case "Effet Vitesse":
-					crayon.fillRect(145,5,122,30);
-					break;
-
-				case "Effet Arret":
-					crayon.fillRect(145,5,103,30);
-					break;
-
-				case "Effet Arc":
-					crayon.fillRect(145,5,86,30);
-					break;
-
-			}
-
+			crayon.setColor(Color.black);
+			crayon.fillRect(145, 5 + i * height, width + 10, height);
 			crayon.setColor(Color.white);
-			crayon.drawString(effect.toString(),150,25);
+			crayon.drawString(effect.toString(),150,20 + i * height);
+			i++;
 		}
-
-
-
 	}
 
 	/**

@@ -121,22 +121,22 @@ public class PacmanGame implements Game {
 				int way = rand.nextInt(4);
 				switch (way) {
 					case 0:
-						if (canMoove(monstersCharacter[i], 0, -pacmanCharacter.getSpeed())) {
+						if (canMoove(monstersCharacter[i], 0, -monstersCharacter[i].getSpeed())) {
 							monstersCharacter[i].mooveUp();
 						}
 						break;
 					case 1:
-						if (canMoove(monstersCharacter[i], 0, pacmanCharacter.getSpeed())) {
+						if (canMoove(monstersCharacter[i], 0, monstersCharacter[i].getSpeed())) {
 							monstersCharacter[i].mooveDown();
 						}
 						break;
 					case 2:
-						if (canMoove(monstersCharacter[i], pacmanCharacter.getSpeed(), 0)) {
+						if (canMoove(monstersCharacter[i], monstersCharacter[i].getSpeed(), 0)) {
 							monstersCharacter[i].mooveRight();
 						}
 						break;
 					case 3:
-						if (canMoove(monstersCharacter[i], -pacmanCharacter.getSpeed(), 0)) {
+						if (canMoove(monstersCharacter[i], -monstersCharacter[i].getSpeed(), 0)) {
 							monstersCharacter[i].mooveLeft();
 						}
 						break;
