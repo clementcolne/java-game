@@ -7,6 +7,11 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Adham
+ * Classe singleton qui permet d'instancier les fonts du jeu
+ */
+
 public class FontFactory {
 
     private FontFactory(){}
