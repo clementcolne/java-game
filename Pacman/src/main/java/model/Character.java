@@ -14,7 +14,6 @@ public abstract class Character {
     protected double speed;
     protected int life = 10;
     protected int range = 1;
-    protected boolean ghost = false;
     protected MovingStrategy movingStrategy;
 
     /**
@@ -85,23 +84,6 @@ public abstract class Character {
     }
 
     /**
-     * Permet de modifier le caractère fantôme du Pacman. S'il est fantôme, il peut traverser les murs
-     * @author Raphaël
-     */
-    public void setGhost(boolean g) {
-        this.ghost = g;
-    }
-
-    /**
-     * Retourne si le Pacman est un fantôme
-     * @author Raphaël
-     * @return true ou false
-     */
-    public boolean getGhost() {
-        return this.ghost;
-    }
-
-    /**
      * Déplace la position du personnage d'une case vers le bas
      * @author Clément
      */
@@ -149,5 +131,13 @@ public abstract class Character {
      */
     public boolean canMoove(double x, double y, MapBuilder mapBuilder){
         return movingStrategy.canMoove(x, y, mapBuilder);
+    }
+
+    /**
+     * Retourne toujours faux
+     * @return false
+     */
+    public boolean isMonster() {
+        return false;
     }
 }

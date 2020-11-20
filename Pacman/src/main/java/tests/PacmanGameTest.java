@@ -20,23 +20,23 @@ class PacmanGameTest {
 
     @BeforeEach
     void setUp() {
-    	map = new MapBuilder("test.txt");
+    	map = new MapBuilder("resources/Map/test.txt");
 	    game = new PacmanGame("helpFilePacman.txt", map);
     	character = game.getCharacter();
 
-    	mapPassage = new MapBuilder("testPassage.txt");
+    	mapPassage = new MapBuilder("resources/Map/testPassage.txt");
 	    gamePassage = new PacmanGame("helpFilePacman.txt", mapPassage);
     	characterPassage = gamePassage.getCharacter();
     	
-    	mapPassageTwo = new MapBuilder("testPassage2.txt");
+    	mapPassageTwo = new MapBuilder("resources/Map/testPassage2.txt");
 	    gamePassageTwo = new PacmanGame("helpFilePacman.txt", mapPassageTwo);
     	characterPassageTwo = gamePassageTwo.getCharacter();
     	
-    	mapWithoutPassage = new MapBuilder("testWithoutPassage.txt");
+    	mapWithoutPassage = new MapBuilder("resources/Map/testWithoutPassage.txt");
 	    gameWithoutPassage = new PacmanGame("helpFilePacman.txt", mapWithoutPassage);
     	characterWithoutPassage = gameWithoutPassage.getCharacter();
     	
-    	mapEmpty = new MapBuilder("testEmpty.txt");
+    	mapEmpty = new MapBuilder("resources/Map/testEmpty.txt");
 	    gameEmpty = new PacmanGame("helpFilePacman.txt", mapEmpty);
     	characterEmpty = gameEmpty.getCharacter();
     }

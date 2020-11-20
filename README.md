@@ -3,13 +3,13 @@
 v5.1
 In repertory Pacman
 
-How to compile ACL-2020-kbc v5.1 ?
+How to compile ACL-2020-kbc v6.0 ?
 Using Maven 4.0.0 :
 >> mvn install
 
-How to run ACL-2020-kbc v5.1 ?
->> Retrieve JAR from target/ACL_2020_kbc-5.1-SNAPSHOT.jar
->> java -jar ACL_2020_kbc-5.1-SNAPSHOT.jar
+How to run ACL-2020-kbc v6.0 ?
+>> Retrieve JAR from target/ACL_2020_kbc-6.0-SNAPSHOT.jar
+>> java -jar ACL_2020_kbc-6.0-SNAPSHOT.jar "Path to map" (example : java -jar ACL_2020_kbc-6.0-SNAPSHOT.jar map.txt)
 
 Note : the JAR can be launched from everywhere
 
@@ -20,10 +20,14 @@ java.util
 java.io
 
 Used Java version : 8
-Note : Maven uses the same version for compiling the sources
+
+Note : 
+
+- Maven uses the same version for compiling the sources
+- Some maps can be found inside the folder Pacman/resources/Map
 
 Design :
-All design documents can be found inside the folder ACL-2020-kbc\conception
+All design documents can be found inside the folder conception
 
 ---
 
@@ -42,3 +46,4 @@ The following characters can be used in map files :
 - Passage : p
 - Treasure : k
 - Pacman : 1
+- Monster : 2

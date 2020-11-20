@@ -6,7 +6,6 @@ import model.movingStrategy.DefaultMovingStrategy;
 import model.movingStrategy.GhostMovingStrategy;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -47,7 +46,7 @@ class EffectMagicTest {
     	Thread.sleep(6000);
     	
     	assertEquals(0, AsyncEffect.getEffects().size(), "Tous les effets du Pacman doivent être inactifs");
-    	assertFalse(pacman.getGhost(), "Tous les effets du Pacman doivent être inactifs");
+    	assertEquals(new DefaultMovingStrategy(pacman), pacman.getMovingStrategy(), "Tous les effets du Pacman doivent être inactifs");
     	assertEquals(1, pacman.getSpeed(), "Tous les effets du Pacman doivent être inactifs");
     	assertEquals(1, pacman.getRange(), "Tous les effets du Pacman doivent être inactifs");
     }
@@ -71,19 +70,19 @@ class EffectMagicTest {
     		for (int obj = 0; obj < 3; obj++) {
     			new AsyncEffect(new Ghost(), Effect.class, taskDuration[0][0], 0, taskDuration[0][1]) {
     				public void execute() {
-    					pacman.setGhost(!this.isEnded());
+    					pacman.setMovingStrategy(!this.isEnded() ? new GhostMovingStrategy(pacman) : new DefaultMovingStrategy(pacman));
     				}
     			}.run();
     			
     			new AsyncEffect(new Ghost(), Ghost.class, taskDuration[1][0], 0, taskDuration[1][1]) {
     				public void execute() {
-    					pacman.setGhost(!this.isEnded());
+    					pacman.setMovingStrategy(!this.isEnded() ? new GhostMovingStrategy(pacman) : new DefaultMovingStrategy(pacman));
     				}
     			}.run();
     			
     			new AsyncEffect(new Ghost(), null, taskDuration[2][0], 0, taskDuration[2][1]) {
     				public void execute() {
-    					pacman.setGhost(!this.isEnded());
+    					pacman.setMovingStrategy(!this.isEnded() ? new GhostMovingStrategy(pacman) : new DefaultMovingStrategy(pacman));
     				}
     			}.run();
     			
@@ -153,7 +152,7 @@ class EffectMagicTest {
     	while (i>0) {
     		new AsyncEffect(new Ghost(), Effect.class, 5000, 0, 5000) {
 				public void execute() {
-					pacman.setGhost(!this.isEnded());
+					pacman.setMovingStrategy(!this.isEnded() ? new GhostMovingStrategy(pacman) : new DefaultMovingStrategy(pacman));
 				}
 			}.run();
 			
