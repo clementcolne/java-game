@@ -1,15 +1,15 @@
 # ACL-2020-kbc
 
-v6
+v7
 In repertory Pacman
 
-How to compile ACL-2020-kbc v6.0 ?
+How to compile ACL-2020-kbc v7.0 ?
 Using Maven 4.0.0 :
 >> mvn install
 
-How to run ACL-2020-kbc v6.0 ?
->> Retrieve JAR from target/ACL_2020_kbc-6.0-SNAPSHOT.jar
->> java -jar ACL_2020_kbc-6.0-SNAPSHOT.jar
+How to run ACL-2020-kbc v7.0 ?
+>> Retrieve JAR from target/ACL_2020_kbc-7.0-SNAPSHOT.jar
+>> java -jar ACL_2020_kbc-7.0-SNAPSHOT.jar
 
 Note : the JAR can be launched from everywhere
 

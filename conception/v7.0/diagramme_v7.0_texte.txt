@@ -1,0 +1,19 @@
+@startuml
+class Character {
+ int strength 
+ int range
+ void attack(Character c)
+ int getRange()
+ void setDamage(int strength)
+ int getLife()
+}
+
+class MonsterCharacter
+
+class PacmanCharacter{
+ void setRange(int range)
+}
+
+Character <|-- MonsterCharacter
+Character <|-- PacmanCharacter
+@enduml
