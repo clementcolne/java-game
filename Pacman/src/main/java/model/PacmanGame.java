@@ -76,7 +76,7 @@ public class PacmanGame implements Game {
 	 */
 	@Override
 	public void evolve(Cmd commande) {
-		if (!pacmanCharacter.getMovingStrategy().equals(new GhostMovingStrategy(pacmanCharacter)) && !mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isAccessible()) {
+		if (!pacmanCharacter.getMovingStrategyType().equals("ghost") && !mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isAccessible()) {
 			this.resetPosition();
 		}
 		

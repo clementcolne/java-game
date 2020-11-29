@@ -99,6 +99,10 @@ public class PacmanCharacter extends Character{
     	return this.movingStrategy;
     }
 
+    public String getMovingStrategyType(){
+        return this.movingStrategy.getType();
+    }
+
     /**
      * @author Adèle
      * @return le nombre de point de vie du personnage
