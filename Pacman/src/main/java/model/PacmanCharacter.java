@@ -30,18 +30,6 @@ public class PacmanCharacter extends Character{
         visitedCoordinates = new LinkedList<>(Arrays.asList(new int[] {(int) this.posX, (int) this.posY}));
     }
 
-    /**
-     * @author Adèle
-     * Inflige des dégats au personnage, ce qui lui fait perdre un/des points de vie
-     * @param damage ampleur des dégats infligés, nombre de points de vie perdus par le personnage
-     */
-    public void setDamage(int damage){
-        if(life-damage>=0)
-            life -= damage;
-        else
-            life = 0;
-        //System.out.println("Vie : "+life);
-    }
 
 	/**
 	 * Permet de modifier la portée d'attaque du Pacman (en cases)
@@ -87,6 +75,15 @@ public class PacmanCharacter extends Character{
     }
 
     /**
+     * @author Adèle
+     * @return retourne la force du personnage
+     */
+    @Override
+    public int getStrength() {
+        return 1;
+    }
+
+    /**
      * Modifie la stratégie de déplacement en vigueur
      * @param movingStrategy nouvelle stratégie de déplacement à appliquer
      * @author Adèle
@@ -101,14 +98,6 @@ public class PacmanCharacter extends Character{
 
     public String getMovingStrategyType(){
         return this.movingStrategy.getType();
-    }
-
-    /**
-     * @author Adèle
-     * @return le nombre de point de vie du personnage
-     */
-    public int getLife() {
-        return life;
     }
     
     /**

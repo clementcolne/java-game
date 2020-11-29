@@ -40,6 +40,15 @@ public class MonsterCharacter extends Character {
     }
 
     /**
+     * @author Adèle
+     * @return retourne la force du personnage
+     */
+    @Override
+    public int getStrength() {
+        return 1;
+    }
+
+    /**
      * Retourne vrai pour indiquer que personnage est un monstre
      * @return true
      */

@@ -294,4 +294,12 @@ public class MapBuilder {
         }
         return sb.toString();
     }
+
+    /**
+     * Retire le monstre donné de la carte
+     * @param m monstre à faire disparaître
+     */
+    public void removeMonster(MonsterCharacter m) {
+        //TODO
+    }
 }
