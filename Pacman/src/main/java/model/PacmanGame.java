@@ -3,10 +3,7 @@ package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import engine.*;
 import model.movingStrategy.GhostMovingStrategy;
@@ -22,7 +19,7 @@ public class PacmanGame implements Game {
 
 	private final int scale = 40;
 	private PacmanCharacter pacmanCharacter;
-	private MonsterCharacter[] monstersCharacter;
+	private List<MonsterCharacter> monstersList;
 	private MapBuilder mapBuilder;
 	private boolean isFinished;
 	private Ground executedEffect;
@@ -37,7 +34,7 @@ public class PacmanGame implements Game {
 		// création du pacman
 		this.pacmanCharacter = new PacmanCharacter(-1, -1);
 		// création d'un monstre
-		this.monstersCharacter = new MonsterCharacter[mapBuilder.getNbMonsters()];
+		this.monstersList = new ArrayList<>();
 
 		int cptIndex = 0;
 		for (int x = 0; x < mapBuilder.getWidth(); x++) {
@@ -48,7 +45,7 @@ public class PacmanGame implements Game {
 					this.pacmanCharacter = character;
 				}
 				if(monster != null) {
-					this.monstersCharacter[cptIndex] = monster;
+					this.monstersList.add(monster);
 					cptIndex++;
 				}
 			}
@@ -66,7 +63,6 @@ public class PacmanGame implements Game {
 		} catch (IOException e) {
 			System.out.println("Help not available");
 		}
-		//System.out.println("Vie : "+pacmanCharacter.getLife());
 	}
 
 	/**
@@ -112,31 +108,35 @@ public class PacmanGame implements Game {
 		mooveMonster();
 	}
 
+	/**
+	 * @author Clément
+	 * Fait se déplacer chaque monstre toutes les 1.200ms dans une direction aléatoire
+	 */
 	public void mooveMonster() {
 		// les monstres bougent une 1 fois toutes les 10x(120ms)
 		if(monsterMooveCounter == 5) {
-			for(int i = 0; i < monstersCharacter.length ; i++) {
+			for(MonsterCharacter m : monstersList) {
 				Random rand = new Random(); //instance of random class
 				int way = rand.nextInt(4);
 				switch (way) {
 					case 0:
-						if (canMoove(monstersCharacter[i], 0, -monstersCharacter[i].getSpeed())) {
-							monstersCharacter[i].mooveUp();
+						if (canMoove(m, 0, -m.getSpeed())) {
+							m.mooveUp();
 						}
 						break;
 					case 1:
-						if (canMoove(monstersCharacter[i], 0, monstersCharacter[i].getSpeed())) {
-							monstersCharacter[i].mooveDown();
+						if (canMoove(m, 0, m.getSpeed())) {
+							m.mooveDown();
 						}
 						break;
 					case 2:
-						if (canMoove(monstersCharacter[i], monstersCharacter[i].getSpeed(), 0)) {
-							monstersCharacter[i].mooveRight();
+						if (canMoove(m, m.getSpeed(), 0)) {
+							m.mooveRight();
 						}
 						break;
 					case 3:
-						if (canMoove(monstersCharacter[i], -monstersCharacter[i].getSpeed(), 0)) {
-							monstersCharacter[i].mooveLeft();
+						if (canMoove(m, -m.getSpeed(), 0)) {
+							m.mooveLeft();
 						}
 						break;
 					default:
@@ -237,7 +237,7 @@ public class PacmanGame implements Game {
 	 * @author Adèle
 	 */
 	public double getMonsterPosX(int index){
-		return monstersCharacter[index].getPosX();
+		return monstersList.get(index).getPosX();
 	}
 
 	/**
@@ -245,7 +245,7 @@ public class PacmanGame implements Game {
 	 * @author Adèle
 	 */
 	public double getMonsterPosY(int index){
-		return monstersCharacter[index].getPosY();
+		return monstersList.get(index).getPosY();
 	}
 
 	/**
@@ -393,13 +393,24 @@ public class PacmanGame implements Game {
 	public int getScale() {
 		return this.scale;
 	}
-	
+
+	/**
+	 * @author Clément
+	 * Retourne le PacmanCharacter
+	 * @return le PacmanCharacter
+	 */
 	public PacmanCharacter getCharacter() {
 		return this.pacmanCharacter;
 	}
 
+	/**
+	 * @author Clément
+	 * Retourne le monstre à l'index donné en paramètre
+	 * @param index index dans la liste
+	 * @return le monstre à l'index donné en paramètre
+	 */
 	public MonsterCharacter getMonsterCharacter(int index) {
-		return monstersCharacter[index];
+		return monstersList.get(index);
 	}
 }
 
