@@ -114,7 +114,7 @@ public class PacmanGame implements Game {
 				break;
 		}
 		this.doEffect(move, commande);
-		//mooveMonster();
+		mooveMonster();
 	}
 
 	/**
@@ -129,7 +129,6 @@ public class PacmanGame implements Game {
 		int i=1;
 		while(m==null && i<= pacmanCharacter.getRange()){
 			m = mapBuilder.getMonster((int)pacmanCharacter.getPosX()+ x * i, (int)pacmanCharacter.getPosY()+ y * i);
-			System.out.println(m);
 			i++;
 		}
 		if(m!=null){
@@ -147,7 +146,7 @@ public class PacmanGame implements Game {
 	 */
 	public void mooveMonster() {
 		// les monstres bougent une 1 fois toutes les 10x(120ms)
-		if(monsterMooveCounter == 5) {
+		if(monsterMooveCounter == 10) {
 			Iterator<MonsterCharacter> ite = mapBuilder.getIterator();
 			MonsterCharacter m;
 			while(ite.hasNext()) {
