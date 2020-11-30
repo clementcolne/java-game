@@ -11,6 +11,8 @@ import model.effect.Speed;
 import model.effect.Stop;
 import model.effect.Stun;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -23,7 +25,7 @@ public class MapBuilder {
     // Tableau représentant la map du jeu
     private Ground[][] map;
     private PacmanCharacter[][] characters;
-    private MonsterCharacter[][] monsters;
+    private List<MonsterCharacter> monsters;
     private static Character uniqueCharacter;
     private int width;
     private int height;
@@ -31,6 +33,7 @@ public class MapBuilder {
     private Passage p2;
     private Scanner reader;
     private int nbMonsters;
+    private int nbPassages;
 
     /**
      * @author Clément
@@ -41,6 +44,7 @@ public class MapBuilder {
     	uniqueCharacter = null;
         this.path = path;
         this.nbMonsters = 0;
+        this.nbPassages = 0;
         
         this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ path));
         
@@ -64,9 +68,18 @@ public class MapBuilder {
         // initialisation du tableau qui contiendra les objets de la map
         this.map = new Ground[height][width];
         this.characters = new PacmanCharacter[height][width];
-        this.monsters = new MonsterCharacter[height][width];
+        this.monsters = new ArrayList<>();
         
         buildMap();
+
+        if(nbPassages != 0 && nbPassages != 2) {
+            try {
+                throw new Exception("Erreur sur la création de la map : le nombre de passage est différent de 0 ou 2.");
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+        }
     }
 
     /**
@@ -85,7 +98,10 @@ public class MapBuilder {
                 // pour chaque colonne
                 // complète la map
                 map[i][j] = getGround(data.charAt(j), j, i);
-                monsters[i][j] = GenerateMonsterCharacter(data.charAt(j), j, i);
+                MonsterCharacter m = GenerateMonsterCharacter(data.charAt(j), j, i);
+                if(m != null) {
+                    monsters.add(m);
+                }
                 characters[i][j] = GeneratePacmanCharacter(data.charAt(j), j, i);
             }
             i++;
@@ -144,7 +160,7 @@ public class MapBuilder {
      * @return objet de type Ground
      */
     private Ground getGround(char c, int x, int y) {
-        Ground res = null;
+        Ground res;
         switch (c) {
             case '-':
                 // wall
@@ -210,6 +226,7 @@ public class MapBuilder {
             p1.setLinkedPassage(p2);
             p2.setLinkedPassage(p1);
         }
+        nbPassages++;
     }
 
     /**
@@ -238,9 +255,18 @@ public class MapBuilder {
     	return null;
     }
 
+    /**
+     * @author Clément
+     * Retourne le monstre situé à la position [x,y] si il existe, null sinon
+     * @param x position en x
+     * @param y position en y
+     * @return le monstre situé à la position x, y si il existe, null sinon
+     */
     public MonsterCharacter getMonster(int x, int y) {
-        if (y < height && x < width && y >= 0 && x >= 0 && monsters[y][x] != null) {
-            return monsters[y][x];
+        for(MonsterCharacter m : monsters) {
+            if(m.getPosX() == x && m.getPosY() == y) {
+                return m;
+            }
         }
         return null;
     }
