@@ -64,21 +64,25 @@ public class PacmanController implements GameController {
 			case 's':
 			case 'S':
 				this.commandeEnCours = Cmd.ATTACKDOWN;
+				break;
 
 			//Le personnage lance une attaque vers le haut
 			case 'z':
 			case 'Z':
 				this.commandeEnCours = Cmd.ATTACKUP;
+				break;
 
 			//Le personnage lance une attaque vers la gauche
 			case 'q':
 			case 'Q':
 				this.commandeEnCours = Cmd.ATTACKLEFT;
+				break;
 
 			//Le personnage lance une attaque vers la droite
 			case 'd':
 			case 'D':
 				this.commandeEnCours = Cmd.ATTACKRIGHT;
+				break;
 
 			default:
 				// Stop, le personnage ne bouge pas

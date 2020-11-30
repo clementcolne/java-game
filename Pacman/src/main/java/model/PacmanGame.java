@@ -134,11 +134,13 @@ public class PacmanGame implements Game {
 	 * @param y direction verticale de l'attaque
 	 */
 	private void attackMonster(int x, int y) {
+		System.out.println("J'attaque vers x="+x+", y="+y);
 		MonsterCharacter m = mapBuilder.getMonster((int)pacmanCharacter.getPosX()+ x * pacmanCharacter.getRange(), (int)pacmanCharacter.getPosY()+ y * pacmanCharacter.getRange());
 		if(m!=null){
 			pacmanCharacter.attack(m);
 			if(m.getLife()<=0){
 				mapBuilder.removeMonster(m);
+				monstersList.remove(m);
 			}
 		}
 	}
@@ -209,6 +211,7 @@ public class PacmanGame implements Game {
 
 	/**
 	 * Affiche l'état du personnage dans le terminal
+	 * @deprecated
 	 * @author Adèle
 	 */
 	public void printGame(Cmd commande) {

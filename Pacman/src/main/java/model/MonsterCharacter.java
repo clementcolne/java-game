@@ -26,6 +26,7 @@ public class MonsterCharacter extends Character {
      */
     public MonsterCharacter(double posX, double posY) {
         super(posX, posY);
+        this.life = 3;
         this.setMovingStrategy(this.strategies.get((int) (Math.random()*this.strategies.size())));
     }
 

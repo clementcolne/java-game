@@ -172,6 +172,5 @@ public abstract class Character {
      */
     public void attack(Character c){
         c.setDamage(getStrength());
-        System.out.println("Damage sur "+c+" vie : "+c.getLife());
     }
 }

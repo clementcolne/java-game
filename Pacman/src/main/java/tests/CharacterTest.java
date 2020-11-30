@@ -65,7 +65,7 @@ class CharacterTest {
     @Test
     void attack1_right() {
         pacmanCharacter.attack(monsterCharacter);
-        assertEquals(9, monsterCharacter.getLife());
+        assertEquals(2, monsterCharacter.getLife());
     }
 
     //right
@@ -73,13 +73,13 @@ class CharacterTest {
     void attack2_right() {
         pacmanCharacter.attack(monsterCharacter);
         pacmanCharacter.attack(monsterCharacter);
-        assertEquals(8, monsterCharacter.getLife());
+        assertEquals(1, monsterCharacter.getLife());
     }
 
     //boundary
     @Test
     void attack1_boundary() {
-        for(int i=0; i<10; i++){
+        for(int i=0; i<3; i++){
             pacmanCharacter.attack(monsterCharacter);
         }
         assertEquals(0, monsterCharacter.getLife());
