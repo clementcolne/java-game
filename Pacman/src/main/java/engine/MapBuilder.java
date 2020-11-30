@@ -12,6 +12,7 @@ import model.effect.Stop;
 import model.effect.Stun;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -146,6 +147,14 @@ public class MapBuilder {
     }
 
     /**
+     * Retourne l'itérateur sur la liste de monstres
+     * @return l'itérateur sur la liste de monstres
+     */
+    public Iterator<MonsterCharacter> getIterator() {
+        return monsters.iterator();
+    }
+
+    /**
      * Retourne le nombre de monstres présents sur la map
      * @return int le nombre de monstres présents sur la map
      */
@@ -263,12 +272,33 @@ public class MapBuilder {
      * @return le monstre situé à la position x, y si il existe, null sinon
      */
     public MonsterCharacter getMonster(int x, int y) {
+        MonsterCharacter monster = null;
         for(MonsterCharacter m : monsters) {
             if(m.getPosX() == x && m.getPosY() == y) {
-                return m;
+                monster = m;
             }
         }
-        return null;
+        return monster;
+    }
+
+    /**
+     * @author Clément
+     * Retourne la position en X du monstre à l'index
+     * @param index index du monstre dans la liste
+     * @return la position en X du monstre à l'index
+     */
+    public double getMonsterPosX(int index) {
+        return monsters.get(index).getPosX();
+    }
+
+    /**
+     * @author Clément
+     * Retourne la position en X du monstre à l'index
+     * @param index index du monstre dans la liste
+     * @return la position en X du monstre à l'index
+     */
+    public double getMonsterPosY(int index) {
+        return monsters.get(index).getPosY();
     }
 
     /**

@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-
 import engine.*;
-import model.movingStrategy.GhostMovingStrategy;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -19,7 +17,6 @@ public class PacmanGame implements Game {
 
 	private final int scale = 40;
 	private PacmanCharacter pacmanCharacter;
-	private List<MonsterCharacter> monstersList;
 	private MapBuilder mapBuilder;
 	private boolean isFinished;
 	private Ground executedEffect;
@@ -34,19 +31,13 @@ public class PacmanGame implements Game {
 		// création du pacman
 		this.pacmanCharacter = new PacmanCharacter(-1, -1);
 		// création d'un monstre
-		this.monstersList = new ArrayList<>();
 
-		int cptIndex = 0;
 		for (int x = 0; x < mapBuilder.getWidth(); x++) {
 			for (int y = 0; y < mapBuilder.getHeight(); y++) {
 				PacmanCharacter character = mapBuilder.getCharacter(x, y);
 				MonsterCharacter monster = mapBuilder.getMonster(x, y);
 				if (character != null) {
 					this.pacmanCharacter = character;
-				}
-				if(monster != null) {
-					this.monstersList.add(monster);
-					cptIndex++;
 				}
 			}
 		}
@@ -134,13 +125,17 @@ public class PacmanGame implements Game {
 	 * @param y direction verticale de l'attaque
 	 */
 	private void attackMonster(int x, int y) {
-		System.out.println("J'attaque vers x="+x+", y="+y);
-		MonsterCharacter m = mapBuilder.getMonster((int)pacmanCharacter.getPosX()+ x * pacmanCharacter.getRange(), (int)pacmanCharacter.getPosY()+ y * pacmanCharacter.getRange());
+		MonsterCharacter m=null;
+		int i=1;
+		while(m==null && i<= pacmanCharacter.getRange()){
+			m = mapBuilder.getMonster((int)pacmanCharacter.getPosX()+ x * i, (int)pacmanCharacter.getPosY()+ y * i);
+			i++;
+		}
 		if(m!=null){
 			pacmanCharacter.attack(m);
 			if(m.getLife()<=0){
 				mapBuilder.removeMonster(m);
-				monstersList.remove(m);
+				mapBuilder.removeMonster(m);
 			}
 		}
 	}
@@ -151,8 +146,11 @@ public class PacmanGame implements Game {
 	 */
 	public void mooveMonster() {
 		// les monstres bougent une 1 fois toutes les 10x(120ms)
-		if(monsterMooveCounter == 5) {
-			for(MonsterCharacter m : monstersList) {
+		if(monsterMooveCounter == 10) {
+			Iterator<MonsterCharacter> ite = mapBuilder.getIterator();
+			MonsterCharacter m;
+			while(ite.hasNext()) {
+				m = ite.next();
 				Random rand = new Random(); //instance of random class
 				int way = rand.nextInt(4);
 				switch (way) {
@@ -274,8 +272,8 @@ public class PacmanGame implements Game {
 	 * @return la position horizontal du personnage
 	 * @author Adèle
 	 */
-	public double getMonsterPosX(int index){
-		return monstersList.get(index).getPosX();
+	public double getMonsterPosX(int index) {
+		return mapBuilder.getMonsterPosX(index);
 	}
 
 	/**
@@ -283,7 +281,7 @@ public class PacmanGame implements Game {
 	 * @author Adèle
 	 */
 	public double getMonsterPosY(int index){
-		return monstersList.get(index).getPosY();
+		return mapBuilder.getMonsterPosY(index);
 	}
 
 	/**
@@ -441,14 +439,5 @@ public class PacmanGame implements Game {
 		return this.pacmanCharacter;
 	}
 
-	/**
-	 * @author Clément
-	 * Retourne le monstre à l'index donné en paramètre
-	 * @param index index dans la liste
-	 * @return le monstre à l'index donné en paramètre
-	 */
-	public MonsterCharacter getMonsterCharacter(int index) {
-		return monstersList.get(index);
-	}
 }
 
