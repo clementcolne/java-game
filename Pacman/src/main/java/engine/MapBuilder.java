@@ -150,7 +150,7 @@ public class MapBuilder {
      * @return int le nombre de monstres présents sur la map
      */
     public int getNbMonsters() {
-        return nbMonsters;
+        return monsters.size();
     }
 
 	/**
@@ -319,5 +319,13 @@ public class MapBuilder {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * Retire le monstre donné de la carte
+     * @param m monstre à faire disparaître
+     */
+    public void removeMonster(MonsterCharacter m) {
+        monsters.remove(m);
     }
 }

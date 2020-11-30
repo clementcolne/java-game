@@ -17,6 +17,7 @@ public class GhostMovingStrategy extends MovingStrategy{
      */
     public GhostMovingStrategy(Character c) {
         super(c);
+        type = "ghost";
     }
 
     public boolean canMoove(double x, double y, MapBuilder mapBuilder) {

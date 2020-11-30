@@ -84,6 +84,13 @@ public abstract class Character {
     }
 
     /**
+     * @author Adèle
+     * @return le nombre de point de vie du personnage
+     */
+    public int getLife() {
+        return life;
+    }
+    /**
      * Déplace la position du personnage d'une case vers le bas
      * @author Clément
      */
@@ -134,6 +141,24 @@ public abstract class Character {
     }
 
     /**
+     * Inflige des dégats au personnage, ce qui lui fait perdre un/des points de vie
+     * @author Adèle
+     * @param damage ampleur des dégats infligés, nombre de points de vie perdus par le personnage
+     */
+    public void setDamage(int damage){
+        if(life-damage>=0)
+            life -= damage;
+        else
+            life = 0;
+    }
+
+    /**
+     * @author Adèle
+     * @return retourne la force du personnage
+     */
+    public abstract int getStrength();
+
+    /**
      * Retourne toujours faux
      * @return false
      */
@@ -141,4 +166,11 @@ public abstract class Character {
         return false;
     }
 
+    /**
+     * Inflige des dommages au personnage donné
+     * @param c personnage affecté par l'attaque
+     */
+    public void attack(Character c){
+        c.setDamage(getStrength());
+    }
 }

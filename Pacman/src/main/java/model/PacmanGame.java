@@ -72,14 +72,17 @@ public class PacmanGame implements Game {
 	 */
 	@Override
 	public void evolve(Cmd commande) {
-		if (!pacmanCharacter.getMovingStrategy().equals(new GhostMovingStrategy(pacmanCharacter)) && !mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isAccessible()) {
+		if (!pacmanCharacter.getMovingStrategyType().equals("ghost") && !mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isAccessible()) {
 			this.resetPosition();
 		}
 		
 		this.executedEffect = getNearestEffectiveGround(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosY());
 
-		boolean move;
+		boolean move = false;
 		switch(commande) {
+
+				//Déplacements
+
 			case LEFT:
 				if(move = canMoove(pacmanCharacter, -pacmanCharacter.getSpeed(), 0)) {
 					pacmanCharacter.mooveLeft();
@@ -100,12 +103,46 @@ public class PacmanGame implements Game {
 					pacmanCharacter.mooveDown();
 				}
 				break;
+
+				//Attaques
+
+			case ATTACKUP:
+				attackMonster(0, -1);
+				break;
+			case ATTACKDOWN:
+				attackMonster(0, 1);
+				break;
+			case ATTACKRIGHT:
+				attackMonster(1, 0);
+				break;
+			case ATTACKLEFT:
+				attackMonster(-1, 0);
+				break;
 			default:
 				move = false;
 				break;
 		}
 		this.doEffect(move, commande);
 		mooveMonster();
+	}
+
+	/**
+	 * Le personnage lance une attaque sur un monstre si celui-ci se trouve à la position visée
+	 * Si le monstre n'a plus de point de vie, il est retiré de la carte
+	 * @author Adèle
+	 * @param x direction horinzontale de l'attaque
+	 * @param y direction verticale de l'attaque
+	 */
+	private void attackMonster(int x, int y) {
+		System.out.println("J'attaque vers x="+x+", y="+y);
+		MonsterCharacter m = mapBuilder.getMonster((int)pacmanCharacter.getPosX()+ x * pacmanCharacter.getRange(), (int)pacmanCharacter.getPosY()+ y * pacmanCharacter.getRange());
+		if(m!=null){
+			pacmanCharacter.attack(m);
+			if(m.getLife()<=0){
+				mapBuilder.removeMonster(m);
+				monstersList.remove(m);
+			}
+		}
 	}
 
 	/**
@@ -174,6 +211,7 @@ public class PacmanGame implements Game {
 
 	/**
 	 * Affiche l'état du personnage dans le terminal
+	 * @deprecated
 	 * @author Adèle
 	 */
 	public void printGame(Cmd commande) {

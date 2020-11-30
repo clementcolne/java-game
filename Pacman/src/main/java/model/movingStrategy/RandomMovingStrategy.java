@@ -16,6 +16,7 @@ public class RandomMovingStrategy extends MovingStrategy {
 	 */
     public RandomMovingStrategy(PacmanCharacter pc) {
 		super(pc);
+		type="random";
 	}
 
 	/**

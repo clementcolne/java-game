@@ -26,6 +26,7 @@ public class MonsterCharacter extends Character {
      */
     public MonsterCharacter(double posX, double posY) {
         super(posX, posY);
+        this.life = 3;
         this.setMovingStrategy(this.strategies.get((int) (Math.random()*this.strategies.size())));
     }
 
@@ -37,6 +38,15 @@ public class MonsterCharacter extends Character {
     @Override
     public void setPosY(double posY) {
         this.posY = posY;
+    }
+
+    /**
+     * @author Adèle
+     * @return retourne la force du personnage
+     */
+    @Override
+    public int getStrength() {
+        return 1;
     }
 
     /**
