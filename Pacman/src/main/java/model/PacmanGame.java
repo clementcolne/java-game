@@ -19,6 +19,7 @@ public class PacmanGame implements Game {
 
 	private final int scale = 40;
 	private PacmanCharacter pacmanCharacter;
+	// TODO : utiliser la map de mapbuilder.
 	private List<MonsterCharacter> monstersList;
 	private MapBuilder mapBuilder;
 	private boolean isFinished;
@@ -123,7 +124,7 @@ public class PacmanGame implements Game {
 				break;
 		}
 		this.doEffect(move, commande);
-		mooveMonster();
+		//mooveMonster();
 	}
 
 	/**
@@ -134,8 +135,13 @@ public class PacmanGame implements Game {
 	 * @param y direction verticale de l'attaque
 	 */
 	private void attackMonster(int x, int y) {
-		System.out.println("J'attaque vers x="+x+", y="+y);
-		MonsterCharacter m = mapBuilder.getMonster((int)pacmanCharacter.getPosX()+ x * pacmanCharacter.getRange(), (int)pacmanCharacter.getPosY()+ y * pacmanCharacter.getRange());
+		MonsterCharacter m=null;
+		int i=1;
+		while(m==null && i<= pacmanCharacter.getRange()){
+			m = mapBuilder.getMonster((int)pacmanCharacter.getPosX()+ x * i, (int)pacmanCharacter.getPosY()+ y * i);
+			System.out.println(m);
+			i++;
+		}
 		if(m!=null){
 			pacmanCharacter.attack(m);
 			if(m.getLife()<=0){

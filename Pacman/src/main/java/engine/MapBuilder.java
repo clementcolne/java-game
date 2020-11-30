@@ -263,12 +263,13 @@ public class MapBuilder {
      * @return le monstre situé à la position x, y si il existe, null sinon
      */
     public MonsterCharacter getMonster(int x, int y) {
+        MonsterCharacter monster = null;
         for(MonsterCharacter m : monsters) {
             if(m.getPosX() == x && m.getPosY() == y) {
-                return m;
+                monster = m;
             }
         }
-        return null;
+        return monster;
     }
 
     /**
