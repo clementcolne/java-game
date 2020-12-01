@@ -129,7 +129,7 @@ public class PacmanGame implements Game {
 				mapBuilder.removeMonster(m);
 			}
 			canHit = false;
-			System.out.println("can't hit");
+			//System.out.println("can't hit");
 			this.delayAttack(2000);
 
 		}
@@ -453,7 +453,7 @@ public class PacmanGame implements Game {
 			@Override
 			public void run() {
 				canHit = true;
-				System.out.println("Now can hit");
+				//System.out.println("Now can hit");
 			}
 		};
 		timer.schedule(timerTask,Time);
