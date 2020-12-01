@@ -16,6 +16,7 @@ public abstract class MovingStrategy {
 	protected MapBuilder mapBuilder;
 	protected Character character;
 	protected double factorX = 0, factorY = 0, wayX = 0, wayY = 0;
+	protected String type = "default";
 	
 	/**
 	 * Constructeur permettant d'indiquer qui est concerné par la stratégie
@@ -59,8 +60,15 @@ public abstract class MovingStrategy {
 	}
     
 	public abstract boolean canMoove(double x, double y, MapBuilder mapBuilder);
-	
-    /**
+
+	/**
+	 * @return le type de stratégie de déplacement dont il s'agit
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
      * Permet de savoir si le Pacman peut traverser ou non un mur (en fonction de s'il a l'effet Ghost ou qu'aucun mur ne se trouve devant lui)
      * @author Raphaël
      * @param x Position à incrémenter par rapport à la position actuelle en abscisse du Pacman

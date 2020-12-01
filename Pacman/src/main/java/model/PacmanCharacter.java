@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import engine.CustomIterator;
+import engine.ImageFactory;
 import model.movingStrategy.DefaultMovingStrategy;
 import model.movingStrategy.MovingStrategy;
 
@@ -25,23 +26,11 @@ public class PacmanCharacter extends Character{
      */
     public PacmanCharacter(double posX, double posY) {
         super(posX, posY);
-        
+        animation = ImageFactory.getInstance().loadAnimation("Character/wraith.gif", 60);
         movingStrategy = new DefaultMovingStrategy(this);
         visitedCoordinates = new LinkedList<>(Arrays.asList(new int[] {(int) this.posX, (int) this.posY}));
     }
 
-    /**
-     * @author Adèle
-     * Inflige des dégats au personnage, ce qui lui fait perdre un/des points de vie
-     * @param damage ampleur des dégats infligés, nombre de points de vie perdus par le personnage
-     */
-    public void setDamage(int damage){
-        if(life-damage>=0)
-            life -= damage;
-        else
-            life = 0;
-        //System.out.println("Vie : "+life);
-    }
 
 	/**
 	 * Permet de modifier la portée d'attaque du Pacman (en cases)
@@ -87,6 +76,15 @@ public class PacmanCharacter extends Character{
     }
 
     /**
+     * @author Adèle
+     * @return retourne la force du personnage
+     */
+    @Override
+    public int getStrength() {
+        return 1;
+    }
+
+    /**
      * Modifier la position en abscisse et ordonnée du Pacman
      * @author Adham
      * @param posX Position en abscisse
@@ -111,12 +109,8 @@ public class PacmanCharacter extends Character{
     	return this.movingStrategy;
     }
 
-    /**
-     * @author Adèle
-     * @return le nombre de point de vie du personnage
-     */
-    public int getLife() {
-        return life;
+    public String getMovingStrategyType(){
+        return this.movingStrategy.getType();
     }
     
     /**

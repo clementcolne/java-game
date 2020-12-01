@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import engine.ImageFactory;
 import model.movingStrategy.DefaultMovingStrategy;
 import model.movingStrategy.GhostMovingStrategy;
 import model.movingStrategy.MovingStrategy;
@@ -26,6 +27,8 @@ public class MonsterCharacter extends Character {
      */
     public MonsterCharacter(double posX, double posY) {
         super(posX, posY);
+        life = 3;
+        animation = ImageFactory.getInstance().loadAnimation("Character/Personnage2.gif", 60);
         this.setMovingStrategy(this.strategies.get((int) (Math.random()*this.strategies.size())));
     }
 
@@ -45,6 +48,15 @@ public class MonsterCharacter extends Character {
     }
 
 
+
+    /**
+     * @author Adèle
+     * @return retourne la force du personnage
+     */
+    @Override
+    public int getStrength() {
+        return 1;
+    }
 
     /**
      * Retourne vrai pour indiquer que personnage est un monstre

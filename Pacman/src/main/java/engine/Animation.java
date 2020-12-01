@@ -20,12 +20,10 @@ import javax.imageio.stream.ImageInputStream;
  */
 public class Animation {
 	
-	private Timer counter;
+	private Timer counter, blinker;
 	private BufferedImage[] frames;
-	private int index = 0;
-	private boolean started;
-	private boolean pause;
-	private int framesFps;
+	private int index = 0, framesFps;
+	private boolean started, pause, blinking, visible;
 
 	/**
 	 * Constructeur privé de Animation
@@ -51,6 +49,7 @@ public class Animation {
 	    	int frames = reader.getNumImages(true);
 	    	this.frames = new BufferedImage[frames];
 	    	this.framesFps = fps >= 0 ? fps : 0;
+	    	this.visible = true;
 	    		
 	    	for (int i = 0; i < frames; i++) {
 				this.frames[i] = reader.read(i);
@@ -80,6 +79,33 @@ public class Animation {
 					}
 				}
 			}, 0, refreshRate);
+		}
+	}
+	
+	/**
+	 * Permet de faire clignoter l'animation
+	 * @author Raphaël
+	 */
+	public void blink() {
+		if (this.started && !this.blinking) {
+			this.blinking = true;
+			this.visible = true;
+			
+			this.blinker = new Timer();
+			this.blinker.schedule(new TimerTask() {
+				private int index = 0;
+				@Override
+				public void run() {
+					visible = visible ? false : true;
+					
+					if (index == 3) {
+						blinking = false;
+						this.cancel();
+					}
+					
+					this.index ++;
+				}
+			}, 0, 250);
 		}
 	}
 	
@@ -123,6 +149,17 @@ public class Animation {
 		
 		this.animate();
 	}
+
+	/**
+	 * Configurer les paramètres de texture de l'animation
+	 * @author Raphaël
+	 * @param context
+	 */
+	public void configure(Graphics2D context) {
+		this.animate();
+		context.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
+		context.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+	}
 	
 	/**
 	 * Dessiner l'animation actuelle
@@ -134,10 +171,7 @@ public class Animation {
 	 * @return true si tous les pixels sont déjà chargés, false sinon
 	 */
 	public boolean drawImage(int x, int y, ImageObserver observer, Graphics2D context) {
-		this.animate();
-		context.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
-		context.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-		return context.drawImage(this.frames[this.index], x, y, observer);
+		return this.drawImage(x, y, this.frames[this.index].getWidth(), this.frames[this.index].getHeight(), observer, context);
 	}
 	
 	/**
@@ -152,10 +186,11 @@ public class Animation {
 	 * @return true si tous les pixels sont déjà chargés, false sinon
 	 */
 	public boolean drawImage(int x, int y, int width, int height, ImageObserver observer, Graphics2D context) {
-		this.animate();
-		context.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
-		context.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-		return context.drawImage(this.frames[this.index], x, y, width, height, observer);
+		if (this.visible) {
+			this.configure(context);
+			return context.drawImage(this.frames[this.index], x, y, width, height, observer);
+		}
+		return false;
 	}
 
 	/**
@@ -166,6 +201,15 @@ public class Animation {
 	public boolean isStarted() {
 		return started;
 	}
+	
+	/**
+	 * Retourne si l'animation est actuellement visible
+	 * @author Raphaël
+	 * @return true si visible, false sinon
+	 */
+	public boolean isVisible() {
+		return visible;
+	}
 
 	/**
 	 * Retourne si l'animation est en pause
@@ -174,6 +218,15 @@ public class Animation {
 	 */
 	public boolean isPaused() {
 		return pause;
+	}
+	
+	/**
+	 * Retourne si l'animation clignote
+	 * @author Raphaël
+	 * @return true si l'animation clignote, false sinon
+	 */
+	public boolean isBlinking() {
+		return blinking;
 	}
 	
 	/**

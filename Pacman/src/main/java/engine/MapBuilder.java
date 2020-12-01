@@ -11,6 +11,9 @@ import model.effect.Speed;
 import model.effect.Stop;
 import model.effect.Stun;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -23,14 +26,12 @@ public class MapBuilder {
     // Tableau représentant la map du jeu
     private Ground[][] map;
     private PacmanCharacter[][] characters;
-    private MonsterCharacter[][] monsters;
-    private static Character uniqueCharacter;
-    private int width;
-    private int height;
-    private Passage p1;
-    private Passage p2;
+    private List<MonsterCharacter> monsters;
+    private static PacmanCharacter uniqueCharacter;
+    private int width, height;
+    private Passage p1, p2;
     private Scanner reader;
-    private int nbMonsters;
+    private int nbPassages;
     private int level;
     private int maxlevel;
 
@@ -42,7 +43,7 @@ public class MapBuilder {
     public MapBuilder(String path) {
     	uniqueCharacter = null;
         this.path = path;
-        this.nbMonsters = 0;
+        this.nbPassages = 0;
         this.level = 1;
         this.maxlevel = 2;
 
@@ -68,9 +69,18 @@ public class MapBuilder {
         // initialisation du tableau qui contiendra les objets de la map
         this.map = new Ground[height][width];
         this.characters = new PacmanCharacter[height][width];
-        this.monsters = new MonsterCharacter[height][width];
+        this.monsters = new ArrayList<>();
         
         buildMap();
+
+        if(nbPassages != 0 && nbPassages != 2) {
+            try {
+                throw new Exception("Erreur sur la création de la map : le nombre de passage est différent de 0 ou 2.");
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+        }
     }
 
     /**
@@ -89,8 +99,11 @@ public class MapBuilder {
                 // pour chaque colonne
                 // complète la map
                 map[i][j] = getGround(data.charAt(j), j, i);
-                monsters[i][j] = GenerateMonsterCharacter(data.charAt(j), j, i);
-                characters[i][j] = GeneratePacmanCharacter(data.charAt(j), j, i);
+                MonsterCharacter m = generateMonsterCharacter(data.charAt(j), j, i);
+                if(m != null) {
+                    monsters.add(m);
+                }
+                characters[i][j] = generatePacmanCharacter(data.charAt(j), j, i);
             }
             i++;
         }
@@ -105,7 +118,7 @@ public class MapBuilder {
      * @param y Position en ordonnée du personnage
      * @return Personnage si existant, sinon null
      */
-    private PacmanCharacter GeneratePacmanCharacter(char c, int x, int y) {
+    private PacmanCharacter generatePacmanCharacter(char c, int x, int y) {
         PacmanCharacter res = null;
         if(c == '1') {
             if (uniqueCharacter == null) {
@@ -124,30 +137,30 @@ public class MapBuilder {
      * @param y Position en ordonnée du personnage
      * @return Personnage si existant, sinon null
      */
-    private MonsterCharacter GenerateMonsterCharacter(char c, int x, int y) {
+    private MonsterCharacter generateMonsterCharacter(char c, int x, int y) {
         MonsterCharacter res = null;
         if(c == '2') {
             res = new MonsterCharacter(x, y);
-            this.nbMonsters++;
         }
         return res;
+    }
+
+    /**
+     * Retourne l'itérateur sur la liste de monstres
+     * @return l'itérateur sur la liste de monstres
+     */
+    public Iterator<MonsterCharacter> getIterator() {
+        return new CustomIterator<MonsterCharacter>(monsters);
     }
 
     /**
      * Met à jour la map
      * @author Adham
      */
-    public void updateMap(PacmanCharacter pc, MonsterCharacter[] mc){
+    public void updateMap(PacmanCharacter pc){
+        this.clearAllMonsters(monsters);
         this.buildMap();
         pc.setCoordinates(this.updatePacmanPosX(),this.updatePacmanPosY());
-        for(int i=0;i< mc.length;i++){
-            mc[i].setPosX(this.updateMonsterPosX()[i]);
-            mc[i].setPosY(this.updateMonsterPosY()[i]);
-        }
-
-        //System.out.println("nbMonsters : " + nbMonsters);
-        //System.out.println("mc length : " + mc.length);
-
     }
 
     /**
@@ -197,61 +210,11 @@ public class MapBuilder {
     }
 
     /**
-     * Met à jour la position en abscisse des monstres
-     * @author Adham
-     * @return liste des positions X
-     */
-    public int[] updateMonsterPosX(){
-        int[] PosX = new int[nbMonsters];
-        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/map"+ level + ".txt"));
-
-        int k = 0;
-        while(reader.hasNext()) {
-            String data = reader.nextLine();
-            for(int j = 0 ; j < width ; j++) {
-                if(data.charAt(j) == '2') {
-                    PosX[k] = j;
-                    k++;
-                }
-            }
-        }
-        reader.close();
-
-        return PosX;
-    }
-
-    /**
-     * Met à jour la position en ordonnée des monstres
-     * @author Adham
-     * @return liste des positions Y
-     */
-    public int[] updateMonsterPosY(){
-        int[] PosY = new int[nbMonsters];
-        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/map"+ level + ".txt"));
-
-        int i = 0;
-        int k = 0;
-        while(reader.hasNext()) {
-            String data = reader.nextLine();
-            for(int j = 0 ; j < width ; j++) {
-                if(data.charAt(j) == '2') {
-                    PosY[k] = i;
-                    k++;
-                }
-            }
-            i++;
-        }
-        reader.close();
-
-        return PosY;
-    }
-
-    /**
      * Retourne le nombre de monstres présents sur la map
      * @return int le nombre de monstres présents sur la map
      */
     public int getNbMonsters() {
-        return nbMonsters;
+        return monsters.size();
     }
 
 	/**
@@ -261,7 +224,7 @@ public class MapBuilder {
      * @return objet de type Ground
      */
     private Ground getGround(char c, int x, int y) {
-        Ground res = null;
+        Ground res;
         switch (c) {
             case '-':
                 // wall
@@ -348,18 +311,82 @@ public class MapBuilder {
      * @param y Position en abscisse dans le tableau de personnages
      * @return Pacman si associé, null sinon
      */
-    public PacmanCharacter getCharacter(int x, int y) {
-    	if (y < height && x < width && y >= 0 && x >= 0 && characters[y][x] != null) {
-    		return characters[y][x];
+    public PacmanCharacter getPacmanCharacter(int x, int y) {
+    	if (y < height && x < width && y >= 0 && x >= 0 && uniqueCharacter != null) {
+    		if (uniqueCharacter.getPosX() == x && uniqueCharacter.getPosY() == y) {
+    			return uniqueCharacter;
+    		}
     	}
     	return null;
     }
 
+    /**
+     * Retourne le joueur actuel s'il existe
+     * @author Raphaël
+     * @return Pacman s'il existe, null sinon
+     */
+    public PacmanCharacter getPacmanCharacter() {
+    	return uniqueCharacter;
+    }
+
+    /**
+     * @author Clément
+     * Retourne le monstre situé à la position [x,y] si il existe, null sinon
+     * @param x position en x
+     * @param y position en y
+     * @return le monstre situé à la position x, y si il existe, null sinon
+     */
     public MonsterCharacter getMonster(int x, int y) {
-        if (y < height && x < width && y >= 0 && x >= 0 && monsters[y][x] != null) {
-            return monsters[y][x];
+        MonsterCharacter monster = null;
+        for(MonsterCharacter m : monsters) {
+            if(m.getPosX() == x && m.getPosY() == y) {
+                monster = m;
+            }
         }
-        return null;
+        return monster;
+    }
+
+    /**
+     * Retourne un monstre dans la liste des monstres actuellement présents
+     * @author Raphaël
+     * @param index Numéro du monstre dans la liste
+     * @return Monstre associé à la position index
+     */
+    public MonsterCharacter getMonster(int index) {
+    	return monsters.get(index);
+    }
+
+    /**
+     * Retourne un personnage quelconque à l'intérieur du jeu à la position (x,y) s'il existe
+     * @author Raphaël
+     * @param x Position en abscisse du personnage
+     * @param y Position en ordonnée du personnage
+     * @return Personnage situé à la position (x, y) s'il existe, null sinon
+     */
+    public Character getCharacter(int x, int y) {
+    	Character character = this.getPacmanCharacter(x, y);
+
+    	return character != null ? character : this.getMonster(x, y);
+    }
+
+    /**
+     * @author Clément
+     * Retourne la position en X du monstre à l'index
+     * @param index index du monstre dans la liste
+     * @return la position en X du monstre à l'index
+     */
+    public double getMonsterPosX(int index) {
+        return monsters.get(index).getPosX();
+    }
+
+    /**
+     * @author Clément
+     * Retourne la position en X du monstre à l'index
+     * @param index index du monstre dans la liste
+     * @return la position en X du monstre à l'index
+     */
+    public double getMonsterPosY(int index) {
+        return monsters.get(index).getPosY();
     }
 
     /**
@@ -414,15 +441,6 @@ public class MapBuilder {
         this.level += 1;
     }
 
-    public PacmanCharacter[][] getCharacters() {
-        return characters;
-    }
-
-
-    public MonsterCharacter[][] getMonsters() {
-        return monsters;
-    }
-
     /**
      * @author Clément
      * Retourne la map au format texte
@@ -443,5 +461,17 @@ public class MapBuilder {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * Retire le monstre donné de la carte
+     * @param m monstre à faire disparaître
+     */
+    public void removeMonster(MonsterCharacter m) {
+        monsters.remove(m);
+    }
+
+    public void clearAllMonsters(List<MonsterCharacter> monsters){
+        monsters.clear();
     }
 }

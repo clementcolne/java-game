@@ -18,7 +18,7 @@ public class Bow extends EffectMagic {
     public void doEffect(final PacmanCharacter pacmanCharacter) {
 		new AsyncEffect(this, Effect.class, 5000, 0, 5000) {
 			public void execute() {
-				pacmanCharacter.setRange(!this.isEnded() ? 2 : 1);
+				pacmanCharacter.setRange(!this.isEnded() ? 3 : 1);
 			}
 		}.run();
     }

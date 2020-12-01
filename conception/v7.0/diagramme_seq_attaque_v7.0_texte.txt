@@ -1,0 +1,21 @@
+@startuml
+User -> PacmanGame: press z
+alt attaque basique
+
+PacmanGame -> MapBuilder : getMonster(character.getPosX(), character.getPosY()-1):MonsterCharacter monster
+
+else attaque arc
+
+PacmanGame -> MapBuilder : getMonster(character.getPosX(), character.getPosY()-3):MonsterCharacter monster
+
+end
+
+PacmanGame -> PacmanCharacter : attack(monster)
+
+alt monster.getLife()<=0
+PacmanGame -> MapBuilder : removeMonster(monster)
+else monster.getLife()>0
+PacmanGame -> Monster : setDamage(character.getStrength())
+
+end
+@enduml

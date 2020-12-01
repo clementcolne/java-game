@@ -1,5 +1,6 @@
 package model;
 
+import engine.Animation;
 import engine.MapBuilder;
 import model.movingStrategy.MovingStrategy;
 
@@ -15,6 +16,7 @@ public abstract class Character {
     protected int life = 10;
     protected int range = 1;
     protected MovingStrategy movingStrategy;
+	protected Animation animation;
 
     /**
      * Crée un personnage à la position (posX, posY)
@@ -35,9 +37,21 @@ public abstract class Character {
         movingStrategy = strategy;
     }
 
-
+    /**
+     * Retourner la stratégie de déplacement du personnage
+     * @return Stratégie de déplacement du personnage
+     */
     public MovingStrategy getMovingStrategy() {
         return movingStrategy;
+    }
+    
+    /**
+     * Retourne l'animation jouée du personnage
+     * @author Raphaël
+     * @return Animation jouée du personnage
+     */
+    public Animation getAnimation() {
+    	return animation;
     }
 
     /**
@@ -83,6 +97,13 @@ public abstract class Character {
         return this.speed;
     }
 
+    /**
+     * @author Adèle
+     * @return le nombre de point de vie du personnage
+     */
+    public int getLife() {
+        return life;
+    }
     /**
      * Déplace la position du personnage d'une case vers le bas
      * @author Clément
@@ -134,6 +155,24 @@ public abstract class Character {
     }
 
     /**
+     * Inflige des dégats au personnage, ce qui lui fait perdre un/des points de vie
+     * @author Adèle
+     * @param damage ampleur des dégats infligés, nombre de points de vie perdus par le personnage
+     */
+    public void setDamage(int damage){
+        if(life-damage>=0)
+            life -= damage;
+        else
+            life = 0;
+    }
+
+    /**
+     * @author Adèle
+     * @return retourne la force du personnage
+     */
+    public abstract int getStrength();
+
+    /**
      * Retourne toujours faux
      * @return false
      */
@@ -141,4 +180,12 @@ public abstract class Character {
         return false;
     }
 
+    /**
+     * Inflige des dommages au personnage donné
+     * @param c personnage affecté par l'attaque
+     */
+    public void attack(Character c){
+    	c.getAnimation().blink();
+        c.setDamage(getStrength());
+    }
 }
