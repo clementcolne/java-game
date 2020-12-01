@@ -42,11 +42,6 @@ public class MonsterCharacter extends Character {
         this.posY = posY;
     }
 
-    public void setCoordinates(double posX, double posY){
-        super.setPosX(posX);
-        super.setPosY(posY);
-    }
-
 
 
     /**

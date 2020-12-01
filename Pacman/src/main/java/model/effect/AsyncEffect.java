@@ -168,5 +168,4 @@ public class AsyncEffect extends TimerTask {
 			return new CustomIterator<Effect>(effects);
 		}
 	}
-
 }

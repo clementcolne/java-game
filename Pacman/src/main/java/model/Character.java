@@ -188,4 +188,8 @@ public abstract class Character {
     	c.getAnimation().blink();
         c.setDamage(getStrength());
     }
+
+    public void resetLife(){
+        this.life=10;
+    }
 }
