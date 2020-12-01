@@ -2,14 +2,7 @@ package engine;
 
 import model.*;
 import model.Character;
-import model.effect.Bow;
-import model.effect.EffectMagic;
-import model.effect.EffectTrap;
-import model.effect.Ghost;
-import model.effect.Slow;
-import model.effect.Speed;
-import model.effect.Stop;
-import model.effect.Stun;
+import model.effect.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,6 +25,9 @@ public class MapBuilder {
     private Passage p1, p2;
     private Scanner reader;
     private int nbPassages;
+    private int currentLevel;
+    private int maxlevel;
+    private ArrayList<String> levels;
 
     /**
      * @author Clément
@@ -42,8 +38,13 @@ public class MapBuilder {
     	uniqueCharacter = null;
         this.path = path;
         this.nbPassages = 0;
-        
-        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ path));
+        this.currentLevel = 1;
+        this.maxlevel = 2;
+        this.levels = new ArrayList<String>();
+        levels.add(this.path);
+
+
+        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ levels.get(currentLevel-1)));
         
         while(reader.hasNext()) {
             String data = reader.nextLine();
@@ -85,7 +86,7 @@ public class MapBuilder {
      * @return tableau contenant des objets de type Ground décrivant la map
      */
     private void buildMap() {
-        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ path));
+        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+levels.get(currentLevel-1)));
        
         // compteur de lignes
         int i = 0;
@@ -147,6 +148,64 @@ public class MapBuilder {
      */
     public Iterator<MonsterCharacter> getIterator() {
         return new CustomIterator<MonsterCharacter>(monsters);
+    }
+
+    /**
+     * Met à jour la map
+     * @author Adham
+     */
+    public void updateMap(PacmanCharacter pc){
+        this.clearAllMonsters(monsters);
+        this.buildMap();
+        pc.setCoordinates(this.updatePacmanPosX(),this.updatePacmanPosY());
+        pc.resetLife();
+        System.out.println(pc.getLife());
+    }
+
+    /**
+     * Met à jour la position en abscisse du pacman
+     * @author Adham
+     * @return position X
+     */
+    public int updatePacmanPosX(){
+        int pos = 0;
+        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ levels.get(currentLevel-1)));
+
+        while(reader.hasNext()) {
+            String data = reader.nextLine();
+            for(int j = 0 ; j < width ; j++) {
+                if(data.charAt(j) == '1') {
+                    pos= j;
+                }
+            }
+        }
+        reader.close();
+
+        return pos;
+    }
+
+    /**
+     * Met à jour la position en ordonnée du pacman
+     * @author Adham
+     * @return position Y
+     */
+    public int updatePacmanPosY(){
+        int pos = 0;
+        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ levels.get(currentLevel-1)));
+
+        int i = 0;
+        while(reader.hasNext()) {
+            String data = reader.nextLine();
+            for(int j = 0 ; j < width ; j++) {
+                if(data.charAt(j) == '1') {
+                    pos= i;
+                }
+            }
+            i++;
+        }
+        reader.close();
+
+        return pos;
     }
 
     /**
@@ -230,7 +289,6 @@ public class MapBuilder {
             p1.setLinkedPassage(p2);
             p2.setLinkedPassage(p1);
         }
-        nbPassages++;
     }
 
     /**
@@ -260,7 +318,7 @@ public class MapBuilder {
     	}
     	return null;
     }
-    
+
     /**
      * Retourne le joueur actuel s'il existe
      * @author Raphaël
@@ -286,7 +344,7 @@ public class MapBuilder {
         }
         return monster;
     }
-    
+
     /**
      * Retourne un monstre dans la liste des monstres actuellement présents
      * @author Raphaël
@@ -296,7 +354,7 @@ public class MapBuilder {
     public MonsterCharacter getMonster(int index) {
     	return monsters.get(index);
     }
-    
+
     /**
      * Retourne un personnage quelconque à l'intérieur du jeu à la position (x,y) s'il existe
      * @author Raphaël
@@ -306,7 +364,7 @@ public class MapBuilder {
      */
     public Character getCharacter(int x, int y) {
     	Character character = this.getPacmanCharacter(x, y);
-    	
+
     	return character != null ? character : this.getMonster(x, y);
     }
 
@@ -359,6 +417,31 @@ public class MapBuilder {
     }
 
     /**
+     * Retourne le nb de niveau
+     * @author Adham
+     */
+    public int getLevel() {
+        return currentLevel;
+    }
+
+    /**
+     * Retourne le nb de niveaux dans le jeu
+     * @author Adham
+     */
+    public int getMaxlevel() {
+        return maxlevel;
+    }
+
+    /**
+     * Augmente le niveau par 1
+     * @author Adham
+     */
+    public void LevelUp() {
+        this.currentLevel += 1;
+        levels.add("map"+currentLevel+".txt");
+    }
+
+    /**
      * @author Clément
      * Retourne la map au format texte
      * @return toString de la map
@@ -386,5 +469,16 @@ public class MapBuilder {
      */
     public void removeMonster(MonsterCharacter m) {
         monsters.remove(m);
+    }
+
+    public void clearAllMonsters(List<MonsterCharacter> monsters){
+        monsters.clear();
+    }
+
+    public void AddLevels(String[] levels){
+        for (int i = 1;i<levels.length;i++){
+            levels[i] = "map"+ i +".txt";
+            System.out.println(levels[i]);
+        }
     }
 }

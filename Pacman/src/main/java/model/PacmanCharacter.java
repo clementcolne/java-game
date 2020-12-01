@@ -85,6 +85,18 @@ public class PacmanCharacter extends Character{
     }
 
     /**
+     * Modifier la position en abscisse et ordonnée du Pacman
+     * @author Adham
+     * @param posX Position en abscisse
+     * @param posY Position en ordonnée
+     */
+    public void setCoordinates(double posX, double posY){
+        super.setPosX(posX);
+        super.setPosY(posY);
+        this.visitedCoordinates.add(new int[] {(int) this.posX, (int) this.posY});
+    }
+
+    /**
      * Modifie la stratégie de déplacement en vigueur
      * @param movingStrategy nouvelle stratégie de déplacement à appliquer
      * @author Adèle

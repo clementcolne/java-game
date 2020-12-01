@@ -46,6 +46,8 @@ public class MonsterCharacter extends Character {
         this.posY = posY;
     }
 
+
+
     /**
      * @author Adèle
      * @return retourne la force du personnage

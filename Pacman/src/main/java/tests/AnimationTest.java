@@ -131,7 +131,7 @@ class AnimationTest{
     	}, "Une animation avec un chemin d'image inexistant ne peut pas exister");
     
     	assertThrows(NoSuchElementException.class, () -> {
-    		new Animation("resources/Map/map.txt",60);
+    		new Animation("resources/Map/map1.txt",60);
     	}, "Une animation avec un chemin d'image ne correspondant pas à une image ne peut pas exister");
     }
     

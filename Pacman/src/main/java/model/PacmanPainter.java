@@ -7,6 +7,8 @@ import engine.*;
 import model.effect.AsyncEffect;
 import model.effect.Effect;
 
+import javax.swing.*;
+
 /**
  * @author Horatiu Cirstea, Vincent Thomas
  *
@@ -106,17 +108,11 @@ public class PacmanPainter implements GamePainter {
 	 * @author Adham
 	 * @param crayon Graphics2D
 	 */
-
 	public void drawHUD(Graphics2D crayon){
 		Font f = FontFactory.getInstance().loadFont("Font/Pixeboy.ttf",20f);
 		FontMetrics fm = crayon.getFontMetrics(f);
-
 		CustomIterator<Effect> effects  = AsyncEffect.getEffects();
-		crayon.setColor(Color.black);
 		crayon.setFont(f);
-
-		BasicStroke bs = new BasicStroke(20);
-		crayon.setStroke(bs);
 
 		int i = 0;
 		while (effects.hasNext()) {
@@ -131,6 +127,11 @@ public class PacmanPainter implements GamePainter {
 			crayon.drawString(effect.toString(),150,20 + i * height);
 			i++;
 		}
+
+		if(!pacmanGame.CanHit()){
+			Image loading = new ImageIcon("resources/Extra/loading.gif").getImage();
+			crayon.drawImage(loading,((int)pacmanGame.getCharacterPosX()* pacmanGame.getScale())+10,((int)pacmanGame.getCharacterPosY()* pacmanGame.getScale())-17,20,20,null);
+		}
 	}
 
 	/**
@@ -144,7 +145,7 @@ public class PacmanPainter implements GamePainter {
 			f = f.deriveFont(120f);
 			FontMetrics fm = crayon.getFontMetrics(f);
 			crayon.setFont(f);
-			
+
 			String s = "";
 			if (pacmanGame.getCharacter().getLife() <= 0){
 				s = "GAME OVER !";
@@ -156,7 +157,7 @@ public class PacmanPainter implements GamePainter {
 				crayon.drawImage(ImageFactory.getInstance().loadImage("Extra/victory.png"),0,0,null);
 				crayon.setColor(Color.white);
 			}
-			
+
 			crayon.drawString(s, (this.getWidth() - fm.stringWidth(s))/2, this.getHeight()/2);
 		}
 

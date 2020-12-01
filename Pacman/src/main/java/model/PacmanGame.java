@@ -21,6 +21,8 @@ public class PacmanGame implements Game {
 	private boolean isFinished;
 	private Ground executedEffect;
 	private int monsterMooveCounter = 0;
+	private boolean canHit = true;
+	private boolean monstercanHit = true;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -120,12 +122,16 @@ public class PacmanGame implements Game {
 			m = mapBuilder.getMonster((int)pacmanCharacter.getPosX()+ x * i, (int)pacmanCharacter.getPosY()+ y * i);
 			i++;
 		}
-		if(m!=null){
+		if(m!=null && canHit){
 			pacmanCharacter.attack(m);
 			if(m.getLife()<=0){
 				mapBuilder.removeMonster(m);
 				mapBuilder.removeMonster(m);
 			}
+			canHit = false;
+			//System.out.println("can't hit");
+			this.PacmandelayAttack(2000);
+
 		}
 	}
 	
@@ -141,9 +147,13 @@ public class PacmanGame implements Game {
 			
 			MonsterCharacter monster = this.mapBuilder.getMonster(g.getPosX(), g.getPosY());
 			
-			if (monster != null) {
+			if (monster != null && monstercanHit) {
 				monster.attack(this.pacmanCharacter);
+				monstercanHit = false;
+				this.MonsterdelayAttack(2000);
+
 			}
+
 		}
 	}
 
@@ -419,7 +429,15 @@ public class PacmanGame implements Game {
 
 		if (nearest.isTreasure()) {
 			nearest.setImage(ImageFactory.getInstance().loadImage("Extra/treasureOpen40x40.png"));
-			this.isFinished = true;
+
+			if (mapBuilder.getLevel()< mapBuilder.getMaxlevel()){
+				mapBuilder.LevelUp();
+				mapBuilder.updateMap(pacmanCharacter);
+			}
+
+			else {
+				this.isFinished = true;
+			}
 		}
 		
 		if (!nearest.equals(this.executedEffect) || (isBlocked(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosX(), mapBuilder) && cmd != Cmd.IDLE) || (!move && !this.executedEffect.isPassage())) {
@@ -446,5 +464,42 @@ public class PacmanGame implements Game {
 		return this.pacmanCharacter;
 	}
 
+	/**
+	 * Commence un délai entre les attaques du personnage
+	 * @author Adham
+	 * @param Time temps en milliseconde
+	 */
+	public void PacmandelayAttack(int Time){
+		Timer timer = new Timer();
+		TimerTask timerTask = new TimerTask() {
+			@Override
+			public void run() {
+				canHit = true;
+				//System.out.println("Now can hit");
+			}
+		};
+		timer.schedule(timerTask,Time);
+	}
+
+	/**
+	 * Commence un délai entre les attaques des monstres
+	 * @author Adham
+	 * @param Time temps en milliseconde
+	 */
+	public void MonsterdelayAttack(int Time){
+		Timer timer = new Timer();
+		TimerTask timerTask = new TimerTask() {
+			@Override
+			public void run() {
+				monstercanHit = true;
+				//System.out.println("Now can hit");
+			}
+		};
+		timer.schedule(timerTask,Time);
+	}
+
+	public boolean CanHit() {
+		return canHit;
+	}
 }
 

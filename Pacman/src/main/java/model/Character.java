@@ -189,7 +189,20 @@ public abstract class Character {
         c.setDamage(getStrength());
     }
 
+    /**
+     * Retourne le type de la stratégie de déplacement
+     * @author Clément
+     * @return Chaîne représentant le type de déplacement de la stratégie
+     */
     public String getMovingStrategyType(){
         return this.movingStrategy.getType();
+    }
+    
+    /**
+     * Permet de réinitialiser la vie d'un personnage à 10 PV
+     * @author Adham
+     */
+    public void resetLife(){
+        this.life = 10;
     }
 }
