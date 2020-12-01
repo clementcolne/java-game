@@ -30,6 +30,7 @@ Design :
 All design documents can be found inside the folder conception
 
 How to play ?
+
 The goal is to get the chest in each level of the game.
 The game ends when the player gets the chest in the final level, or dies.
 
@@ -40,8 +41,8 @@ Each attack sets a 1PV damage to the character or a monster.
 The character has 10 PV.
 A monster has 3 PV.
 
-There are magical items that can provide powers to the character (increased speed, ability to walk through walls, increased attack range)
-There are trap items that affect negative effects to the character (incapacity to move, decreased speed, character's movements could be confused)
+There are magical items that can provide powers to the character (increased speed, ability to walk through walls, increased attack range).
+There are trap items that affect negative effects to the character (incapacity to move, decreased speed, character's movements could be confused).
 Each effect lasts 5 seconds.
 
 Commands :
