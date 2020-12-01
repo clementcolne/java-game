@@ -29,6 +29,31 @@ Note :
 Design :
 All design documents can be found inside the folder conception
 
+How to play ?
+The goal is to get the chest in each level of the game.
+The game ends when the player gets the chest in the final level, or dies.
+
+There are several monsters in each level, which can set damage to the character.
+The character can attack the monsters.
+Each attack sets a 1PV damage to the character or a monster.
+
+The character has 10 PV.
+A monster has 3 PV.
+
+There are magical items that can provide powers to the character (speed increased, ability to walk through walls, attack range increased)
+There are trap items that affect negative effects to the character (inability to move, speed decreased, character's movements confused)
+Each effect lasts 5 seconds.
+
+Command :
+Move left : →
+Move right : ←
+Move up : ↑
+Move down : ↓
+
+Attack up : z
+Attack left : q
+Attack down : s
+Attack right : d
 ---
 
 The following characters can be used in map files :
