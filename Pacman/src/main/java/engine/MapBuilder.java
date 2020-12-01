@@ -159,7 +159,6 @@ public class MapBuilder {
         this.buildMap();
         pc.setCoordinates(this.updatePacmanPosX(),this.updatePacmanPosY());
         pc.resetLife();
-        System.out.println(pc.getLife());
     }
 
     /**
@@ -281,6 +280,11 @@ public class MapBuilder {
         return res;
     }
 
+    /**
+     * Permet d'associer un sol à un passage
+     * @author Clément
+     * @param p Passage à associer au sol (si le premier est déjà existant, le deuxième est lié au premier)
+     */
     private void setPassages(Ground p) {
         if(p1 == null) {
             p1 = (Passage)p;
@@ -293,6 +297,7 @@ public class MapBuilder {
 
     /**
      * Retourne la case à la position x;y
+     * @author Clément
      * @param x position en x
      * @param y position en y
      * @return case à la position x;y
@@ -306,6 +311,7 @@ public class MapBuilder {
     
     /**
      * Retourne le personnage éventuel associé à une case
+     * @author Raphaël
      * @param x Position en abscisse dans le tableau de personnages
      * @param y Position en abscisse dans le tableau de personnages
      * @return Pacman si associé, null sinon
@@ -471,11 +477,21 @@ public class MapBuilder {
         monsters.remove(m);
     }
 
+    /**
+     * Supprimer tous les monstres
+     * @author Adham		
+     * @param monsters
+     */
     public void clearAllMonsters(List<MonsterCharacter> monsters){
         monsters.clear();
     }
 
-    public void AddLevels(String[] levels){
+    /**
+     * Ajouter un fichier map à la liste des niveaux
+     * @author Adham
+     * @param levels
+     */
+    public void addLevels(String[] levels){
         for (int i = 1;i<levels.length;i++){
             levels[i] = "map"+ i +".txt";
             System.out.println(levels[i]);

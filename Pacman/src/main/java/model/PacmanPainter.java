@@ -128,7 +128,7 @@ public class PacmanPainter implements GamePainter {
 			i++;
 		}
 
-		if(!pacmanGame.CanHit()){
+		if(!pacmanGame.canHit()){
 			Image loading = new ImageIcon("resources/Extra/loading.gif").getImage();
 			crayon.drawImage(loading,((int)pacmanGame.getCharacterPosX()* pacmanGame.getScale())+10,((int)pacmanGame.getCharacterPosY()* pacmanGame.getScale())-17,20,20,null);
 		}

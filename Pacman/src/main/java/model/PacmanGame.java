@@ -22,7 +22,7 @@ public class PacmanGame implements Game {
 	private Ground executedEffect;
 	private int monsterMooveCounter = 0;
 	private boolean canHit = true;
-	private boolean monstercanHit = true;
+	private boolean monsterCanHit = true;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -130,7 +130,7 @@ public class PacmanGame implements Game {
 			}
 			canHit = false;
 			//System.out.println("can't hit");
-			this.PacmandelayAttack(2000);
+			this.delayPacmanAttack(2000);
 
 		}
 	}
@@ -147,13 +147,11 @@ public class PacmanGame implements Game {
 			
 			MonsterCharacter monster = this.mapBuilder.getMonster(g.getPosX(), g.getPosY());
 			
-			if (monster != null && monstercanHit) {
+			if (monster != null && monsterCanHit) {
 				monster.attack(this.pacmanCharacter);
-				monstercanHit = false;
-				this.MonsterdelayAttack(2000);
-
+				monsterCanHit = false;
+				this.delayMonsterAttack(2000);
 			}
-
 		}
 	}
 
@@ -388,6 +386,14 @@ public class PacmanGame implements Game {
 		return new CustomIterator<Ground>(collidingGrounds);
 	}
 	
+	/**
+	 * Permet de savoir si une position est bloquée (i.e. si un personnage se trouve à cette position, il ne peut par défaut bouger nulle part)
+	 * @author Raphaël
+	 * @param x Position en abscisse
+	 * @param y Position en ordonnée
+	 * @param mapBuilder Générateur de map
+	 * @return true si la position est considérée comme bloquante, false sinon
+	 */
 	public static boolean isBlocked(double x, double y, MapBuilder mapBuilder) {
 		int[][] rotations = new int[][]{
 				{(int)x, (int)y-1},
@@ -467,38 +473,41 @@ public class PacmanGame implements Game {
 	/**
 	 * Commence un délai entre les attaques du personnage
 	 * @author Adham
-	 * @param Time temps en milliseconde
+	 * @param time temps en milliseconde
 	 */
-	public void PacmandelayAttack(int Time){
+	private void delayPacmanAttack(int time){
 		Timer timer = new Timer();
 		TimerTask timerTask = new TimerTask() {
 			@Override
 			public void run() {
 				canHit = true;
-				//System.out.println("Now can hit");
 			}
 		};
-		timer.schedule(timerTask,Time);
+		timer.schedule(timerTask, time);
 	}
 
 	/**
 	 * Commence un délai entre les attaques des monstres
 	 * @author Adham
-	 * @param Time temps en milliseconde
+	 * @param time temps en milliseconde
 	 */
-	public void MonsterdelayAttack(int Time){
+	private void delayMonsterAttack(int time){
 		Timer timer = new Timer();
 		TimerTask timerTask = new TimerTask() {
 			@Override
 			public void run() {
-				monstercanHit = true;
-				//System.out.println("Now can hit");
+				monsterCanHit = true;
 			}
 		};
-		timer.schedule(timerTask,Time);
+		timer.schedule(timerTask, time);
 	}
 
-	public boolean CanHit() {
+	/**
+	 * Permet de retourner si le joueur peut attaquer (délai d'attente dépassé après une attaque)
+	 * @author Adham
+	 * @return true si le joueur peut désormais attaquer, false sinon
+	 */
+	public boolean canHit() {
 		return canHit;
 	}
 }

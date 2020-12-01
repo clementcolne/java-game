@@ -1,21 +1,24 @@
 @startuml
-User -> PacmanGame: press z
-alt attaque basique
+User -> PacmanGame: Appuyer sur Z/Q/S/D
+note right
+Direction
+Z : UP
+Q : LEFT
+S : DOWN
+D: RIGHT 
+end note
 
-PacmanGame -> MapBuilder : getMonster(character.getPosX(), character.getPosY()-1):MonsterCharacter monster
-
-else attaque arc
-
-PacmanGame -> MapBuilder : getMonster(character.getPosX(), character.getPosY()-3):MonsterCharacter monster
-
-end
+    alt attaque basique
+        PacmanGame -> MapBuilder : getMonster(character.getPosX(), character.getPosY()+direction(Z/Q/S/D))
+    else attaque arc
+        loop case < character.getRange()
+            PacmanGame -> MapBuilder : getMonster(character.getPosX(), character.getPosY()+case*direction(Z/Q/S/D))
+        end
+    end
 
 PacmanGame -> PacmanCharacter : attack(monster)
 
-alt monster.getLife()<=0
-PacmanGame -> MapBuilder : removeMonster(monster)
-else monster.getLife()>0
-PacmanGame -> Monster : setDamage(character.getStrength())
-
-end
+    alt monster.getLife()<=0
+        PacmanGame -> MapBuilder : removeMonster(monster)
+    end
 @enduml
