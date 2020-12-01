@@ -3,13 +3,8 @@ package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-
+import java.util.*;
 import engine.*;
-import model.movingStrategy.GhostMovingStrategy;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -22,39 +17,23 @@ public class PacmanGame implements Game {
 
 	private final int scale = 40;
 	private PacmanCharacter pacmanCharacter;
-	private MonsterCharacter[] monstersCharacter;
 	private MapBuilder mapBuilder;
 	private boolean isFinished;
 	private Ground executedEffect;
 	private int monsterMooveCounter = 0;
+	private boolean canHit = true;
 
 	/**
 	 * constructeur avec fichier source pour le help
 	 *
 	 */
 	public PacmanGame(String source, MapBuilder map) {
-		mapBuilder = map;
+		this.mapBuilder = map;
 		// création du pacman
-		this.pacmanCharacter = new PacmanCharacter(-1, -1);
-		// création d'un monstre
-		this.monstersCharacter = new MonsterCharacter[mapBuilder.getNbMonsters()];
-
-		int cptIndex = 0;
-		for (int x = 0; x < mapBuilder.getWidth(); x++) {
-			for (int y = 0; y < mapBuilder.getHeight(); y++) {
-				PacmanCharacter character = mapBuilder.getCharacter(x, y);
-				MonsterCharacter monster = mapBuilder.getMonster(x, y);
-				if (character != null) {
-					this.pacmanCharacter = character;
-				}
-				if(monster != null) {
-					this.monstersCharacter[cptIndex] = monster;
-					cptIndex++;
-				}
-			}
-		}
-		isFinished = false;
-		executedEffect = new Ground(0, 0);
+		this.pacmanCharacter = mapBuilder.getPacmanCharacter() != null ? mapBuilder.getPacmanCharacter() : new PacmanCharacter(-1, -1);
+		this.isFinished = false;
+		this.executedEffect = new Ground(0, 0);
+		
 		BufferedReader helpReader;
 		try {
 			helpReader = new BufferedReader(new FileReader(source));
@@ -66,7 +45,6 @@ public class PacmanGame implements Game {
 		} catch (IOException e) {
 			System.out.println("Help not available");
 		}
-		//System.out.println("Vie : "+pacmanCharacter.getLife());
 	}
 
 	/**
@@ -76,14 +54,17 @@ public class PacmanGame implements Game {
 	 */
 	@Override
 	public void evolve(Cmd commande) {
-		if (!pacmanCharacter.getMovingStrategy().equals(new GhostMovingStrategy(pacmanCharacter)) && !mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isAccessible()) {
+		if (!pacmanCharacter.getMovingStrategyType().equals("ghost") && !mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isAccessible()) {
 			this.resetPosition();
 		}
 		
 		this.executedEffect = getNearestEffectiveGround(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosY());
 
-		boolean move;
+		boolean move = false;
 		switch(commande) {
+
+				//Déplacements
+
 			case LEFT:
 				if(move = canMoove(pacmanCharacter, -pacmanCharacter.getSpeed(), 0)) {
 					pacmanCharacter.mooveLeft();
@@ -104,6 +85,21 @@ public class PacmanGame implements Game {
 					pacmanCharacter.mooveDown();
 				}
 				break;
+
+				//Attaques
+
+			case ATTACKUP:
+				attackMonster(0, -1);
+				break;
+			case ATTACKDOWN:
+				attackMonster(0, 1);
+				break;
+			case ATTACKRIGHT:
+				attackMonster(1, 0);
+				break;
+			case ATTACKLEFT:
+				attackMonster(-1, 0);
+				break;
 			default:
 				move = false;
 				break;
@@ -112,31 +108,65 @@ public class PacmanGame implements Game {
 		mooveMonster();
 	}
 
+	/**
+	 * Le personnage lance une attaque sur un monstre si celui-ci se trouve à la position visée
+	 * Si le monstre n'a plus de point de vie, il est retiré de la carte
+	 * @author Adèle
+	 * @param x direction horinzontale de l'attaque
+	 * @param y direction verticale de l'attaque
+	 */
+	private void attackMonster(int x, int y) {
+		MonsterCharacter m=null;
+		int i=1;
+		while(m==null && i<= pacmanCharacter.getRange()){
+			m = mapBuilder.getMonster((int)pacmanCharacter.getPosX()+ x * i, (int)pacmanCharacter.getPosY()+ y * i);
+			i++;
+		}
+		if(m!=null && canHit){
+			pacmanCharacter.attack(m);
+			if(m.getLife()<=0){
+				mapBuilder.removeMonster(m);
+				mapBuilder.removeMonster(m);
+			}
+			canHit = false;
+			System.out.println("can't hit");
+			this.delayAttack(2000);
+
+		}
+	}
+
+	/**
+	 * @author Clément
+	 * Fait se déplacer chaque monstre toutes les 1.200ms dans une direction aléatoire
+	 */
 	public void mooveMonster() {
 		// les monstres bougent une 1 fois toutes les 10x(120ms)
-		if(monsterMooveCounter == 5) {
-			for(int i = 0; i < monstersCharacter.length ; i++) {
+		if(monsterMooveCounter == 10) {
+			Iterator<MonsterCharacter> ite = mapBuilder.getIterator();
+			MonsterCharacter m;
+			while(ite.hasNext()) {
+				m = ite.next();
 				Random rand = new Random(); //instance of random class
 				int way = rand.nextInt(4);
 				switch (way) {
 					case 0:
-						if (canMoove(monstersCharacter[i], 0, -monstersCharacter[i].getSpeed())) {
-							monstersCharacter[i].mooveUp();
+						if (canMoove(m, 0, -m.getSpeed())) {
+							m.mooveUp();
 						}
 						break;
 					case 1:
-						if (canMoove(monstersCharacter[i], 0, monstersCharacter[i].getSpeed())) {
-							monstersCharacter[i].mooveDown();
+						if (canMoove(m, 0, m.getSpeed())) {
+							m.mooveDown();
 						}
 						break;
 					case 2:
-						if (canMoove(monstersCharacter[i], monstersCharacter[i].getSpeed(), 0)) {
-							monstersCharacter[i].mooveRight();
+						if (canMoove(m, m.getSpeed(), 0)) {
+							m.mooveRight();
 						}
 						break;
 					case 3:
-						if (canMoove(monstersCharacter[i], -monstersCharacter[i].getSpeed(), 0)) {
-							monstersCharacter[i].mooveLeft();
+						if (canMoove(m, -m.getSpeed(), 0)) {
+							m.mooveLeft();
 						}
 						break;
 					default:
@@ -174,6 +204,7 @@ public class PacmanGame implements Game {
 
 	/**
 	 * Affiche l'état du personnage dans le terminal
+	 * @deprecated
 	 * @author Adèle
 	 */
 	public void printGame(Cmd commande) {
@@ -236,8 +267,8 @@ public class PacmanGame implements Game {
 	 * @return la position horizontal du personnage
 	 * @author Adèle
 	 */
-	public double getMonsterPosX(int index){
-		return monstersCharacter[index].getPosX();
+	public double getMonsterPosX(int index) {
+		return mapBuilder.getMonsterPosX(index);
 	}
 
 	/**
@@ -245,7 +276,7 @@ public class PacmanGame implements Game {
 	 * @author Adèle
 	 */
 	public double getMonsterPosY(int index){
-		return monstersCharacter[index].getPosY();
+		return mapBuilder.getMonsterPosY(index);
 	}
 
 	/**
@@ -379,11 +410,7 @@ public class PacmanGame implements Game {
 
 			if (mapBuilder.getLevel()< mapBuilder.getMaxlevel()){
 				mapBuilder.LevelUp();
-				mapBuilder.updateMap(pacmanCharacter, monstersCharacter);
-				
-				System.out.println(getNbMonsters());
-				System.out.println(monstersCharacter.length);
-				System.out.println((this.getNbMonsters()-monstersCharacter.length));
+				mapBuilder.updateMap(pacmanCharacter);
 			}
 
 			else {
@@ -405,13 +432,35 @@ public class PacmanGame implements Game {
 	public int getScale() {
 		return this.scale;
 	}
-	
+
+	/**
+	 * @author Clément
+	 * Retourne le PacmanCharacter
+	 * @return le PacmanCharacter
+	 */
 	public PacmanCharacter getCharacter() {
 		return this.pacmanCharacter;
 	}
 
-	public MonsterCharacter getMonsterCharacter(int index) {
-		return monstersCharacter[index];
+	/**
+	 * Commence un délai entre les attaques
+	 * @author Adham
+	 * @param Time temps en milliseconde
+	 */
+	public void delayAttack(int Time){
+		Timer timer = new Timer();
+		TimerTask timerTask = new TimerTask() {
+			@Override
+			public void run() {
+				canHit = true;
+				System.out.println("Now can hit");
+			}
+		};
+		timer.schedule(timerTask,Time);
+	}
+
+	public boolean CanHit() {
+		return canHit;
 	}
 }
 

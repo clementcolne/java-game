@@ -7,6 +7,8 @@ import engine.*;
 import model.effect.AsyncEffect;
 import model.effect.Effect;
 
+import javax.swing.*;
+
 /**
  * @author Horatiu Cirstea, Vincent Thomas
  *
@@ -16,8 +18,7 @@ import model.effect.Effect;
 public class PacmanPainter implements GamePainter {
 
 	private PacmanGame pacmanGame;
-	private Animation pacman;
-	private Animation monster;
+	private MapBuilder mapBuilder;
 
 	/**
 	 * appelle constructeur parent
@@ -26,8 +27,7 @@ public class PacmanPainter implements GamePainter {
 	 */
 	public PacmanPainter(PacmanGame game) {
 		pacmanGame = game;
-		this.pacman = ImageFactory.getInstance().loadAnimation("Character/wraith.gif", 60);
-		this.monster = ImageFactory.getInstance().loadAnimation("Character/Personnage2.gif", 60);
+		mapBuilder = game.getMapBuilder();
 	}
 
 	/**
@@ -48,8 +48,6 @@ public class PacmanPainter implements GamePainter {
 		drawHUD(crayon);
 		// En fin, om affiche la message de fin
 		drawEnd(crayon);
-
-
 	}
 
 	/**
@@ -57,14 +55,17 @@ public class PacmanPainter implements GamePainter {
 	 * @param im BufferedImage
 	 */
 	public void drawCharacter(BufferedImage im) {
-		this.pacman.drawImage((int)(pacmanGame.getCharacterPosX()*pacmanGame.getScale()), (int)(pacmanGame.getCharacterPosY()*pacmanGame.getScale()), pacmanGame.getScale(), pacmanGame.getScale(), null, (Graphics2D) im.getGraphics());
+		mapBuilder.getPacmanCharacter().getAnimation().drawImage((int)(pacmanGame.getCharacterPosX()*pacmanGame.getScale()), (int)(pacmanGame.getCharacterPosY()*pacmanGame.getScale()), pacmanGame.getScale(), pacmanGame.getScale(), null, (Graphics2D) im.getGraphics());
 	}
 
+	/**
+	 * Permet de "dessiner" les monstres dans la Map
+	 * @author Clément
+	 * @param im BufferedImage
+	 */
 	public void drawMonster(BufferedImage im) {
 		for(int i = 0 ; i < pacmanGame.getNbMonsters() ; i++) {
-			try{
-			this.monster.drawImage((int) (pacmanGame.getMonsterPosX(i) * pacmanGame.getScale()-5), (int) (pacmanGame.getMonsterPosY(i) * pacmanGame.getScale()-7), pacmanGame.getScale()+12, pacmanGame.getScale()+12, null, (Graphics2D) im.getGraphics());}
-			catch(ArrayIndexOutOfBoundsException e){}
+			mapBuilder.getMonster(i).getAnimation().drawImage((int) (pacmanGame.getMonsterPosX(i) * pacmanGame.getScale()-5), (int) (pacmanGame.getMonsterPosY(i) * pacmanGame.getScale()-7), pacmanGame.getScale()+12, pacmanGame.getScale()+12, null, (Graphics2D) im.getGraphics());
 		}
 	}
 
@@ -79,7 +80,7 @@ public class PacmanPainter implements GamePainter {
 			for (int j = 0 ; j < pacmanGame.getMapBuilder().getHeight() ; j++){
 				// on commence par mettre de l'herbe partout (pour que les objets soient posés sur le sol)
 				crayon.drawImage(ImageFactory.getInstance().loadImage("Ground/Ground_lvl1.png"),i*pacmanGame.getScale(),j*pacmanGame.getScale(),pacmanGame.getScale(),pacmanGame.getScale(),null);
-				Ground g = pacmanGame.getMapBuilder().get(i, j);
+				Ground g = mapBuilder.get(i, j);
 				
 				if(g.isEffect()) {
 					// ici, je regarde si c'est un effet afin de dessiner la pomme en plus petit
@@ -126,16 +127,38 @@ public class PacmanPainter implements GamePainter {
 			crayon.drawString(effect.toString(),150,20 + i * height);
 			i++;
 		}
+
+		if(!pacmanGame.CanHit()){
+			Image loading = new ImageIcon("resources/Extra/loading.gif").getImage();
+			crayon.drawImage(loading,((int)pacmanGame.getCharacterPosX()* pacmanGame.getScale())+10,((int)pacmanGame.getCharacterPosY()* pacmanGame.getScale())-17,20,20,null);
+		}
 	}
 
 	/**
 	 * Affichage message de fin
-	 * @author Adham
+	 * @author Adham, Raphaël
 	 * @param crayon Graphics2D
 	 */
-	public void drawEnd(Graphics2D crayon) {
-		if(pacmanGame.isFinished()){
-			crayon.drawImage(ImageFactory.getInstance().loadImage("Extra/end.png"),0,0,null);
+	public void drawEnd(Graphics2D crayon){
+		if (pacmanGame.isFinished()) {
+			Font f = FontFactory.getInstance().loadFont("Font/Pixeboy.ttf", 0);
+			f = f.deriveFont(120f);
+			FontMetrics fm = crayon.getFontMetrics(f);
+			crayon.setFont(f);
+
+			String s = "";
+			if (pacmanGame.getCharacter().getLife() <= 0){
+				s = "GAME OVER !";
+				crayon.drawImage(ImageFactory.getInstance().loadImage("Extra/gameover.png"),0,0,null);
+				crayon.setColor(Color.red);
+			}
+			else {
+				s = "VICTORY !";
+				crayon.drawImage(ImageFactory.getInstance().loadImage("Extra/victory.png"),0,0,null);
+				crayon.setColor(Color.white);
+			}
+
+			crayon.drawString(s, (this.getWidth() - fm.stringWidth(s))/2, this.getHeight()/2);
 		}
 
 	}
