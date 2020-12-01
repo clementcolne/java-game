@@ -188,4 +188,8 @@ public abstract class Character {
     	c.getAnimation().blink();
         c.setDamage(getStrength());
     }
+
+    public String getMovingStrategyType(){
+        return this.movingStrategy.getType();
+    }
 }

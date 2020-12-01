@@ -28,8 +28,12 @@ public class MonsterCharacter extends Character {
     public MonsterCharacter(double posX, double posY) {
         super(posX, posY);
         life = 3;
-        animation = ImageFactory.getInstance().loadAnimation("Character/Personnage2.gif", 60);
         this.setMovingStrategy(this.strategies.get((int) (Math.random()*this.strategies.size())));
+        if(this.getMovingStrategyType().equals("ghost")) {
+            animation = ImageFactory.getInstance().loadAnimation("Character/Personnage1.gif", 60);
+        }else {
+            animation = ImageFactory.getInstance().loadAnimation("Character/Personnage2.gif", 60);
+        }
     }
 
     @Override

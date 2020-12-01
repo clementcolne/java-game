@@ -96,10 +96,6 @@ public class PacmanCharacter extends Character{
     public MovingStrategy getMovingStrategy() {
     	return this.movingStrategy;
     }
-
-    public String getMovingStrategyType(){
-        return this.movingStrategy.getType();
-    }
     
     /**
      * Retourner un itérateur sur la liste des coordonnées parcourues par le Pacman
