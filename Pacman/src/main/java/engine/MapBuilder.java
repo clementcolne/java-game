@@ -31,6 +31,8 @@ public class MapBuilder {
     private Passage p2;
     private Scanner reader;
     private int nbMonsters;
+    private int level;
+    private int maxlevel;
 
     /**
      * @author Clément
@@ -41,7 +43,9 @@ public class MapBuilder {
     	uniqueCharacter = null;
         this.path = path;
         this.nbMonsters = 0;
-        
+        this.level = 1;
+        this.maxlevel = 2;
+
         this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ path));
         
         while(reader.hasNext()) {
@@ -75,7 +79,7 @@ public class MapBuilder {
      * @return tableau contenant des objets de type Ground décrivant la map
      */
     private void buildMap() {
-        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ path));
+        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/map"+ level + ".txt"));
        
         // compteur de lignes
         int i = 0;
@@ -127,6 +131,119 @@ public class MapBuilder {
             this.nbMonsters++;
         }
         return res;
+    }
+
+    /**
+     * Met à jour la map
+     * @author Adham
+     */
+    public void updateMap(PacmanCharacter pc, MonsterCharacter[] mc){
+        this.buildMap();
+        pc.setCoordinates(this.updatePacmanPosX(),this.updatePacmanPosY());
+        for(int i=0;i< mc.length;i++){
+            mc[i].setPosX(this.updateMonsterPosX()[i]);
+            mc[i].setPosY(this.updateMonsterPosY()[i]);
+        }
+
+        //System.out.println("nbMonsters : " + nbMonsters);
+        //System.out.println("mc length : " + mc.length);
+
+    }
+
+    /**
+     * Met à jour la position en abscisse du pacman
+     * @author Adham
+     * @return position X
+     */
+    public int updatePacmanPosX(){
+        int pos = 0;
+        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/map"+ level + ".txt"));
+
+        while(reader.hasNext()) {
+            String data = reader.nextLine();
+            for(int j = 0 ; j < width ; j++) {
+                if(data.charAt(j) == '1') {
+                    pos= j;
+                }
+            }
+        }
+        reader.close();
+
+        return pos;
+    }
+
+    /**
+     * Met à jour la position en ordonnée du pacman
+     * @author Adham
+     * @return position Y
+     */
+    public int updatePacmanPosY(){
+        int pos = 0;
+        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/map"+ level + ".txt"));
+
+        int i = 0;
+        while(reader.hasNext()) {
+            String data = reader.nextLine();
+            for(int j = 0 ; j < width ; j++) {
+                if(data.charAt(j) == '1') {
+                    pos= i;
+                }
+            }
+            i++;
+        }
+        reader.close();
+
+        return pos;
+    }
+
+    /**
+     * Met à jour la position en abscisse des monstres
+     * @author Adham
+     * @return liste des positions X
+     */
+    public int[] updateMonsterPosX(){
+        int[] PosX = new int[nbMonsters];
+        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/map"+ level + ".txt"));
+
+        int k = 0;
+        while(reader.hasNext()) {
+            String data = reader.nextLine();
+            for(int j = 0 ; j < width ; j++) {
+                if(data.charAt(j) == '2') {
+                    PosX[k] = j;
+                    k++;
+                }
+            }
+        }
+        reader.close();
+
+        return PosX;
+    }
+
+    /**
+     * Met à jour la position en ordonnée des monstres
+     * @author Adham
+     * @return liste des positions Y
+     */
+    public int[] updateMonsterPosY(){
+        int[] PosY = new int[nbMonsters];
+        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/map"+ level + ".txt"));
+
+        int i = 0;
+        int k = 0;
+        while(reader.hasNext()) {
+            String data = reader.nextLine();
+            for(int j = 0 ; j < width ; j++) {
+                if(data.charAt(j) == '2') {
+                    PosY[k] = i;
+                    k++;
+                }
+            }
+            i++;
+        }
+        reader.close();
+
+        return PosY;
     }
 
     /**
@@ -271,6 +388,39 @@ public class MapBuilder {
      */
     public int getHeight() {
         return height;
+    }
+
+    /**
+     * Retourne le nb de niveau
+     * @author Adham
+     */
+    public int getLevel() {
+        return level;
+    }
+
+    /**
+     * Retourne le nb de niveaux dans le jeu
+     * @author Adham
+     */
+    public int getMaxlevel() {
+        return maxlevel;
+    }
+
+    /**
+     * Augmente le niveau par 1
+     * @author Adham
+     */
+    public void LevelUp() {
+        this.level += 1;
+    }
+
+    public PacmanCharacter[][] getCharacters() {
+        return characters;
+    }
+
+
+    public MonsterCharacter[][] getMonsters() {
+        return monsters;
     }
 
     /**

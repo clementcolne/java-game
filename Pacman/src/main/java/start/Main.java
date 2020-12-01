@@ -14,7 +14,7 @@ public class Main {
 	public static void main(String[] args) throws InterruptedException {
 
 		// creation du jeu particulier et de son afficheur
-		MapBuilder map = new MapBuilder("map.txt");
+		MapBuilder map = new MapBuilder("map1.txt");
 		PacmanGame game = new PacmanGame("helpFilePacman.txt", map);
 		PacmanPainter painter = new PacmanPainter(game);
 		PacmanController controller = new PacmanController();

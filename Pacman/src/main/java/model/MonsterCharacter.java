@@ -39,6 +39,13 @@ public class MonsterCharacter extends Character {
         this.posY = posY;
     }
 
+    public void setCoordinates(double posX, double posY){
+        super.setPosX(posX);
+        super.setPosY(posY);
+    }
+
+
+
     /**
      * Retourne vrai pour indiquer que personnage est un monstre
      * @return true

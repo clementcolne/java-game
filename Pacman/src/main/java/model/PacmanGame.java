@@ -376,7 +376,19 @@ public class PacmanGame implements Game {
 
 		if (nearest.isTreasure()) {
 			nearest.setImage(ImageFactory.getInstance().loadImage("Extra/treasureOpen40x40.png"));
-			this.isFinished = true;
+
+			if (mapBuilder.getLevel()< mapBuilder.getMaxlevel()){
+				mapBuilder.LevelUp();
+				mapBuilder.updateMap(pacmanCharacter, monstersCharacter);
+				
+				System.out.println(getNbMonsters());
+				System.out.println(monstersCharacter.length);
+				System.out.println((this.getNbMonsters()-monstersCharacter.length));
+			}
+
+			else {
+				this.isFinished = true;
+			}
 		}
 		
 		if (!nearest.equals(this.executedEffect) || (isBlocked(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosX(), mapBuilder) && cmd != Cmd.IDLE) || (!move && !this.executedEffect.isPassage())) {
