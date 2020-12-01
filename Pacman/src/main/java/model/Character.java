@@ -1,5 +1,6 @@
 package model;
 
+import engine.Animation;
 import engine.MapBuilder;
 import model.movingStrategy.MovingStrategy;
 
@@ -15,6 +16,7 @@ public abstract class Character {
     protected int life = 10;
     protected int range = 1;
     protected MovingStrategy movingStrategy;
+	protected Animation animation;
 
     /**
      * Crée un personnage à la position (posX, posY)
@@ -35,9 +37,21 @@ public abstract class Character {
         movingStrategy = strategy;
     }
 
-
+    /**
+     * Retourner la stratégie de déplacement du personnage
+     * @return Stratégie de déplacement du personnage
+     */
     public MovingStrategy getMovingStrategy() {
         return movingStrategy;
+    }
+    
+    /**
+     * Retourne l'animation jouée du personnage
+     * @author Raphaël
+     * @return Animation jouée du personnage
+     */
+    public Animation getAnimation() {
+    	return animation;
     }
 
     /**
@@ -171,6 +185,7 @@ public abstract class Character {
      * @param c personnage affecté par l'attaque
      */
     public void attack(Character c){
+    	c.getAnimation().blink();
         c.setDamage(getStrength());
     }
 }

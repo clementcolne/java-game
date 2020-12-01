@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import engine.CustomIterator;
+import engine.ImageFactory;
 import model.movingStrategy.DefaultMovingStrategy;
 import model.movingStrategy.MovingStrategy;
 
@@ -25,7 +26,7 @@ public class PacmanCharacter extends Character{
      */
     public PacmanCharacter(double posX, double posY) {
         super(posX, posY);
-        
+        animation = ImageFactory.getInstance().loadAnimation("Character/wraith.gif", 60);
         movingStrategy = new DefaultMovingStrategy(this);
         visitedCoordinates = new LinkedList<>(Arrays.asList(new int[] {(int) this.posX, (int) this.posY}));
     }

@@ -27,22 +27,12 @@ public class PacmanGame implements Game {
 	 *
 	 */
 	public PacmanGame(String source, MapBuilder map) {
-		mapBuilder = map;
+		this.mapBuilder = map;
 		// création du pacman
-		this.pacmanCharacter = new PacmanCharacter(-1, -1);
-		// création d'un monstre
-
-		for (int x = 0; x < mapBuilder.getWidth(); x++) {
-			for (int y = 0; y < mapBuilder.getHeight(); y++) {
-				PacmanCharacter character = mapBuilder.getCharacter(x, y);
-				MonsterCharacter monster = mapBuilder.getMonster(x, y);
-				if (character != null) {
-					this.pacmanCharacter = character;
-				}
-			}
-		}
-		isFinished = false;
-		executedEffect = new Ground(0, 0);
+		this.pacmanCharacter = mapBuilder.getPacmanCharacter() != null ? mapBuilder.getPacmanCharacter() : new PacmanCharacter(-1, -1);
+		this.isFinished = false;
+		this.executedEffect = new Ground(0, 0);
+		
 		BufferedReader helpReader;
 		try {
 			helpReader = new BufferedReader(new FileReader(source));

@@ -27,13 +27,10 @@ public class MapBuilder {
     private Ground[][] map;
     private PacmanCharacter[][] characters;
     private List<MonsterCharacter> monsters;
-    private static Character uniqueCharacter;
-    private int width;
-    private int height;
-    private Passage p1;
-    private Passage p2;
+    private static PacmanCharacter uniqueCharacter;
+    private int width, height;
+    private Passage p1, p2;
     private Scanner reader;
-    private int nbMonsters;
     private int nbPassages;
 
     /**
@@ -44,7 +41,6 @@ public class MapBuilder {
     public MapBuilder(String path) {
     	uniqueCharacter = null;
         this.path = path;
-        this.nbMonsters = 0;
         this.nbPassages = 0;
         
         this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ path));
@@ -99,11 +95,11 @@ public class MapBuilder {
                 // pour chaque colonne
                 // complète la map
                 map[i][j] = getGround(data.charAt(j), j, i);
-                MonsterCharacter m = GenerateMonsterCharacter(data.charAt(j), j, i);
+                MonsterCharacter m = generateMonsterCharacter(data.charAt(j), j, i);
                 if(m != null) {
                     monsters.add(m);
                 }
-                characters[i][j] = GeneratePacmanCharacter(data.charAt(j), j, i);
+                characters[i][j] = generatePacmanCharacter(data.charAt(j), j, i);
             }
             i++;
         }
@@ -118,7 +114,7 @@ public class MapBuilder {
      * @param y Position en ordonnée du personnage
      * @return Personnage si existant, sinon null
      */
-    private PacmanCharacter GeneratePacmanCharacter(char c, int x, int y) {
+    private PacmanCharacter generatePacmanCharacter(char c, int x, int y) {
         PacmanCharacter res = null;
         if(c == '1') {
             if (uniqueCharacter == null) {
@@ -137,11 +133,10 @@ public class MapBuilder {
      * @param y Position en ordonnée du personnage
      * @return Personnage si existant, sinon null
      */
-    private MonsterCharacter GenerateMonsterCharacter(char c, int x, int y) {
+    private MonsterCharacter generateMonsterCharacter(char c, int x, int y) {
         MonsterCharacter res = null;
         if(c == '2') {
             res = new MonsterCharacter(x, y);
-            this.nbMonsters++;
         }
         return res;
     }
@@ -151,7 +146,7 @@ public class MapBuilder {
      * @return l'itérateur sur la liste de monstres
      */
     public Iterator<MonsterCharacter> getIterator() {
-        return monsters.iterator();
+        return new CustomIterator<MonsterCharacter>(monsters);
     }
 
     /**
@@ -257,11 +252,22 @@ public class MapBuilder {
      * @param y Position en abscisse dans le tableau de personnages
      * @return Pacman si associé, null sinon
      */
-    public PacmanCharacter getCharacter(int x, int y) {
-    	if (y < height && x < width && y >= 0 && x >= 0 && characters[y][x] != null) {
-    		return characters[y][x];
+    public PacmanCharacter getPacmanCharacter(int x, int y) {
+    	if (y < height && x < width && y >= 0 && x >= 0 && uniqueCharacter != null) {
+    		if (uniqueCharacter.getPosX() == x && uniqueCharacter.getPosY() == y) {
+    			return uniqueCharacter;
+    		}
     	}
     	return null;
+    }
+    
+    /**
+     * Retourne le joueur actuel s'il existe
+     * @author Raphaël
+     * @return Pacman s'il existe, null sinon
+     */
+    public PacmanCharacter getPacmanCharacter() {
+    	return uniqueCharacter;
     }
 
     /**
@@ -279,6 +285,29 @@ public class MapBuilder {
             }
         }
         return monster;
+    }
+    
+    /**
+     * Retourne un monstre dans la liste des monstres actuellement présents
+     * @author Raphaël
+     * @param index Numéro du monstre dans la liste
+     * @return Monstre associé à la position index
+     */
+    public MonsterCharacter getMonster(int index) {
+    	return monsters.get(index);
+    }
+    
+    /**
+     * Retourne un personnage quelconque à l'intérieur du jeu à la position (x,y) s'il existe
+     * @author Raphaël
+     * @param x Position en abscisse du personnage
+     * @param y Position en ordonnée du personnage
+     * @return Personnage situé à la position (x, y) s'il existe, null sinon
+     */
+    public Character getCharacter(int x, int y) {
+    	Character character = this.getPacmanCharacter(x, y);
+    	
+    	return character != null ? character : this.getMonster(x, y);
     }
 
     /**

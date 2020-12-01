@@ -41,7 +41,7 @@ class EffectMagicTest {
 
 		assertEquals("ghost",  pacman.getMovingStrategyType(), "Le Pacman doit désormais être un fantôme");
     	assertEquals(2, pacman.getSpeed(), "Le Pacman doit désormais voir sa vitesse incrémentée de 1");
-    	assertEquals(2, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 1");
+    	assertEquals(3, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 2");
     	
     	Thread.sleep(6000);
     	
@@ -131,7 +131,7 @@ class EffectMagicTest {
     	assertEquals(3, AsyncEffect.getEffects().size(), "Un effet ne doit pas être lancé plus d'une fois !");
     	assertEquals("ghost",  pacman.getMovingStrategyType(), "Le Pacman doit désormais être un fantôme");
     	assertEquals(2, pacman.getSpeed(), "Le Pacman doit désormais voir sa vitesse incrémentée de 1");
-    	assertEquals(2, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 1");
+    	assertEquals(3, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 2");
     	
     	Thread.sleep(6000);
     	assertEquals(0, AsyncEffect.getEffects().size(), "Tous les effets du Pacman doivent être inactifs");
@@ -158,7 +158,7 @@ class EffectMagicTest {
 			
 			new AsyncEffect(new Bow(), Effect.class, 3000, 0, 3000) {
 				public void execute() {
-					pacman.setRange(!this.isEnded() ? 2 : 1);
+					pacman.setRange(!this.isEnded() ? 3 : 1);
 				}
 			}.run();
 			
@@ -187,7 +187,7 @@ class EffectMagicTest {
 		Thread.sleep(120);
 		assertEquals("ghost",  pacman.getMovingStrategyType(), "Le Pacman doit désormais être un fantôme");
     	assertEquals(0.5, pacman.getSpeed(), "L'effet Slow doit pas remplacer l'effet Speed");
-    	assertEquals(2, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 1");
+    	assertEquals(3, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 2");
     	
     	Thread.sleep(6000);
     	assertEquals(1, AsyncEffect.getEffects().size(), "Seul l'effet Slow doit être actif puisqu'il supprime Speed");
