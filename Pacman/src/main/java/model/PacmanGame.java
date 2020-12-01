@@ -57,13 +57,11 @@ public class PacmanGame implements Game {
 			this.resetPosition();
 		}
 		
-		this.executedEffect = getNearestEffectiveGround(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosY());
+		this.executedEffect = this.getNearestEffectiveGround(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosY());
 
 		boolean move = false;
 		switch(commande) {
-
-				//Déplacements
-
+			//Déplacements
 			case LEFT:
 				if(move = canMoove(pacmanCharacter, -pacmanCharacter.getSpeed(), 0)) {
 					pacmanCharacter.mooveLeft();
@@ -84,27 +82,28 @@ public class PacmanGame implements Game {
 					pacmanCharacter.mooveDown();
 				}
 				break;
-
-				//Attaques
-
+				
+			//Attaques
 			case ATTACKUP:
-				attackMonster(0, -1);
+				this.attackMonster(0, -1);
 				break;
 			case ATTACKDOWN:
-				attackMonster(0, 1);
+				this.attackMonster(0, 1);
 				break;
 			case ATTACKRIGHT:
-				attackMonster(1, 0);
+				this.attackMonster(1, 0);
 				break;
 			case ATTACKLEFT:
-				attackMonster(-1, 0);
+				this.attackMonster(-1, 0);
 				break;
 			default:
 				move = false;
 				break;
 		}
+		
+		this.attackPlayer();
 		this.doEffect(move, commande);
-		mooveMonster();
+		this.mooveMonster();
 	}
 
 	/**
@@ -129,12 +128,30 @@ public class PacmanGame implements Game {
 			}
 		}
 	}
+	
+	/**
+	 * Permet au monstre de lancer une attaque s'il se trouve sur la même case que le joueur
+	 * @author Raphaël
+	 */
+	private void attackPlayer() {
+		Iterator<Ground> grounds = getCollidingGrounds(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosY(), this.mapBuilder);
+		
+		while (grounds.hasNext()) {
+			Ground g = grounds.next();
+			
+			MonsterCharacter monster = this.mapBuilder.getMonster(g.getPosX(), g.getPosY());
+			
+			if (monster != null) {
+				monster.attack(this.pacmanCharacter);
+			}
+		}
+	}
 
 	/**
 	 * @author Clément
 	 * Fait se déplacer chaque monstre toutes les 1.200ms dans une direction aléatoire
 	 */
-	public void mooveMonster() {
+	private void mooveMonster() {
 		// les monstres bougent une 1 fois toutes les 10x(120ms)
 		if(monsterMooveCounter == 10) {
 			Iterator<MonsterCharacter> ite = mapBuilder.getIterator();
@@ -180,7 +197,7 @@ public class PacmanGame implements Game {
 	 * @param y position en y
 	 * @author Clément
 	 */
-	public void consumeGroundEffect(int x, int y) {
+	private void consumeGroundEffect(int x, int y) {
 		if(mapBuilder.get(x, y).isEffect()) {
 			mapBuilder.set(x, y, new Ground(x, y));
 		}
@@ -193,7 +210,7 @@ public class PacmanGame implements Game {
 	 * @return vrai si le personnage peut accéder à la case, faux sinon
 	 * @author Clément
 	 */
-	public boolean canMoove(Character c, double x, double y) {
+	private boolean canMoove(Character c, double x, double y) {
 		return c.canMoove(x, y, mapBuilder);
 	}
 
@@ -286,7 +303,7 @@ public class PacmanGame implements Game {
 	 * Permet de revenir à une position qui était accessible dans le jeu (non bloquée)
 	 * @author Raphaël
 	 */
-	public void resetPosition() {		
+	private void resetPosition() {		
 		Iterator<int[]> visitedCoordinates = this.pacmanCharacter.getVisitedCoordinates();
 		
 		while (visitedCoordinates.hasNext()) {
@@ -337,9 +354,9 @@ public class PacmanGame implements Game {
 	 * @param mapBuilder Générateur de map du jeu
 	 * @return Itérateur sur les sols en collision
 	 */
-	public static Iterator<Ground> getCollidingGrounds(double x, double y, MapBuilder mapBuilder) {		
+	public static Iterator<Ground> getCollidingGrounds(double x, double y, MapBuilder mapBuilder) {
 		List<Ground> collidingGrounds = new LinkedList<Ground>();
-		
+	
 		if ((int)x == x && (int)y == y) {
 			collidingGrounds.add(mapBuilder.get((int)x, (int)y));
 		}
@@ -397,7 +414,7 @@ public class PacmanGame implements Game {
 	 * Permet d'exécuter l'effet en collision le plus proche avec le Pacman 
 	 * @author Raphaël
 	 */
-	public void doEffect(boolean move, Cmd cmd) {
+	private void doEffect(boolean move, Cmd cmd) {
 		Ground nearest = getNearestEffectiveGround(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosY());
 
 		if (nearest.isTreasure()) {
