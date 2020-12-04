@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import engine.ProjectException;
 import model.PacmanCharacter;
 
 /**
@@ -23,7 +24,7 @@ public class EffectMagic extends Effect {
      * @param character Personnage affecté par le piège
      */
     @Override
-    public void doEffect(PacmanCharacter pacmanCharacter) {
+    public void doEffect(PacmanCharacter pacmanCharacter) throws ProjectException {
         EffectMagic temp = magicEffects.get((int)(Math.random()*magicEffects.size()));
     	temp.doEffect(pacmanCharacter);
     }

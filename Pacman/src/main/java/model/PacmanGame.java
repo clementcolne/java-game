@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 import engine.*;
+import model.effect.AsyncEffect;
+import model.effect.Effect;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -29,6 +31,7 @@ public class PacmanGame implements Game {
 	 *
 	 */
 	public PacmanGame(String source, MapBuilder map) {
+		AsyncEffect.end(Effect.class);
 		this.mapBuilder = map;
 		// création du pacman
 		this.pacmanCharacter = mapBuilder.getPacmanCharacter() != null ? mapBuilder.getPacmanCharacter() : new PacmanCharacter(-1, -1);
@@ -58,9 +61,9 @@ public class PacmanGame implements Game {
 		if (!pacmanCharacter.getMovingStrategyType().equals("ghost") && !mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isAccessible()) {
 			this.resetPosition();
 		}
-		
+			
 		this.executedEffect = this.getNearestEffectiveGround(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosY());
-
+	
 		boolean move = false;
 		switch(commande) {
 			//Déplacements
@@ -431,6 +434,7 @@ public class PacmanGame implements Game {
 	 * @author Raphaël
 	 */
 	private void doEffect(boolean move, Cmd cmd) {
+		
 		Ground nearest = getNearestEffectiveGround(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosY());
 
 		if (nearest.isTreasure()) {
@@ -447,8 +451,12 @@ public class PacmanGame implements Game {
 		}
 		
 		if (!nearest.equals(this.executedEffect) || (isBlocked(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosX(), mapBuilder) && cmd != Cmd.IDLE) || (!move && !this.executedEffect.isPassage())) {
-			nearest.doEffect(this.pacmanCharacter);
-			this.consumeGroundEffect(nearest.getPosX(), nearest.getPosY());
+			try {
+				nearest.doEffect(this.pacmanCharacter);
+				this.consumeGroundEffect(nearest.getPosX(), nearest.getPosY());
+			} catch (ProjectException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

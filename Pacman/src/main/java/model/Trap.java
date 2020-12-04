@@ -5,6 +5,7 @@ import model.effect.EffectTrap;
 import java.awt.*;
 
 import engine.ImageFactory;
+import engine.ProjectException;
 
 /**
  * Classe représentant une case piège
@@ -31,10 +32,11 @@ public class Trap extends Ground{
     /**
      * Affecte un piège au personnage
      * @param character personnage auquel l'effet va être affecté
+     * @throws Exception 
      */
     @Override
-    public void doEffect(PacmanCharacter character) {
-        effect.doEffect(character);
+    public void doEffect(PacmanCharacter character) throws ProjectException {
+       this.effect.doEffect(character);
     }
 
     @Override

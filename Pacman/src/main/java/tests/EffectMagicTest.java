@@ -8,6 +8,10 @@ import model.movingStrategy.GhostMovingStrategy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 
 class EffectMagicTest {
 	/**
@@ -16,18 +20,23 @@ class EffectMagicTest {
 	 */
 	
 	private PacmanCharacter pacman;
+	
+	@BeforeAll
+	static void stopPreviousTestEffects() {
+		AsyncEffect.end(Effect.class);
+	}
 
-    @org.junit.jupiter.api.BeforeEach
+    @BeforeEach
     void setUp() {
         pacman = new PacmanCharacter(5, 5);
     }
     
     /**
-     * Lancement des effets standard avec des Thread en masse
-     * @throws InterruptedException
+     * Lancement des effets magiques de base
+     * @throws Exception
      */
-    @org.junit.jupiter.api.Test
-    void testDoEffectRight() throws InterruptedException {
+    @Test
+    void testDoEffectRight() throws Exception {
     	int i = 10000;
     	
     	while (i>0) {
@@ -39,12 +48,12 @@ class EffectMagicTest {
     		i--;
     	}    
 
+    	assertEquals(3, AsyncEffect.getEffects().size());
 		assertEquals("ghost",  pacman.getMovingStrategyType(), "Le Pacman doit désormais être un fantôme");
     	assertEquals(2, pacman.getSpeed(), "Le Pacman doit désormais voir sa vitesse incrémentée de 1");
     	assertEquals(3, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 2");
     	
-    	Thread.sleep(6000);
-    	
+    	Thread.sleep(5100);
     	assertEquals(0, AsyncEffect.getEffects().size(), "Tous les effets du Pacman doivent être inactifs");
     	assertEquals("default",  pacman.getMovingStrategyType(), "Tous les effets du Pacman doivent être inactifs");
     	assertEquals(1, pacman.getSpeed(), "Tous les effets du Pacman doivent être inactifs");
@@ -52,152 +61,77 @@ class EffectMagicTest {
     }
     
     /**
-     * Lancement des effets avec une vitesse aléatoire en masse
-     * @throws InterruptedException
+     * Lancement des effets magiques de base
+     * @throws Exception
      */
-    @org.junit.jupiter.api.Test
-    void testDoEffectRandomSpeed() throws InterruptedException {
+    @Test
+    void testDoEffectCrosscheck() throws Exception {
     	int i = 10000;
+		Effect[] effects = new Effect[3];
+		effects[0] = new Ghost();
+		effects[1] = new Speed();
+		effects[2] = new Bow();
     	
-    	while (i>0) {
-    		int[][] taskDuration = new int[5][2];
+    	while (i>0) {    		
+    		new AsyncEffect(new Ghost(), Effect.class, 1000, 0, 500) {
+    			public void execute() {
+    				pacman.setMovingStrategy(!this.isEnded() ? new GhostMovingStrategy(pacman) : new DefaultMovingStrategy(pacman));
+    			}
+    		}.run();
+    			
+    		new AsyncEffect(new Speed(), Effect.class, 1000, 0, 500) {
+    			public void execute() {
+    				pacman.setSpeed(!this.isEnded() ? 2 : 1);
+    			}
+    		}.run();
+    			
+    		new AsyncEffect(new Bow(), Effect.class, 1000, 0, 500) {
+    			public void execute() {
+    				pacman.setRange(!this.isEnded() ? 3 : 1);
+    			}
+    		}.run();
     		
-    		for (int obj = 0; obj < 5; obj++) {
-    			taskDuration[obj][0] = (int)(Math.random()*25)+1;
-        		taskDuration[obj][1] = taskDuration[obj][0]  - (int) (Math.random() * (taskDuration[obj][0] - 25));
-    		}
-    		
-    		for (int obj = 0; obj < 3; obj++) {
-    			new AsyncEffect(new Ghost(), Effect.class, taskDuration[0][0], 0, taskDuration[0][1]) {
-    				public void execute() {
-    					pacman.setMovingStrategy(!this.isEnded() ? new GhostMovingStrategy(pacman) : new DefaultMovingStrategy(pacman));
-    				}
-    			}.run();
-    			
-    			new AsyncEffect(new Ghost(), Ghost.class, taskDuration[1][0], 0, taskDuration[1][1]) {
-    				public void execute() {
-    					pacman.setMovingStrategy(!this.isEnded() ? new GhostMovingStrategy(pacman) : new DefaultMovingStrategy(pacman));
-    				}
-    			}.run();
-    			
-    			new AsyncEffect(new Ghost(), null, taskDuration[2][0], 0, taskDuration[2][1]) {
-    				public void execute() {
-    					pacman.setMovingStrategy(!this.isEnded() ? new GhostMovingStrategy(pacman) : new DefaultMovingStrategy(pacman));
-    				}
-    			}.run();
-    			
-    			new AsyncEffect(new Speed(), Effect.class, taskDuration[3][0], 0, taskDuration[3][1]) {
-    				public void execute() {
-    					pacman.setSpeed(!this.isEnded() ? 2 : 1);
-    				}
-    			}.run();
-    			
-    			new AsyncEffect(new Bow(), Effect.class, taskDuration[4][0], 0, taskDuration[4][1]) {
-    				public void execute() {
-    					pacman.setRange(this.getExecutionNumber() == 1 ? 2 : 1);
-    				}
-    			}.run();
-    			
-    		}
-    		
-    		assertTrue(AsyncEffect.getEffects().size() <= 3, "Un effet ne doit pas être lancé plus d'une fois !");
+    		assertTrue(AsyncEffect.getEffects().size() <= 3);
     		i--;
     	}
+
+    	assertEquals(3, AsyncEffect.getEffects().size());
+		assertEquals("ghost",  pacman.getMovingStrategyType());
+    	assertEquals(2, pacman.getSpeed());
+    	assertEquals(3, pacman.getRange());
     	
-    	Thread.sleep(200);
-    	assertEquals(0, AsyncEffect.getEffects().size(), "Tous les effets du Pacman doivent être inactifs");
-    	assertEquals("default",  pacman.getMovingStrategyType(), "Tous les effets du Pacman doivent être inactifs");
-    	assertEquals(1, pacman.getSpeed(), "Tous les effets du Pacman doivent être inactifs");
-    	assertEquals(1, pacman.getRange(), "Tous les effets du Pacman doivent être inactifs");
+    	Thread.sleep(1100);
+    	assertEquals(0, AsyncEffect.getEffects().size());
+    	assertEquals("default",  pacman.getMovingStrategyType());
+    	assertEquals(1, pacman.getSpeed());
+    	assertEquals(1, pacman.getRange());
     }
     
     /**
-     * Lancement des effets de façon aléatoire en masse
-     * @throws InterruptedException
+     * Lancement des effets de façon aléatoire
+     * @throws Exception
      */
-    @org.junit.jupiter.api.Test
-    void testDoEffectRandomEffect() throws InterruptedException {
+    @Test
+    void testDoEffectRandomRight() throws Exception {
     	int i = 10000;
-    	
+
     	while (i>0) {
     		new EffectMagic().doEffect(pacman);
     		new EffectMagic().doEffect(pacman);
     		new EffectMagic().doEffect(pacman);
-    		
-    		assertTrue(AsyncEffect.getEffects().size() >= 1 && AsyncEffect.getEffects().size() <= 3, "Un effet ne doit pas être lancé plus d'une fois !");
+        	assertTrue(AsyncEffect.getEffects().size() <= 3);
         	i--;
-    	}  
+    	}
     	
-    	assertEquals(3, AsyncEffect.getEffects().size(), "Un effet ne doit pas être lancé plus d'une fois !");
-    	assertEquals("ghost",  pacman.getMovingStrategyType(), "Le Pacman doit désormais être un fantôme");
+    	assertEquals(3, AsyncEffect.getEffects().size());
+		assertEquals("ghost",  pacman.getMovingStrategyType(), "Le Pacman doit désormais être un fantôme");
     	assertEquals(2, pacman.getSpeed(), "Le Pacman doit désormais voir sa vitesse incrémentée de 1");
     	assertEquals(3, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 2");
     	
-    	Thread.sleep(6000);
+    	Thread.sleep(5100);
     	assertEquals(0, AsyncEffect.getEffects().size(), "Tous les effets du Pacman doivent être inactifs");
     	assertEquals("default",  pacman.getMovingStrategyType(), "Tous les effets du Pacman doivent être inactifs");
     	assertEquals(1, pacman.getSpeed(), "Tous les effets du Pacman doivent être inactifs");
     	assertEquals(1, pacman.getRange(), "Tous les effets du Pacman doivent être inactifs");
-    	
-    }
-    
-    /**
-     * Lancement des effets en masse sans invoquer les classes concrètes
-     * @throws InterruptedException
-     */
-    @org.junit.jupiter.api.Test
-    void testDoEffectCrossCheck() throws InterruptedException {
-    	int i = 10000;
-    	
-    	while (i>0) {
-    		new AsyncEffect(new Ghost(), Effect.class, 5000, 0, 5000) {
-				public void execute() {
-					pacman.setMovingStrategy(!this.isEnded() ? new GhostMovingStrategy(pacman) : new DefaultMovingStrategy(pacman));
-				}
-			}.run();
-			
-			new AsyncEffect(new Bow(), Effect.class, 3000, 0, 3000) {
-				public void execute() {
-					pacman.setRange(!this.isEnded() ? 3 : 1);
-				}
-			}.run();
-			
-			new AsyncEffect(new Speed(), Slow.class, 10000, 0, 5000) {
-				public void execute() {
-					pacman.setSpeed(!this.isEnded() ? 3 : 2);
-				}
-			}.run();
-			
-			new AsyncEffect(new Speed(), Slow.class, 10000, 0, 5000) {
-				public void execute() {
-					pacman.setSpeed(!this.isEnded() ? 2 : 1);
-				}
-			}.run();
-			
-			new AsyncEffect(new Slow(), Speed.class, 10000, 20, 5000) {
-				public void execute() {
-					pacman.setSpeed(!this.isEnded() ? 0.5: 1);
-				}
-			}.run();
-    		
-    		assertTrue(AsyncEffect.getEffects().size() <= 3, "Un effet ne doit pas être lancé plus d'une fois et Speed doit être remplacé par Slow !");
-        	i--;
-    	} 
-		
-		Thread.sleep(120);
-		assertEquals("ghost",  pacman.getMovingStrategyType(), "Le Pacman doit désormais être un fantôme");
-    	assertEquals(0.5, pacman.getSpeed(), "L'effet Slow doit pas remplacer l'effet Speed");
-    	assertEquals(3, pacman.getRange(), "Le Pacman doit désormais voir sa portée des attaques incrémentée de 2");
-    	
-    	Thread.sleep(6000);
-    	assertEquals(1, AsyncEffect.getEffects().size(), "Seul l'effet Slow doit être actif puisqu'il supprime Speed");
-    	assertEquals("default",  pacman.getMovingStrategyType(), "Seul l'effet Slow doit être actif puisqu'il supprime Speed");
-    	assertEquals(0.5, pacman.getSpeed(), "Seul l'effet Slow doit être actif puisqu'il supprime Speed");
-    	assertEquals(1, pacman.getRange(), "Seul l'effet Slow doit être actif puisqu'il supprime Speed");
-    	
-    	Thread.sleep(6000);
-    	assertEquals(0, AsyncEffect.getEffects().size(), "10 secondes ont été dépassées, plus aucun effet ne doit être actif");
-    	assertEquals(1, pacman.getSpeed(), "10 secondes ont été dépassées, plus aucun effet ne doit être actif");
-
     }
 }

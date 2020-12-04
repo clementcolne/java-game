@@ -3,6 +3,7 @@ package model;
 import java.awt.Color;
 
 import engine.ImageFactory;
+import engine.ProjectException;
 import model.effect.EffectMagic;
 
 /**
@@ -34,7 +35,7 @@ public class Magic extends Ground {
      * @param pacmanCharacter Personnage affecté par l'effet magique
      */
     @Override
-	public void doEffect(PacmanCharacter pacmanCharacter) {
+	public void doEffect(PacmanCharacter pacmanCharacter) throws ProjectException {
 		this.effect.doEffect(pacmanCharacter);
 	}
     

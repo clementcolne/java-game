@@ -4,6 +4,8 @@ import model.PacmanCharacter;
 import model.effect.Stun;
 import org.junit.jupiter.api.Test;
 
+import engine.ProjectException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PacmanCharacterTest {
@@ -132,25 +134,25 @@ class PacmanCharacterTest {
     //Effet Stun
 
 	@org.junit.jupiter.api.Test
-	void mooveRightStun() {
+	void mooveRightStun() throws ProjectException {
 		new Stun().doEffect(pacman);
 		mooveDown();
 	}
 
 	@org.junit.jupiter.api.Test
-	void mooveLeftStun() {
+	void mooveLeftStun() throws ProjectException {
 		new Stun().doEffect(pacman);
 		mooveUp();
 	}
 
 	@org.junit.jupiter.api.Test
-	void mooveUpStun() {
+	void mooveUpStun() throws ProjectException {
 		new Stun().doEffect(pacman);
 		mooveLeft();
 	}
 
 	@org.junit.jupiter.api.Test
-	void mooveDownStun() {
+	void mooveDownStun() throws ProjectException {
 		new Stun().doEffect(pacman);
 		mooveRight();
 	}

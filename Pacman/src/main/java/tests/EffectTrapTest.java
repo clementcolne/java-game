@@ -20,13 +20,13 @@ class EffectTrapTest {
     void tearDown() {
         try {
             Thread.sleep(5000);
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @org.junit.jupiter.api.Test
-    void doEffect() throws InterruptedException {
+    void doEffect() throws Exception {
 
         for(int i =0; i<1000; i++) {
             new Slow().doEffect(pacman);
@@ -37,7 +37,7 @@ class EffectTrapTest {
     }
 
     @Test
-    void slowEffect() throws InterruptedException {
+    void slowEffect() throws Exception {
         new Slow().doEffect(pacman);
         Thread.sleep(10);
         assertEquals(0.5, pacman.getSpeed(), "La vitesse du pacman n'a pas diminuée");
@@ -46,7 +46,7 @@ class EffectTrapTest {
     }
 
     @Test
-    void stopEffect() throws InterruptedException {
+    void stopEffect() throws Exception {
         new Stop().doEffect(pacman);
         Thread.sleep(10);
         assertEquals(0, pacman.getSpeed(), "La vitesse du pacman n'est pas nulle");
