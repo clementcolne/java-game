@@ -12,7 +12,7 @@ public class DefaultMovingStrategy extends MovingStrategy {
 	/**
 	 * Constructeur de la stratégie par défaut
 	 * @author Raphaël
-	 * @param pc Pacman concerné par la stratégie
+	 * @param c Character concerné par la stratégie
 	 */
     public DefaultMovingStrategy(Character c) {
 		super(c);
@@ -33,7 +33,7 @@ public class DefaultMovingStrategy extends MovingStrategy {
     	this.setFactorX(x);
     	this.setFactorY(y);
     	this.mapBuilder = mapBuilder;
-    	
+
     	return this.canBypassGround(x, y);
     }
 }

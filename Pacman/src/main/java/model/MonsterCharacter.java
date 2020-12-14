@@ -8,6 +8,7 @@ import engine.ImageFactory;
 import model.movingStrategy.DefaultMovingStrategy;
 import model.movingStrategy.GhostMovingStrategy;
 import model.movingStrategy.MovingStrategy;
+import model.movingStrategy.SmartMovingStrategy;
 
 /**
  * @author Clément Colné
@@ -16,7 +17,8 @@ public class MonsterCharacter extends Character {
 	
 	private List<MovingStrategy> strategies = new LinkedList<MovingStrategy>(Arrays.asList(new MovingStrategy[] {
 			new DefaultMovingStrategy(this),
-			new GhostMovingStrategy(this)
+			new GhostMovingStrategy(this),
+      new SmartMovingStrategy(this)
 	}));
 	
     /**
