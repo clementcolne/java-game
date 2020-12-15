@@ -3,6 +3,7 @@ package model;
 import java.awt.*;
 
 import engine.ImageFactory;
+import engine.ProjectException;
 
 /**
  * Classe représentant à la fois un sol concret ainsi qu'un type générique pour d'autres types de sols
@@ -118,8 +119,9 @@ public class Ground {
 	 * Permet de déléguer la gestion des comportements des cases aux classes filles (qui sont des sols de différents types)
 	 * @author Raphaël
 	 * @param pacmanCharacter Pacman auquel doit être appliqué l'effet
+	 * @throws Exception 
 	 */
-	public void doEffect(PacmanCharacter pacmanCharacter) {}
+	public void doEffect(PacmanCharacter pacmanCharacter) throws ProjectException {}
 	
 	/**
 	 * Permet d'indiquer si le sol n'effectue aucune action ayant une répercussion sur d'autres objets

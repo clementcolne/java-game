@@ -2,6 +2,7 @@ package model.effect;
 
 import java.awt.Color;
 
+import engine.ProjectException;
 import model.PacmanCharacter;
 
 /**
@@ -15,8 +16,9 @@ public abstract class Effect {
 	/**
 	 * Permet de définir comment l'effet doit réagir
 	 * @param character Pacman auquel doit être appliqué l'effet
+	 * @throws ProjectException 
 	 */
-    public abstract void doEffect(PacmanCharacter character);
+    public abstract void doEffect(PacmanCharacter character) throws ProjectException;
     
     /**
      * Permet d'obtenir la couleur de la case associée à l'effet

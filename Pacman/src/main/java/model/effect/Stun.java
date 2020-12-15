@@ -1,5 +1,6 @@
 package model.effect;
 
+import engine.ProjectException;
 import model.PacmanCharacter;
 import model.movingStrategy.DefaultMovingStrategy;
 import model.movingStrategy.RandomMovingStrategy;
@@ -13,7 +14,10 @@ import model.movingStrategy.RandomMovingStrategy;
 public class Stun extends EffectTrap{
 
     @Override
-    public void doEffect(final PacmanCharacter character) {
+    public void doEffect(final PacmanCharacter character) throws ProjectException {
+    	if (character == null) {
+    		throw new ProjectException("Character can't be null");
+    	}
         new AsyncEffect(this, Effect.class, 5000, 0, 5000) {
             public void execute() {
                 character.setMovingStrategy(!this.isEnded() ? new RandomMovingStrategy(character) : new DefaultMovingStrategy(character));

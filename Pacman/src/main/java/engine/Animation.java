@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -30,10 +32,20 @@ public class Animation {
 	 * @author Raphaël
 	 * @param path Chemin de l'image
 	 * @param fps Nombre d'images par seconde de l'animation. La fluidité de l'animation est corrélée avec celle du jeu (i.e. si le jeu se rafraîchit toutes les 120ms, l'animation ne peut changer d'image que toutes les 120ms).
+	 * @throws ProjectException 
 	 */
-	public Animation(String path, int fps) {		
+	public Animation(String path, int fps) throws ProjectException {		
 		try {
+			if (path == null) {
+				throw new ProjectException("Path can't be null");
+			}
+			
 			InputStream image = Animation.class.getClassLoader().getResourceAsStream(path);
+			
+			if (image == null) {
+				throw new ProjectException("Error loading image "+path);
+			}
+			
 			int slash = Math.max(path.lastIndexOf("/"), path.lastIndexOf("\\"));
 			int point = path.lastIndexOf(".");
 			
@@ -42,7 +54,17 @@ public class Animation {
 				format = path.substring(point+1);
 			}
 			
-	    	ImageReader reader = (ImageReader)ImageIO.getImageReadersByFormatName(format).next();    	
+			
+	    	Iterator<ImageReader> readerIt = ImageIO.getImageReadersByFormatName(format);
+	    	ImageReader reader = null;
+	    	
+	    	if (readerIt.hasNext()) {
+	    		reader = readerIt.next();
+	    	}
+	    	else {
+	    		throw new ProjectException("Unknown format of "+path);
+	    	}
+	    	
 	    	ImageInputStream is = ImageIO.createImageInputStream(image);    	
 	    	reader.setInput(is, false);
 	    	
@@ -83,11 +105,11 @@ public class Animation {
 	}
 	
 	/**
-	 * Permet de faire clignoter l'animation
+	 * Permet de faire clignoter l'animation pendant 1 seconde
 	 * @author Raphaël
 	 */
 	public void blink() {
-		if (this.started && !this.blinking) {
+		if (!this.blinking) {
 			this.blinking = true;
 			this.visible = true;
 			

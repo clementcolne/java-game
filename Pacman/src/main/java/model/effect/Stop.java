@@ -1,5 +1,6 @@
 package model.effect;
 
+import engine.ProjectException;
 import model.PacmanCharacter;
 
 /**
@@ -10,7 +11,10 @@ import model.PacmanCharacter;
 public class Stop extends EffectTrap{
 
     @Override
-    public void doEffect(final PacmanCharacter character) {
+    public void doEffect(final PacmanCharacter character) throws ProjectException {
+    	if (character == null) {
+    		throw new ProjectException("Character can't be null");
+    	}
         new AsyncEffect(this, Speed.class, 5000, 0, 5000) {
             public void execute() {
                 character.setSpeed(!this.isEnded() ? 0 : 1);

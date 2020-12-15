@@ -58,7 +58,6 @@ public class RandomMovingStrategy extends MovingStrategy {
      * @param x Position en x à ajouter au Pacman
      * @param y Position en y à ajouter au Pacman
      * @param mapBuilder Générateur de la carte
-     * @param pacmanCharacter Pacman sur lequel la vérification de déplacement doit être effectuée
      */
     public boolean canMoove(double x, double y, MapBuilder mapBuilder) {
     	if (x != 0 && y != 0) {

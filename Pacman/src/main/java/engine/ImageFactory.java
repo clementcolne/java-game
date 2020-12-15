@@ -62,7 +62,15 @@ public class ImageFactory {
      * @return Animation
      */
     public Animation loadAnimation(String path, int fps) {
-    	return new Animation("resources/" + path, fps);
+    	Animation anim = null;
+    	
+    	try {
+    		anim = new Animation("resources/" + path, fps);
+    	} catch (ProjectException e) {
+    		e.getStackTrace();
+    	}
+    	
+    	return anim;
     }
 
 }

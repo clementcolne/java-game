@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 import engine.*;
+import model.effect.AsyncEffect;
+import model.effect.Effect;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -29,6 +31,7 @@ public class PacmanGame implements Game {
 	 *
 	 */
 	public PacmanGame(String source, MapBuilder map) {
+		AsyncEffect.end(Effect.class);
 		this.mapBuilder = map;
 		// création du pacman
 		this.pacmanCharacter = mapBuilder.getPacmanCharacter() != null ? mapBuilder.getPacmanCharacter() : new PacmanCharacter(-1, -1);
@@ -58,9 +61,9 @@ public class PacmanGame implements Game {
 		if (!pacmanCharacter.getMovingStrategyType().equals("ghost") && !mapBuilder.get((int)pacmanCharacter.getPosX(), (int)pacmanCharacter.getPosY()).isAccessible()) {
 			this.resetPosition();
 		}
-		
+			
 		this.executedEffect = this.getNearestEffectiveGround(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosY());
-
+	
 		boolean move = false;
 		switch(commande) {
 			//Déplacements
@@ -164,38 +167,104 @@ public class PacmanGame implements Game {
 		if(monsterMooveCounter == 10) {
 			Iterator<MonsterCharacter> ite = mapBuilder.getIterator();
 			MonsterCharacter m;
+			Random rand = new Random();
+			int way;
 			while(ite.hasNext()) {
 				m = ite.next();
-				Random rand = new Random(); //instance of random class
-				int way = rand.nextInt(4);
-				switch (way) {
-					case 0:
-						if (canMoove(m, 0, -m.getSpeed())) {
-							m.mooveUp();
-						}
-						break;
-					case 1:
-						if (canMoove(m, 0, m.getSpeed())) {
-							m.mooveDown();
-						}
-						break;
-					case 2:
-						if (canMoove(m, m.getSpeed(), 0)) {
-							m.mooveRight();
-						}
-						break;
-					case 3:
-						if (canMoove(m, -m.getSpeed(), 0)) {
-							m.mooveLeft();
-						}
-						break;
-					default:
-						break;
+				if(m.getMovingStrategyType().equals("smart")) {
+					// la stratégie smart
+					smartStrategyMooveMonster(m);
+				}else {
+					way = rand.nextInt(4);
+					otherStrategiesMooveMonster(m, way);
 				}
 			}
 			monsterMooveCounter = 0;
 		}else{
 			monsterMooveCounter++;
+		}
+	}
+
+	/**
+	 * @author Clément
+	 * Fait se déplacer le monstre en paramètre selon la stratégie de déplacement définie (random ou ghost)
+	 * @param m MonsterCharacter monstre
+	 * @param way aléatoire définissant la direction (entre 0 et 3)
+	 */
+	public void otherStrategiesMooveMonster(MonsterCharacter m, int way) {
+		// les autres stratégies
+		switch (way) {
+			case 0:
+				if (canMoove(m, 0, -m.getSpeed())) {
+					m.mooveUp();
+				}
+				break;
+			case 1:
+				if (canMoove(m, 0, m.getSpeed())) {
+					m.mooveDown();
+				}
+				break;
+			case 2:
+				if (canMoove(m, m.getSpeed(), 0)) {
+					m.mooveRight();
+				}
+				break;
+			case 3:
+				if (canMoove(m, -m.getSpeed(), 0)) {
+					m.mooveLeft();
+				}
+				break;
+			default:
+				break;
+		}
+	}
+
+	/**
+	 * @author Clément
+	 * Fait se déplacer le monstre en paramètre selon la stratégie de déplacement intelligente
+	 * @param m MonsterCharacter monstre
+	 */
+	public void smartStrategyMooveMonster(MonsterCharacter m) {
+		double x = 0;
+		double y = 0;
+		// calcul de la distance de Manhattan
+		double diffX = m.getPosX() - mapBuilder.getPacmanCharacter().getPosX();
+		double diffY = m.getPosY() - mapBuilder.getPacmanCharacter().getPosY();
+		double absDiffX = Math.abs(diffX);
+		double absDiffY = Math.abs(diffY);
+		// calcul de la direction dans laquelle le monstre va aller pour se rapprocher du Pacman
+		if(absDiffX >= absDiffY) {
+			if(diffX > 0) {
+				// vers la gauche
+				x = -1;
+			}else{
+				// vers la droite
+				x = 1;
+			}
+		}else{
+			if(diffY > 0) {
+				// vers le haut
+				y = -1;
+			}else{
+				// vers le bas
+				y = 1;
+			}
+		}
+		// la direction est déterminée, on effectue le déplacement si c'est possible
+		if(canMoove(m, x, y)) {
+			if (y == -1) {
+				// vers le haut
+				m.mooveUp();
+			} else if (y == 1) {
+				// vers le bas
+				m.mooveDown();
+			} else if (x == -1) {
+				// vers la gauche
+				m.mooveLeft();
+			} else {
+				// vers la droite
+				m.mooveRight();
+			}
 		}
 	}
 
@@ -431,6 +500,7 @@ public class PacmanGame implements Game {
 	 * @author Raphaël
 	 */
 	private void doEffect(boolean move, Cmd cmd) {
+		
 		Ground nearest = getNearestEffectiveGround(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosY());
 
 		if (nearest.isTreasure()) {
@@ -447,8 +517,12 @@ public class PacmanGame implements Game {
 		}
 		
 		if (!nearest.equals(this.executedEffect) || (isBlocked(this.pacmanCharacter.getPosX(), this.pacmanCharacter.getPosX(), mapBuilder) && cmd != Cmd.IDLE) || (!move && !this.executedEffect.isPassage())) {
-			nearest.doEffect(this.pacmanCharacter);
-			this.consumeGroundEffect(nearest.getPosX(), nearest.getPosY());
+			try {
+				nearest.doEffect(this.pacmanCharacter);
+				this.consumeGroundEffect(nearest.getPosX(), nearest.getPosY());
+			} catch (ProjectException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

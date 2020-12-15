@@ -4,6 +4,8 @@ import model.PacmanCharacter;
 
 import java.util.*;
 
+import engine.ProjectException;
+
 /**
  * @author Adèle
  * 25/10/2020
@@ -23,9 +25,10 @@ public class EffectTrap extends Effect {
     /**
      * Exécute un effet piège au hasard
      * @param character personnage affecté par le piège
+     * @throws ProjectException 
      */
     @Override
-    public void doEffect(PacmanCharacter character) {
+    public void doEffect(PacmanCharacter character) throws ProjectException {
         EffectTrap temp = traps.get((int)(Math.random()*traps.size()));
         temp.doEffect(character);
     }

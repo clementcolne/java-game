@@ -9,6 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import engine.CustomIterator;
+import engine.ProjectException;
 
 /**
  * Cette classe permet de gérer les effets de façon à ce que chaque effet puisse être exécuté pendant que le joueur continue de se déplacer
@@ -24,7 +25,8 @@ public class AsyncEffect extends TimerTask {
 	private boolean end = false, runned = false;
 	private int executionNumber = 0;
 	private static Set<Effect> effects = Collections.synchronizedSet(new HashSet<Effect>());
-	private static Map<Class<? extends Effect>, AsyncEffect> tasks = Collections.synchronizedMap( new HashMap<Class<? extends Effect>, AsyncEffect>());
+	private static Map<Class<? extends Effect>, AsyncEffect> tasks = Collections.synchronizedMap(new HashMap<Class<? extends Effect>, AsyncEffect>());
+	private static boolean waiting = false;
 	
 	/**
 	 * Constructeur de l'effet asynchrone
@@ -34,13 +36,30 @@ public class AsyncEffect extends TimerTask {
 	 * @param time Temps de déroulement de l'effet (ms)
 	 * @param st Temps à partir duquel l'effet doit commencer à être appliqué (ms)
 	 * @param p Période représentant l'intervalle de rafraichissement de l'exécution de la tâche (ms)
+	 * @throws ProjectException Lancée en cas de paramètres fournis incorrects
 	 */
-	public AsyncEffect(Effect eff, Class<? extends Effect> etd, long time, long st, long p) {
+	public AsyncEffect(Effect eff, Class<? extends Effect> etd, long time, long st, long p) throws ProjectException  {
 		this.effect = eff;
 		this.effectToDestroy = etd;
 		this.remainingTime = time;
 		this.startTime = st;
 		this.period = p;
+		
+		if (eff == null) {
+			throw new ProjectException("An effect can't be null");
+		}
+		if (this.startTime < 0) {
+			throw new ProjectException("Start time of effect must at least be 0 ms");
+		}
+		else if (this.period <= 0) {
+			throw new ProjectException("Period of effect must at least be 1 ms");
+		}
+		else if (this.remainingTime <= 0) {
+			throw new ProjectException("Effect must at least last 1 ms");
+		}
+		else if (this.remainingTime < this.period) {
+			throw new ProjectException("The effect must last longer than the defined period");
+		}
 	}
 
 	/**
@@ -58,22 +77,30 @@ public class AsyncEffect extends TimerTask {
 				if (effects.add(this.effect)) {
 					tasks.put(this.effect.getClass(), this);
 					new Timer().schedule(this, this.startTime, this.period);
+					waiting = true;
 					this.runned = true;
-					//System.out.println(this.effect);
 				}
 				else if (effects.contains(this.effect) && this.runned) {
+					waiting = false;
 					this.executionNumber++;
 					
+
+					this.execute();
 					if (this.remainingTime <= 0) {
 						this.end();
-					}
-					else {
-						this.execute();
 					}
 				
 					this.remainingTime -= this.period;
 				}
-			}				
+			}			
+		}
+
+		try {
+			while (waiting) {
+				Thread.sleep(1);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -109,8 +136,9 @@ public class AsyncEffect extends TimerTask {
 	 * Permet de forcer le stoppage de la tâche associée à l'effet courant
 	 * @author Raphaël
 	 */
-	public synchronized void end() {
+	public void end() {
 		if (this.runned && !this.end) { 
+	        waiting = false;
 			this.end = true;
 			this.execute();
 			
@@ -164,8 +192,6 @@ public class AsyncEffect extends TimerTask {
 	 * @return Liste des effets actuellement en cours
 	 */
 	public synchronized static CustomIterator<Effect> getEffects() {
-		synchronized (effects) {
-			return new CustomIterator<Effect>(effects);
-		}
+		return new CustomIterator<Effect>(effects);
 	}
 }

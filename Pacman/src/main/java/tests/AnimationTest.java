@@ -1,26 +1,33 @@
 package tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.NoSuchElementException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import engine.Animation;
 import engine.ImageFactory;
+import engine.ProjectException;
 
 class AnimationTest{
 
 	private Animation ground, character;
 
 	
-    @org.junit.jupiter.api.BeforeEach
+    @BeforeEach
 	protected void setUp() {
         character = ImageFactory.getInstance().loadAnimation("Character/wraith.gif", 12);
         ground = ImageFactory.getInstance().loadAnimation("Ground/Ground_lvl1.png", 60);
     }
 
-    @org.junit.jupiter.api.Test
+    /**
+     * S'assurer qu'une image est correctement animée (que les images défilent correctement)
+     * @author Raphaël
+     */
+    @Test
     void testGifAnimateRight() {
     	try {
     		character.animate();
@@ -33,12 +40,46 @@ class AnimationTest{
 	    	assertTrue(character.getIndex() < character.getNumberOfFrames(), "Le numéro de l'image devrait être remis à 0, donc la valeur doit être très proche");
 	    	assertEquals(0, ground.getIndex(), "Le sol n'est pas une animation, il ne doit contenir qu'une seule image");
 	    	
-    	} catch (InterruptedException e) {
+    	} catch (Exception e) {
     		e.printStackTrace();
     	}
     }
-
-    @org.junit.jupiter.api.Test
+    
+    /**
+     * S'assurer qu'une image est correctement animée (que les images défilent correctement)
+     * @author Raphaël
+     */
+    @Test
+    void testGifBlinkRight() {
+    	try {
+    		character.blink();
+    		Thread.sleep(10);
+			
+	    	assertFalse(character.isVisible());
+	    	assertTrue(character.isBlinking());
+	    	
+	    	Thread.sleep(250);
+	    	assertTrue(character.isVisible());
+	    	assertTrue(character.isBlinking());
+	    	
+	    	Thread.sleep(250);
+	    	assertFalse(character.isVisible());
+	    	assertTrue(character.isBlinking());
+	    	
+	    	Thread.sleep(250);
+	    	assertTrue(character.isVisible());
+	    	assertFalse(character.isBlinking());
+	    	
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    /**
+     * S'assurer que l'on peut mettre en pause une animation à tout moment
+     * @author Raphaël
+     */
+    @Test
     void testGifPauseRight() {
     	try {
 	    	character.animate();
@@ -61,12 +102,16 @@ class AnimationTest{
 	    	
 	    	assertTrue(character.getIndex() >= currentCharacterIndex, "Le numéro de l'image devrait être supérieur puisque l'animation n'est plus en pause");
 	    	assertTrue(ground.getIndex() == currentGroundIndex, "Le sol n'est pas une animation, son numéro d'image ne doit pas changer");
-    	} catch (InterruptedException e) {
+    	} catch (Exception e) {
     		e.printStackTrace();
     	}
     }
     	
-    @org.junit.jupiter.api.Test
+    /**
+     * S'assurer qu'une animation peut être arrêtée à tout moment
+     * @author Raphaël
+     */
+    @Test
     void testGifStopRight() {
     	try {
     		
@@ -81,12 +126,15 @@ class AnimationTest{
 	    	assertEquals(0, ground.getIndex(), "L'animation du personnage a été stoppée, son indice doit rester à zéro");
 	    
 	    	testGifAnimateRight();
-    	} catch (InterruptedException e) {
+    	} catch (Exception e) {
     		e.printStackTrace();
     	}
     }
     
-    @org.junit.jupiter.api.Test
+    /**
+     * S'assurer qu'il est possible de changer la vitesse d'une animation
+     */
+    @Test
     void testChangeSpeedRight() {
     	try {
 	    	character.animate();
@@ -97,13 +145,17 @@ class AnimationTest{
 	    	Thread.sleep(100);
 	    	
 	    	assertEquals(currentImageIndex+1, character.getIndex(), "Le numéro d'image ne devrait être incrémenté que 1 suite au changement de FPS");
-    	} catch (InterruptedException e) {
+    	} catch (Exception e) {
     		e.printStackTrace();
     	}
     }
     
 
-    @org.junit.jupiter.api.Test
+    /**
+     * S'assurer qu'un changement de vitesse à une vitesse négative revient à positionner les FPS à 0
+     * @author Raphaël
+     */
+    @Test
     void testChangeSpeedBoundary() {
     	try {
     		Animation boundary = ImageFactory.getInstance().loadAnimation("Character/wraith.gif", 60);
@@ -115,27 +167,48 @@ class AnimationTest{
 	    	Thread.sleep(1500);
 	    	
 	    	assertEquals(currentImageIndex, character.getIndex(), "Le numéro d'image ne devrait pas changer suite au changement de FPS à 0");
-    	} catch (InterruptedException e) {
+    	} catch (Exception e) {
     		e.printStackTrace();
     	}
     }
     
-    @org.junit.jupiter.api.Test
-    void testIncorrectGif() {
-    	assertThrows(NullPointerException.class, () -> {
+    /**
+     * S'assurer que la tentative de création d'une animation avec un objet inexistant provoque une erreur
+     */
+    @Test
+    void testNullGifBoundary() {
+    	assertThrows(ProjectException.class, () -> {
     		new Animation(null,60);
     	}, "Une animation avec un chemin d'image null ne peut pas exister");
-    	
-    	assertThrows(NoSuchElementException.class, () -> {
+    }
+    
+    /**
+     * S'assurer que la tentative de création d'une animation avec un chemin inexistant
+     * @author Raphaël
+     */
+    @Test
+    void testIncorrectEmptyGifBoundary() {
+    	assertThrows(ProjectException.class, () -> {
     		new Animation("",60);
     	}, "Une animation avec un chemin d'image inexistant ne peut pas exister");
+    }
     
-    	assertThrows(NoSuchElementException.class, () -> {
+    /**
+     * S'assurer qu'un fichier quelconque ne doit pas être considéré comme une image
+     * @author Raphaël
+     */
+    @Test
+    void testNotImageBoundary() {
+    	assertThrows(ProjectException.class, () -> {
     		new Animation("resources/Map/map1.txt",60);
     	}, "Une animation avec un chemin d'image ne correspondant pas à une image ne peut pas exister");
     }
     
-    @org.junit.jupiter.api.Test
+    /**
+     * S'assurer qu'on peut créer une image fixe (FPS = 0)
+     * @author Raphaël
+     */
+    @Test
     void testBoundaryGifCreation() {
     	try {
 	    	Animation boundary = ImageFactory.getInstance().loadAnimation("Character/wraith.gif", 0);
@@ -148,7 +221,7 @@ class AnimationTest{
 	    	Thread.sleep(1000);
 	    	
 	    	assertEquals(0, boundary.getIndex(), "Le numéro de l'image de l'animation doit rester à 0 puisque la vitesse est de 0 FPS");
-    	} catch (InterruptedException e) {
+    	} catch (Exception e) {
     		e.printStackTrace();
     	}
     }
