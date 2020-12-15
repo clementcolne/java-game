@@ -3,6 +3,8 @@ package model;
 import java.awt.*;
 
 import engine.ImageFactory;
+import model.effect.AsyncEffect;
+import model.effect.Effect;
 
 /**
  * Classe représentant le tresor
@@ -25,7 +27,7 @@ public class End extends Ground {
 
     @Override
     public void doEffect(PacmanCharacter pacmanCharacter) {
-        //System.out.println("You Won !");
+        AsyncEffect.end(Effect.class);
     }
     
     /**
