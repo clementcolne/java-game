@@ -1,159 +1,171 @@
 package tests;
 
 import model.PacmanCharacter;
-import model.effect.Stun;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import engine.ProjectException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PacmanCharacterTest {
-
 	private PacmanCharacter pacman;
 
-    @org.junit.jupiter.api.BeforeEach
-    void setUp() {
-        pacman = new PacmanCharacter(5, 5);
-    }
-
-    /*@org.junit.jupiter.api.Test
-    void mooveRight() {
-    	pacman.getMovingStrategy().setFactorX(1);
-    	assert(pacman.getPosX() == 5): "La position du pacman devrait être de 5";
-    	pacman.mooveRight();
-    	assert(pacman.getPosX() == 6): "La position du pacman devrait être de 6";
-    	pacman.mooveRight();
-    	pacman.mooveRight();
-    	assert(pacman.getPosX() == 8): "La position du pacman devrait être de 8";
-    	pacman.mooveRight(); 
-    	assert(pacman.getPosX() == 9): "La position du pacman devrait être de 9";
-    }*/
-
-	/*
-	@org.junit.jupiter.api.Test
-	void mooveRight() {
-
-	}
-	*/
-
-	//init
-	@org.junit.jupiter.api.Test
-	void init() {
-		//La position du pacman devrait être de 5
-		assertEquals(5, pacman.getPosX());
+	@BeforeEach
+	void setUp() {
+		pacman = new PacmanCharacter(5, 5);
 	}
 
-	//mooveRight
+	//setPosX
 
-	//Right
-	@org.junit.jupiter.api.Test
-	void mooveRight() {
-		pacman.getMovingStrategy().setFactorX(1);
-		pacman.mooveRight();
-		//La position du pacman devrait être de 6
-		assertEquals(6, pacman.getPosX());
+	//right
+	@Test
+	void setPosX1_right(){
+		pacman.setPosX(1);
+		Iterator<int[]> it = pacman.getVisitedCoordinates();
+		int[] position = it.next();
+		assertEquals(5, position[0]);
+		assertEquals(5, position[1]);
+		int[] position1 = it.next();
+		assertEquals(1, position1[0]);
+		assertEquals(5, position1[1]);
 	}
 
-	@org.junit.jupiter.api.Test
-	void moove2Right() {
-		pacman.getMovingStrategy().setFactorX(1);
-		pacman.mooveRight();
-		pacman.mooveRight();
-		//La position du pacman devrait être de 7
-		assertEquals(7, pacman.getPosX());
+	@Test
+	void setPosX2_right(){
+		pacman.setPosX(1);
+		pacman.setPosX(6);
+		Iterator<int[]> it = pacman.getVisitedCoordinates();
+		int[] position = it.next();
+		assertEquals(5, position[0]);
+		assertEquals(5, position[1]);
+		int[] position1 = it.next();
+		assertEquals(1, position1[0]);
+		assertEquals(5, position1[1]);
+		int[] position2 = it.next();
+		assertEquals(6, position2[0]);
+		assertEquals(5, position2[1]);
 	}
 
-	//Boundary
-	@org.junit.jupiter.api.Test
-	void moove10Right() {
-		pacman.getMovingStrategy().setFactorX(1);
-		for(int i=0; i<5; i++){
-			pacman.mooveRight();
+	//crosscheck
+	@Test
+	void setPosX1_crosscheck(){
+		pacman.setPosX(1);
+		Iterator<int[]> it = pacman.getVisitedCoordinates();
+
+		List<int[]> checkList = new LinkedList<>();
+		checkList.add(new int[]{5,5});
+		checkList.add(new int[]{1,5});
+
+		int[] position;
+		int i =0;
+
+		while(it.hasNext()){
+			position = it.next();
+			assertEquals(checkList.get(i)[0], position[0]);
+			assertEquals(checkList.get(i)[1], position[1]);
+			i++;
 		}
-		//La position du pacman devrait être de 10
-		assertEquals(10, pacman.getPosX());
 	}
 
-	//mooveLeft
+	//crosscheck
+	@Test
+	void setPosX2_crosscheck(){
+		pacman.setPosX(1);
+		pacman.setPosX(7);
+		Iterator<int[]> it = pacman.getVisitedCoordinates();
 
-    @org.junit.jupiter.api.Test
-    void mooveLeft() {
-    	pacman.getMovingStrategy().setFactorX(-1);
-    	assert(pacman.getPosX() == 5): "La position du pacman devrait être de 5";
-    	pacman.mooveLeft();
-    	assert(pacman.getPosX() == 4): "La position du pacman devrait être de 4";
-    	pacman.mooveLeft();
-    	pacman.mooveLeft();
-    	assert(pacman.getPosX() == 2): "La position du pacman devrait être de 2";
-    	pacman.mooveLeft(); 
-    	assert(pacman.getPosX() == 1): "La position du pacman devrait être de 1";
-    }
+		List<int[]> checkList = new LinkedList<>();
+		checkList.add(new int[]{5,5});
+		checkList.add(new int[]{1,5});
+		checkList.add(new int[]{7,5});
 
-	//mooveUp
+		int[] position;
+		int i =0;
 
-    @org.junit.jupiter.api.Test
-    void mooveUp() {
-    	pacman.getMovingStrategy().setFactorY(-1);
-    	assert(pacman.getPosY() == 5): "La position du pacman devrait être de 5";
-    	pacman.mooveUp();
-    	assert(pacman.getPosY() == 4): "La position du pacman devrait être de 4";
-    	pacman.mooveUp();
-    	pacman.mooveUp();
-    	assert(pacman.getPosY() == 2): "La position du pacman devrait être de 2";
-    	pacman.mooveUp(); 
-    	assert(pacman.getPosY() == 1): "La position du pacman devrait être de 1";
-    }
-
-	//mooveDown
-
-    @org.junit.jupiter.api.Test
-    void mooveDown() {
-    	pacman.getMovingStrategy().setFactorY(1);
-    	assert(pacman.getPosY() == 5): "La position du pacman devrait être de 5";
-    	pacman.mooveDown();
-    	assert(pacman.getPosY() == 6): "La position du pacman devrait être de 6";
-    	pacman.mooveDown();
-    	pacman.mooveDown();
-    	assert(pacman.getPosY() == 8): "La position du pacman devrait être de 8";
-    	pacman.mooveDown(); 
-    	assert(pacman.getPosY() == 9): "La position du pacman devrait être de 9";
-    }
-
-	//setDamage
-
-    @Test
-    void setDamage() {
-        assert (pacman.getLife() == 10):"La vie du pacman à l'initialisation devrait être de 10";
-        pacman.setDamage(4);
-        assert (pacman.getLife() == 6):"La vie du pacman après avoir reçu des dégats devrait être de 5";
-        pacman.setDamage(10);
-        assert (pacman.getLife() == 0):"La vie du pacman après avoir reçu des dégats devrait être de 0";
-    }
-
-    //Effet Stun
-
-	@org.junit.jupiter.api.Test
-	void mooveRightStun() throws ProjectException {
-		new Stun().doEffect(pacman);
-		mooveDown();
+		while(it.hasNext()){
+			position = it.next();
+			assertEquals(checkList.get(i)[0], position[0]);
+			assertEquals(checkList.get(i)[1], position[1]);
+			i++;
+		}
 	}
 
-	@org.junit.jupiter.api.Test
-	void mooveLeftStun() throws ProjectException {
-		new Stun().doEffect(pacman);
-		mooveUp();
+	//setPosY
+
+	//right
+	@Test
+	void setPosY1_right(){
+		pacman.setPosY(1);
+		Iterator<int[]> it = pacman.getVisitedCoordinates();
+		int[] position = it.next();
+		assertEquals(5, position[0]);
+		assertEquals(5, position[1]);
+		int[] position1 = it.next();
+		assertEquals(5, position1[0]);
+		assertEquals(1, position1[1]);
 	}
 
-	@org.junit.jupiter.api.Test
-	void mooveUpStun() throws ProjectException {
-		new Stun().doEffect(pacman);
-		mooveLeft();
+	@Test
+	void setPosY2_right(){
+		pacman.setPosY(1);
+		pacman.setPosY(6);
+		Iterator<int[]> it = pacman.getVisitedCoordinates();
+		int[] position = it.next();
+		assertEquals(5, position[0]);
+		assertEquals(5, position[1]);
+		int[] position1 = it.next();
+		assertEquals(5, position1[0]);
+		assertEquals(1, position1[1]);
+		int[] position2 = it.next();
+		assertEquals(5, position2[0]);
+		assertEquals(6, position2[1]);
 	}
 
-	@org.junit.jupiter.api.Test
-	void mooveDownStun() throws ProjectException {
-		new Stun().doEffect(pacman);
-		mooveRight();
+	//crosscheck
+	@Test
+	void setPosY1_crosscheck(){
+		pacman.setPosY(1);
+		Iterator<int[]> it = pacman.getVisitedCoordinates();
+
+		List<int[]> checkList = new LinkedList<>();
+		checkList.add(new int[]{5,5});
+		checkList.add(new int[]{5,1});
+
+		int[] position;
+		int i =0;
+
+		while(it.hasNext()){
+			position = it.next();
+			assertEquals(checkList.get(i)[0], position[0]);
+			assertEquals(checkList.get(i)[1], position[1]);
+			i++;
+		}
 	}
+
+	//crosscheck
+	@Test
+	void setPosY2_crosscheck(){
+		pacman.setPosY(1);
+		pacman.setPosY(7);
+		Iterator<int[]> it = pacman.getVisitedCoordinates();
+
+		List<int[]> checkList = new LinkedList<>();
+		checkList.add(new int[]{5,5});
+		checkList.add(new int[]{5,1});
+		checkList.add(new int[]{5,7});
+
+		int[] position;
+		int i =0;
+
+		while(it.hasNext()){
+			position = it.next();
+			assertEquals(checkList.get(i)[0], position[0]);
+			assertEquals(checkList.get(i)[1], position[1]);
+			i++;
+		}
+	}
+
 }
