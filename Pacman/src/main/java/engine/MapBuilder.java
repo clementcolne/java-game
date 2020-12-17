@@ -3,6 +3,9 @@ package engine;
 import model.*;
 import model.Character;
 import model.effect.*;
+import model.movingStrategy.DefaultMovingStrategy;
+import model.movingStrategy.MovingStrategy;
+import model.movingStrategy.SmartMovingStrategy;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,24 +30,21 @@ public class MapBuilder {
     private int nbPassages;
     private int currentLevel;
     private int maxlevel;
-    private ArrayList<String> levels;
+    private List<String> maps;
 
     /**
      * @author Clément
      * Constructeur de la map
-     * @param path chemin vers le fichier texte décrivant la map
+     * @param maps list des maps
      */
-    public MapBuilder(String path) {
+    public MapBuilder(List<String> maps) {
     	uniqueCharacter = null;
-        this.path = path;
         this.nbPassages = 0;
         this.currentLevel = 1;
-        this.maxlevel = 2;
-        this.levels = new ArrayList<String>();
-        levels.add(this.path);
+        this.maxlevel = 3;
+        this.maps = maps;
 
-
-        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ levels.get(currentLevel-1)));
+        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ maps.get(currentLevel-1)));
         
         while(reader.hasNext()) {
             String data = reader.nextLine();
@@ -86,7 +86,7 @@ public class MapBuilder {
      * @return tableau contenant des objets de type Ground décrivant la map
      */
     private void buildMap() {
-        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+levels.get(currentLevel-1)));
+        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+maps.get(currentLevel-1)));
        
         // compteur de lignes
         int i = 0;
@@ -137,7 +137,7 @@ public class MapBuilder {
     private MonsterCharacter generateMonsterCharacter(char c, int x, int y) {
         MonsterCharacter res = null;
         if(c == '2') {
-            res = new MonsterCharacter(x, y);
+            res = new MonsterCharacter(x, y,this.currentLevel);
         }
         return res;
     }
@@ -168,7 +168,7 @@ public class MapBuilder {
      */
     public int updatePacmanPosX(){
         int pos = 0;
-        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ levels.get(currentLevel-1)));
+        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ maps.get(currentLevel-1)));
 
         while(reader.hasNext()) {
             String data = reader.nextLine();
@@ -190,7 +190,7 @@ public class MapBuilder {
      */
     public int updatePacmanPosY(){
         int pos = 0;
-        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ levels.get(currentLevel-1)));
+        this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ maps.get(currentLevel-1)));
 
         int i = 0;
         while(reader.hasNext()) {
@@ -237,9 +237,9 @@ public class MapBuilder {
             	res = new Magic(x,y, new Bow());
             	break;
             case 'g':
-            	// ghost
-            	res = new Magic(x,y, new Ghost());
-            	break;
+                // ghost
+                res = new Magic(x,y, new Ghost());
+                break;
             case '>':
             	// speed
             	res = new Magic(x,y, new Speed());
@@ -444,7 +444,7 @@ public class MapBuilder {
      */
     public void LevelUp() {
         this.currentLevel += 1;
-        levels.add("map"+currentLevel+".txt");
+        maps.add("map"+currentLevel+".txt");
     }
 
     /**
