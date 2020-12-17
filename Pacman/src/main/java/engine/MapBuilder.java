@@ -156,9 +156,11 @@ public class MapBuilder {
      */
     public void updateMap(PacmanCharacter pc){
         this.clearAllMonsters(monsters);
+        this.p1 = null;
         this.buildMap();
         pc.setCoordinates(this.updatePacmanPosX(),this.updatePacmanPosY());
         pc.resetLife();
+
     }
 
     /**
