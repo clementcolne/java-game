@@ -9,6 +9,9 @@ import model.effect.AsyncEffect;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PacmanGameTest {
@@ -19,23 +22,35 @@ class PacmanGameTest {
 
 	@BeforeEach
 	void setUp() {
-		map = new MapBuilder("test.txt");
+		List<String> test = new ArrayList();
+		List<String> testpassage = new ArrayList();
+		List<String> testpassage2 = new ArrayList();
+		List<String> testWithoutPassage = new ArrayList();
+		List<String> testEmpty = new ArrayList();
+
+		test.add("test.txt");
+		testpassage.add("testPassage.txt");
+		testpassage2.add("testPassage2.txt");
+		testWithoutPassage.add("testWithoutPassage.txt");
+		testEmpty.add("testEmpty.txt");
+
+		map = new MapBuilder(test);
 		game = new PacmanGame("helpFilePacman.txt", map);
 		character = game.getCharacter();
 
-		mapPassage = new MapBuilder("testPassage.txt");
+		mapPassage = new MapBuilder(testpassage);
 		gamePassage = new PacmanGame("helpFilePacman.txt", mapPassage);
 		characterPassage = gamePassage.getCharacter();
 
-		mapPassageTwo = new MapBuilder("testPassage2.txt");
+		mapPassageTwo = new MapBuilder(testpassage2);
 		gamePassageTwo = new PacmanGame("helpFilePacman.txt", mapPassageTwo);
 		characterPassageTwo = gamePassageTwo.getCharacter();
 
-		mapWithoutPassage = new MapBuilder("testWithoutPassage.txt");
+		mapWithoutPassage = new MapBuilder(testWithoutPassage);
 		gameWithoutPassage = new PacmanGame("helpFilePacman.txt", mapWithoutPassage);
 		characterWithoutPassage = gameWithoutPassage.getCharacter();
 
-		mapEmpty = new MapBuilder("testEmpty.txt");
+		mapEmpty = new MapBuilder(testEmpty);
 		gameEmpty = new PacmanGame("helpFilePacman.txt", mapEmpty);
 		characterEmpty = gameEmpty.getCharacter();
 	}

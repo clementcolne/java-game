@@ -6,6 +6,9 @@ import model.PacmanPainter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Adèle
  * 25/10/2020
@@ -19,7 +22,11 @@ class PacmanPainterTest {
 
     @BeforeEach
     void setUp() {
-        map = new MapBuilder("map1.txt");
+        List<String> maps = new ArrayList();
+        maps.add("map1.txt");
+        maps.add("map2.txt");
+        maps.add("map3.txt");
+        map = new MapBuilder(maps);
         game = new PacmanGame("helpFilePacman.txt", map);
         painter = new PacmanPainter(game);
     }

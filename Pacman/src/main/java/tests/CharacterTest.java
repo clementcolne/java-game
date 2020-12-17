@@ -26,7 +26,7 @@ class CharacterTest {
     @BeforeEach
     void setUp() {
         pacmanCharacter = new PacmanCharacter(5.0, 5.0);
-        monsterCharacter = new MonsterCharacter(5.0, 5.0);
+        monsterCharacter = new MonsterCharacter(5.0, 5.0,1);
     }
 
     //setDamage

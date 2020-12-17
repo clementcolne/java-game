@@ -27,14 +27,24 @@ public class MonsterCharacter extends Character {
      * @param posX Position du personnage en X
      * @param posY Position du personnage en Y
      */
-    public MonsterCharacter(double posX, double posY) {
+    public MonsterCharacter(double posX, double posY, int currentlvl) {
         super(posX, posY);
         life = 3;
-        this.setMovingStrategy(this.strategies.get((int) (Math.random()*this.strategies.size())));
-        if(this.getMovingStrategyType().equals("ghost")) {
-            animation = ImageFactory.getInstance().loadAnimation("Character/Personnage1.gif", 60);
-        }else {
+        if (currentlvl == 1){
+            this.setMovingStrategy(this.strategies.get(0));
             animation = ImageFactory.getInstance().loadAnimation("Character/Personnage2.gif", 60);
+        }
+        else if (currentlvl == 2) {
+            this.setMovingStrategy(this.strategies.get((int) (Math.random() * 2)));
+            if (this.getMovingStrategyType().equals("ghost")) {
+                animation = ImageFactory.getInstance().loadAnimation("Character/Personnage1.gif", 60);
+            } else {
+                animation = ImageFactory.getInstance().loadAnimation("Character/Personnage2.gif", 60);
+            }
+        }
+        else if (currentlvl == 3){
+            this.setMovingStrategy(this.strategies.get(2));
+            animation = ImageFactory.getInstance().loadAnimation("Character/Personnage1.gif", 60);
         }
     }
 

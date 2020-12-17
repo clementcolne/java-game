@@ -149,12 +149,12 @@ public class PacmanPainter implements GamePainter {
 			String s = "";
 			if (pacmanGame.getCharacter().getLife() <= 0){
 				s = "GAME OVER !";
-				crayon.drawImage(ImageFactory.getInstance().loadImage("Extra/gameover.png"),0,0,null);
+				crayon.drawImage(ImageFactory.getInstance().loadImage("Extra/gameover.png"),0,0,pacmanGame.getWidth()* pacmanGame.getScale(), pacmanGame.getHeight()* pacmanGame.getScale(),null);
 				crayon.setColor(Color.red);
 			}
 			else {
 				s = "VICTORY !";
-				crayon.drawImage(ImageFactory.getInstance().loadImage("Extra/victory.png"),0,0,null);
+				crayon.drawImage(ImageFactory.getInstance().loadImage("Extra/victory.png"),0,0,pacmanGame.getWidth()* pacmanGame.getScale(), pacmanGame.getHeight()* pacmanGame.getScale(), null);
 				crayon.setColor(Color.white);
 			}
 
