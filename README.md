@@ -1,13 +1,13 @@
 # ACL-2020-kbc
 
-v7
+v8
 In repertory Pacman
 
-How to compile ACL-2020-kbc v7.0 ?
+How to compile ACL-2020-kbc v8.0 ?
 Using Maven 4.0.0 :
 >> mvn install
 
-How to run ACL-2020-kbc v7.0 ?
+How to run ACL-2020-kbc v8.0 ?
 >> Retrieve JAR from target/ACL_2020_kbc-7.0-SNAPSHOT.jar
 >> java -jar ACL_2020_kbc-7.0-SNAPSHOT.jar
 
