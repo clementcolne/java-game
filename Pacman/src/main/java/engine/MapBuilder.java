@@ -41,7 +41,7 @@ public class MapBuilder {
     	uniqueCharacter = null;
         this.nbPassages = 0;
         this.currentLevel = 1;
-        this.maxlevel = 3;
+        this.maxlevel = maps.size();
         this.maps = maps;
 
         this.reader = new Scanner(MapBuilder.class.getClassLoader().getResourceAsStream("resources/Map/"+ maps.get(currentLevel-1)));

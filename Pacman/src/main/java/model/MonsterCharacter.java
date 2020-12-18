@@ -42,7 +42,7 @@ public class MonsterCharacter extends Character {
                 animation = ImageFactory.getInstance().loadAnimation("Character/Personnage2.gif", 60);
             }
         }
-        else if (currentlvl == 3){
+        else{
             this.setMovingStrategy(this.strategies.get(2));
             animation = ImageFactory.getInstance().loadAnimation("Character/Personnage1.gif", 60);
         }
